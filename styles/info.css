@@ -1,0 +1,56 @@
+p {
+    margin-right: 100px;
+}
+
+.info-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 80px;
+    width: 300px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    display: inline-block;
+}
+
+.menu-item {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    color: #222;
+    transition: color 0.2s background-color 0.2s;
+}
+
+.menu-item:hover {
+    color: white;
+    background-color: #555;
+}
+
+.menu-item:active {
+    background-color: #444;
+}
+
+/* Add style for the active menu item */
+.menu-item.active {
+    background-color: #b60e0eb9;
+    font-weight: bold;
+    color: white;
+}
+
+.image-container {
+    margin-left: 10%; /* Adjust as needed */
+    padding: 0;
+    padding-top: 40px;
+    display: inline-block;
+    width: calc(65% - 300px);
+    position: absolute;
+    overflow: hidden;
+    max-height: 370px;
+}
+
+#image-display {
+    max-width: 100%;
+    height: auto;
+    display: none;
+    /*transform: translateY(0); /* Vertically align the image at 50% of its height */
+}

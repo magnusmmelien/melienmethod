@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snooker: The Melien Method - Info</title>
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/tournament-style.css">
+    <link rel="stylesheet" href="styles/styles-cuescore.css">
+</head>
+<body>
+    <header>
+        <h1>Snooker: The Melien Method</h1>
+    </header>
+
+    <main>
+        <div class="main-content">
+            <h2>Tournament Draw</h2>
+            <p>
+                This guide is intended as assistance for manually drawing the cup stage after the preliminary group
+                stage for the Norwegian "Norgescup" ahead of the 2023-2024 season. If your tournament format 
+                is not supported please use the default one in <em>cuescore.com</em>. Go "Back" and press "Info" for more 
+                info on how the draw is made.
+            </p>
+            <p>
+                <u>Step 1:</u> Select the correct tournament format below (number of groups and qualifiers).
+            </p>
+            <p>
+                <u>Step 2:</u> Put in all the names of the players (required fields are marked) and press calculate.
+            </p>
+            <p>
+                <u>Step 3:</u> Now go back to the tournament page (cuescore.com), press <em>"manual draw"</em> and fill in exactly
+                as calculated (including the order of the matches).
+        </div>
+
+        <div class="container">
+
+            <!-- Content for Page 1 (default display: block) -->
+            <div id="page1" class="page" style="display: block;">
+                <h3>Step 1: Choose tournament format</h3>
+                <p>Please choose number of groups:</p>
+
+                <div class="counter">
+                    <button id="minusButton">-</button>
+                    <span id="groupsCounter">1</span>
+                    <button id="plusButton">+</button>
+                </div>
+
+                <p>Please choose the number of players to move through to the next round:</p>
+
+                <!-- Dropdown menu -->
+                <select class="drop-down" id="playersSelect">
+                    <option value="invalid">Please choose a valid option</option>
+                    <option value="8">8 players</option>
+                    <option value="16">16 players</option>
+                    <option value="32">32 players</option>
+                </select>
+
+                <p id="formatErrorMessage" class="error-message">Error: tournament format not supported</p>
+
+            </div>
+
+
+            <!-- Content for Page 2 (default display: none) -->
+            <div id="page2" class="page" style="display: none;">
+                <h3>Step 2: Fill in information</h3>
+                <p>Please fill in positions after the group stages below (required fields are marked).</p>
+
+                <!-- Group Position Section -->
+                <div id="group-container" class="group-container">
+                    <!-- JavaScript will dynamically generate input fields and headings here -->
+                </div>
+
+                <p id="formatErrorMessagePage2" class="error-message">
+                    Error: please fill in all required information correctly
+                </p>
+            </div>
+
+
+            <!-- Content for Page 3 (default display: none) -->
+            <div id="page3" class="page" style="display: none;">
+                <h3>Step 3: Complete draw</h3>
+                <p>
+                    This is the calculated draw for the final stages of the tournament. 
+                </p>
+                <p>
+                    Please copy the matches, 
+                    in the same order, exactly as you see them here, on cuescore.com under the 
+                    <em>"manual draw"</em>-option.
+                </p>
+
+                <!-- Container for displaying the draw -->
+                <div id="draw-container">
+                    <!-- Draw content will be added here using JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Navigation buttons -->
+            <div class="button-container">
+                <button id="prevButton">Previous</button>
+                <button id="nextButton">Next</button>
+            </div>
+
+            <div class="flag">
+                <div id="flag1" class="flag-box">1</div>
+                <div id="flag2" class="flag-box">2</div>
+                <div id="flag3" class="flag-box">3</div>
+            </div>
+        </div>
+
+        <nav style="position: absolute; bottom: 60px;">
+            <ul>
+                <li><a href="index.html">Back</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        &copy; Magnus Martinsen Melien 2023. All rights reserved.
+    </footer>
+
+    <script src="scripts/tournament.js"></script>
+</body>
+</html>

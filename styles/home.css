@@ -1,0 +1,205 @@
+/* home.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo&display=swap');
+
+
+
+body {
+    font-family: "Orbitron", sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1c1c1c;
+    color: #fff;
+    position: relative; /* Add position relative to the body to properly position the gradient lines */
+}
+
+p {
+    font-family: "Exo", sans-serif;
+    /* Other styles for the <p> element */
+}
+
+header {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative; /* Add position relative to the header to properly position the gradient line */
+}
+
+/* Horizontal gradient line below the header */
+header::after {
+    content: "";
+    position: absolute;
+    bottom: 0px; /* Set to -2px to position just below the header */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #333, white, #333);
+}
+
+nav {
+    background-color: transparent;
+    text-align: left;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin: 5px 0;
+}
+
+nav li a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 15px;
+    border: none; /* Remove the border for all states of the buttons */
+    width: 300px;
+    text-align: left;
+    transition: background-color 0.3s, transform 0.2s, border-color 0.2s; /* Add border-color transition */
+    margin-left: 150px;
+    font-size: 18px;
+    transform: skewX(-20deg); /* Apply skew transformation to make a parallelogram shape */
+}
+
+nav li a:hover {
+    background-color: #555;
+    border-top: 2px solid #fff; /* Add top border on hover */
+    border-left: 2px solid #fff; /* Add left border on hover */
+    transform: scale(1.1) skewX(-20deg); /* Scale and skew on hover */
+}
+
+nav li a:active {
+    background-color: #fff; /* Set the background color to white on active */
+    color: #333; /* Set the text color to the background color of main (#333) on active */
+    border-top: 2px solid #fff; /* Add top border with white color on active */
+    border-left: 2px solid #fff; /* Add left border with white color on active */
+    transform: scale(1.1) skewX(-20deg); /* Scale and skew on active */
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    background-color: #333;
+}
+
+
+
+footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: relative; /* Add position relative to the footer to properly position the gradient line */
+}
+
+/* Horizontal gradient line above the footer */
+footer::before {
+    content: "";
+    position: absolute;
+    top: -2px; /* Set to -2px to position just above the footer */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #333, white, #333);
+}
+
+.home-content {
+    padding: 20px;
+    display: inline-block;
+    width: 35%;
+    vertical-align: top;
+}
+
+.home-main {
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.home-background {
+    flex: 1;
+    padding: 0;
+    background-image: url(../images/home-background.jpg);
+    filter: blur(8px);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    transition: background-size 0.5s; /* Add a transition to smooth out background-size changes */
+}
+  
+
+
+.zoom-effect-1 {
+    background-position: top left;
+    background-size: 130%;
+    /*animation: zoomAnimation 0.5s forwards; /* Apply the zoom effect using CSS animation */
+    
+}
+.zoom-effect-2 {
+    background-position: left;
+    background-size: 130%;
+    /*animation: zoomAnimation 0.5s forwards; /* Apply the zoom effect using CSS animation */
+    
+}
+.zoom-effect-3 {
+    background-position: bottom left;
+    background-size: 130%;
+    /*animation: zoomAnimation 0.5s forwards; /* Apply the zoom effect using CSS animation */
+    
+}
+  
+@keyframes zoomAnimation {
+    from {
+      background-size: cover; /* Starting background size */
+    }
+    to {
+      background-size: 130%; /* Ending background size for zoom */
+    }
+}
+
+/*
+.home-background::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    right: -20%;
+    bottom: -20%;
+    background-image: inherit;
+    background-size: 120% 120%;
+    background-position: left;
+    z-index: 0;
+}
+*/
+/*
+.zoom-effect {
+    background-size: 130%;
+}
+*/
+
+
+/* Updated style for the gradient overlay above the background image */
+.home-background::after {
+    content: ''; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #333, #333333f8, #333333f0, #333333e0, #333333c8, #333333a0);
+    z-index: 0; /* Adjust the z-index to bring the overlay above the background image */
+}
+  
