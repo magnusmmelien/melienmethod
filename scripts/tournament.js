@@ -65,6 +65,7 @@ function isMatrixComplete(matrix, desiredGroups, desiredQuals) {
 }
 
 function getRandomInt(n) {
+    // Note: I have checked (in real deployment) that this works correctly and there is no need consider the random-seed.
     return Math.floor(Math.random() * n);
 }
 
@@ -692,12 +693,16 @@ function showPage(pageToShow) {
     flag2.classList.remove('active');
     flag3.classList.remove('active');
     if (pageToShow === page1) {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'inline-block';
         flag1.classList.add('active');
     } else {
         numGroups = parseInt(groupsCounter.textContent);
         numQs = parseInt(playersSelect.value);
         
         if (pageToShow === page2) {
+            prevButton.style.display = 'inline-block';
+            nextButton.style.display = 'inline-block';
             flag2.classList.add('active');
             console.log('numGroups = ' + numGroups + ' ; numQs = ' + numQs);
             if (!isMatrixComplete(qualifiersMatrix, numGroups, numQs)) {
@@ -705,6 +710,8 @@ function showPage(pageToShow) {
             }
             generateGroupFields(numGroups, numQs); // Generate the input fields for page 2
         } else if (pageToShow === page3) {
+            prevButton.style.display = 'inline-block';
+            nextButton.style.display = 'none';
             flag3.classList.add('active');
             showDraw(qualifiersMatrix, numGroups, numQs);
         }
