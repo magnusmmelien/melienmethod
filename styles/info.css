@@ -1,12 +1,12 @@
 p {
-    margin-right: 100px;
+    margin-right: 7%;
 }
 
 .info-menu {
     list-style: none;
     padding: 0;
     margin: 0;
-    margin-bottom: 80px;
+    margin-bottom: 0;
     width: 300px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -42,8 +42,10 @@ p {
     padding: 0;
     padding-top: 40px;
     display: inline-block;
-    width: calc(65% - 300px);
-    position: absolute;
+    width: calc(70% - 300px);
+    min-width: 40%;
+    position: relative;
+    vertical-align: bottom;
     overflow: hidden;
     max-height: 370px;
 }
