@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snooker: The Melien Method - Info</title>
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/info.css">
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+</head>
+<body>
+    <header>
+        <h1>The Melien Method</h1>
+    </header>
+
+    <main>
+        <div class="main-content">
+            <h2>Info</h2>
+            <p>
+                <a href="https://en.wikipedia.org/wiki/Snooker" class="hyperlink" target="_blank">Snooker</a> 
+                is a cue sport that originated in India in the latter half of the 19th century.
+                The game is played on a rectangular table covered with green baize, with pockets at each
+                of the four corners and in the middle of each long side. Players use a cue stick to pocket
+                colored balls into the pockets, aiming to score points and outmaneuver their opponents.
+                Snooker has become a popular and competitive sport worldwide, attracting enthusiasts from
+                all walks of life.
+            </p>
+            <h3 id="section-draw">Tournament Draw</h3>
+            <p>
+                Below you will find all the tournament formats that my model supports (and a graphical representation
+                of their respective expected outcome). For other formats please 
+                use the default one in <em>cuescore.com</em>. 
+            </p>
+            
+            <ul class="info-menu">
+                <li class="menu-item" data-option="3-8"  > 3 Groups /  8 Qualifiers</li>
+                <li class="menu-item" data-option="4-8"  > 4 Groups /  8 Qualifiers</li>
+                <li class="menu-item" data-option="4-16" > 4 Groups / 16 Qualifiers</li>
+                <li class="menu-item" data-option="5-8"  > 5 Groups /  8 Qualifiers</li>
+                <li class="menu-item" data-option="5-16" > 5 Groups / 16 Qualifiers</li>
+                <li class="menu-item" data-option="6-8"  > 6 Groups /  8 Qualifiers</li>
+                <li class="menu-item" data-option="6-16" > 6 Groups / 16 Qualifiers</li>
+                <li class="menu-item" data-option="7-16" > 7 Groups / 16 Qualifiers</li>
+                <li class="menu-item" data-option="8-16" > 8 Groups / 16 Qualifiers</li>
+                <li class="menu-item" data-option="16-32">16 Groups / 32 Qualifiers</li>
+            </ul>
+            
+            <div class="image-container">
+                <img class="draw-image" id="image-display" src="" alt="Displayed Image">
+            </div>
+            
+            <h4 style="margin-top: 40px;">For the fellow nerds</h4>
+            <p>
+                These specific formulae are intended to fix a few potential issues with the 
+                drawing of the cup-stages, for any sport, where there is prelimenary seeding and multiple qualifiers 
+                from groups. There are no alterations in this model for the group winners in any of the draw-formulae; 
+                they all still follow the principle of "highest seed meets lowest seed" - or equivalently: the principle 
+                of equal sum (i.e. for each round all the matches, assuming the expected result by seeding, 
+                will involve players whose seeding add up to the 
+                same number (e.g. in the quarter final stages: 1-8, 4-5, 3-6, 2-7 all up to 9)). 
+            </p>
+            <p>
+                The only difference between the formats are the initial placement of the remaining qualifiers in the 
+                draw. The most prominent issue is that players from the same group should not be able to meet again 
+                before a potential final. 
+                We would of course like to chose an appropriate algorithm for the draw - and the main criteria should hence 
+                be the principle of "highest seed meets lowest seed" (see above), which obviously doesn't work because 
+                they (e.g. seed 1 and seed 16) will have played in the same group. 
+                This leaves, in general, a total of (<em># of Qualifiers / 4</em>)! possible draws to choose from. 
+                The obvious next step is to place 
+                all the 2nd-place finishers by "mirroring" the draw of the 1st-place finishers (e.g. for 8 groups and 16 
+                qualifiers: A1(1)-H2(15), B1(8)-G2(9), ... , H1(2)-A2(16)) ensuring that players from the same group end up 
+                in different halfs while also optimizing with regards to the principle of equal sum. This method works well 
+                enough, but there are 
+                some potential problems with it: if for example the 1st or 2nd seed have a slight slip-up in the group 
+                stages they will clash immediately in the first(!) knock-out match. One might argue that, in that case, it's 
+                deserved and the seeds shouldn't be over-protected - but after a trial of one year of this system it has been 
+                decided to try another, more elegant method (note: this method is also problematic because of the 
+                unfortunate fate of the 16th, 15th, 8th and 7th seed: you will see that these players will face tremendous 
+                and unreasonable difficulty in their efforts to climb up the rankings and improve their seeding). 
+            </p>
+            <p>
+                Which brings us to the method in hand: the norwegian snooker community have decided to use a method for 
+                calculating the draw based on a principle I have dubbed "recursive mirroring" for the forseeable future. 
+                We wanted an elegant, mathematically rigorous model that didn't infringe on the fairness of the 
+                competition or seem unnaturally constructed - and among the many different possible paradigms of 
+                principle for the calculation of the draw - this is the method we landed on. 
+                As mentioned earlier, the draw for the group winners remains unchanged, while the 2nd-place finishers 
+                (where applicable) follow the principle of "mirroring" as described above. The 2nd place of the first 
+                group will meet the winner of the last group, the 2nd place of the second group will meet the winner 
+                of the penultimate group and so on. And now mirror the draw of the 2nd-place finishers again within 
+                each half of the draw, and then again by halving and mirroring again and continue <em>recursively</em>. 
+                Thus we have created a fair an elegant solution to the calculation of the draw for the knock-out stages 
+                - or at least laid the basis for a general principle to use as a guideline for the individual formats.
+            </p>
+            
+            <h3 id="section-HC">HC-rating</h3>
+            <p>
+                This model is an extension of the industry standard 
+                <a href="https://en.wikipedia.org/wiki/Elo_rating_system" class="hyperlink" target="_blank">ELO-model</a>
+                for calculating playing strength 
+                and generating a rating list.The idea emanated from the need to evaluate the handicap (HC)
+                between two players in the game of snooker. Fortunatly, we already have access to a 
+                <a href="https://cuescore.com/nb/ratings" class="hyperlink" target="_blank">rating list</a>
+                provided by the NBF (ELO-model with rating delta normalization factor 400 and K-factor 20) - from
+                there it's just a matter of estimating a formula for calculating the HC based on the relative
+                rating. This allows you the option of playing with, without or even with customized HC while
+                maintaining the intergrity and true equilibrium of the model. Because of the intrinsic
+                complexities of the game of snooker there is no rigorous way of determining this formula - hence
+                I have tried to use my experience and knowledge to come up with an elegant solution:
+            </p>
+            <p>
+                $${ HC = HC_{max} (1 - e^{- ( | \Delta r | / b ) ^a});  \;\;\;\; 
+                \mathscr{where:} \;\;  \Delta r = \mathscr{rating} \; \mathscr{delta} ,\;HC_{max} = 147,\; a = 1,\; b = 1400. }$$
+            </p>
+            <h4>How To Apply</h4>
+            <p>
+                Hopefully the interface is pretty self explanetary, however there are a few things you should note - 
+                particularly perteining to the match protocol:
+                
+            </p>
+            <ul style="margin-bottom: 80px; font-family: Exo, sans-serif;">
+                <li>You can't edit a match after it is finished.</li>
+                <li>Positive HC means player B starts with extra points and negative HC means player A gets a head start.</li>
+                <li>Please consider your spelling carefully when typing out player names.</li>
+                <li>
+                    When creating a new match you can choose whether to play a specific distance or just playing 
+                    a non-specified number of frames (free-frames).
+                </li>
+                <li>Please note that matches of longer distances weigh slightly heavier when updating rating.</li>
+                <li>
+                    Update-rating-by-system (URS) refers to whether you want, opun completion of match, to update 
+                    rating by match outcome (win-lose-draw) or by frame score (i.e. a match finished 4-3 when the
+                    expected outcome was closer to 4-2 will actually result in an increase of the losing player's
+                    rating - like in chess); the "match"-option weighs slightly heavier than the "frames"-option.
+                </li>
+                <li>Update the score and other variables of a match by pressing the "edit"-button.</li>
+            </ul>
+        </div>
+
+        <nav style="position: absolute; bottom: 60px;">
+            <ul>
+                <li><a href="index.html">Back</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        &copy; Magnus Martinsen Melien 2023. All rights reserved.
+    </footer>
+
+    <script src="scripts/info.js"></script>
+</body>
+</html>

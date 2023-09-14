@@ -1,0 +1,125 @@
+.draw-table {
+    width: 70%;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-spacing: 0;
+    text-indent: initial;
+    font-family: 'Open Sans', arial;
+    margin-bottom: 50px;
+}
+
+.draw-header {
+    width: 200px;
+    text-align: left;
+    margin-right: 5px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.match-row {
+    background-color: rgba(64, 103, 209, 0.10);
+    color: black;
+    border: none;
+    box-sizing: border-box;
+    display: table-row;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+.match-row-odd {
+    background-color: rgba(64, 103, 209, 0.15);
+    color: black;
+    border: none;
+    box-sizing: border-box;
+    display: table-row;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+td {
+    border: 0;
+    max-height: 32px;
+    min-height: 26px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+.match-number {
+    background-color: #d1d3e0;
+    color: #0e2666;
+    width: 32px;
+    min-width: 32px;
+    cursor: pointer;
+    font-size: 13px;
+    padding-left: 2px;
+    padding-right: 2px;
+    white-space: nowrap;
+}
+
+.match-number-odd {
+    background-color: #c5c8d9;
+    color: #0e2666;
+    width: 36px;
+    min-width: 32px;
+    cursor: pointer;
+    font-size: 13px;
+    padding-left: 2px;
+    padding-right: 2px;
+    white-space: nowrap;
+}
+
+.player {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.player-flag {
+    display: inline-block;
+}
+
+.player-flag img {
+    border: 1px solid #e5e5e5;
+    max-height: 16px;
+    vertical-align: middle;
+    height: 16px;
+    width: 21px;
+}
+
+.player-name {
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.separator {
+    text-align: center;
+    width: 40px;
+}
+
+.separatorButton {
+    background: rgba(255, 255, 255, 0.25) url(../images/arrow-down-darkblue.png) center center /12px no-repeat;
+    padding: 0 4px;
+    min-width: 30px;
+    height: 24px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: block;
+    transition: backgroud-color 0.2s;
+    
+}
+
+.separatorButton:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.time {
+    color: #475a65;
+    width: 10%;
+}
+
+.table-number {
+    color: #475a65;
+    width: 7%;
+}
