@@ -6,24 +6,27 @@
     <title>Snooker: The Melien Method - Info</title>
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/info.css">
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 </head>
 <body>
     <header>
-        <h1>Snooker: The Melien Method</h1>
+        <h1>The Melien Method</h1>
     </header>
 
     <main>
-        <div class="main-content" style="margin-left: 10%;">
+        <div class="main-content">
             <h2>Info</h2>
             <p>
-                Snooker is a cue sport that originated in India in the latter half of the 19th century.
+                <a href="https://en.wikipedia.org/wiki/Snooker" class="hyperlink" target="_blank">Snooker</a> 
+                is a cue sport that originated in India in the latter half of the 19th century.
                 The game is played on a rectangular table covered with green baize, with pockets at each
                 of the four corners and in the middle of each long side. Players use a cue stick to pocket
                 colored balls into the pockets, aiming to score points and outmaneuver their opponents.
                 Snooker has become a popular and competitive sport worldwide, attracting enthusiasts from
                 all walks of life.
             </p>
-            <h3>Tournament Draw</h3>
+            <h3 id="section-draw">Tournament Draw</h3>
             <p>
                 Below you will find all the tournament formats that my model supports (and a graphical representation
                 of their respective expected outcome). For other formats please 
@@ -77,7 +80,7 @@
                 unfortunate fate of the 16th, 15th, 8th and 7th seed: you will see that these players will face tremendous 
                 and unreasonable difficulty in their efforts to climb up the rankings and improve their seeding). 
             </p>
-            <p style="margin-bottom: 80px;">
+            <p>
                 Which brings us to the method in hand: the norwegian snooker community have decided to use a method for 
                 calculating the draw based on a principle I have dubbed "recursive mirroring" for the forseeable future. 
                 We wanted an elegant, mathematically rigorous model that didn't infringe on the fairness of the 
@@ -92,6 +95,48 @@
                 - or at least laid the basis for a general principle to use as a guideline for the individual formats.
             </p>
             
+            <h3 id="section-HC">HC-rating</h3>
+            <p>
+                This model is an extension of the industry standard 
+                <a href="https://en.wikipedia.org/wiki/Elo_rating_system" class="hyperlink" target="_blank">ELO-model</a>
+                for calculating playing strength 
+                and generating a rating list.The idea emanated from the need to evaluate the handicap (HC)
+                between two players in the game of snooker. Fortunatly, we already have access to a 
+                <a href="https://cuescore.com/nb/ratings" class="hyperlink" target="_blank">rating list</a>
+                provided by the NBF (ELO-model with rating delta normalization factor 400 and K-factor 20) - from
+                there it's just a matter of estimating a formula for calculating the HC based on the relative
+                rating. This allows you the option of playing with, without or even with customized HC while
+                maintaining the intergrity and true equilibrium of the model. Because of the intrinsic
+                complexities of the game of snooker there is no rigorous way of determining this formula - hence
+                I have tried to use my experience and knowledge to come up with an elegant solution:
+            </p>
+            <p>
+                $${ HC = HC_{max} (1 - e^{- ( | \Delta r | / b ) ^a});  \;\;\;\; 
+                \mathscr{where:} \;\;  \Delta r = \mathscr{rating} \; \mathscr{delta} ,\;HC_{max} = 147,\; a = 1,\; b = 1400. }$$
+            </p>
+            <h4>How To Apply</h4>
+            <p>
+                Hopefully the interface is pretty self explanetary, however there are a few things you should note - 
+                particularly perteining to the match protocol:
+                
+            </p>
+            <ul style="margin-bottom: 80px; font-family: Exo, sans-serif;">
+                <li>You can't edit a match after it is finished.</li>
+                <li>Positive HC means player B starts with extra points and negative HC means player A gets a head start.</li>
+                <li>Please consider your spelling carefully when typing out player names.</li>
+                <li>
+                    When creating a new match you can choose whether to play a specific distance or just playing 
+                    a non-specified number of frames (free-frames).
+                </li>
+                <li>Please note that matches of longer distances weigh slightly heavier when updating rating.</li>
+                <li>
+                    Update-rating-by-system (URS) refers to whether you want, opun completion of match, to update 
+                    rating by match outcome (win-lose-draw) or by frame score (i.e. a match finished 4-3 when the
+                    expected outcome was closer to 4-2 will actually result in an increase of the losing player's
+                    rating - like in chess); the "match"-option weighs slightly heavier than the "frames"-option.
+                </li>
+                <li>Update the score and other variables of a match by pressing the "edit"-button.</li>
+            </ul>
         </div>
 
         <nav style="position: absolute; bottom: 60px;">

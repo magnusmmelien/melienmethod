@@ -12,6 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
     background-color: #1c1c1c;
     color: #fff;
     position: relative; /* Add position relative to the body to properly position the gradient lines */
@@ -28,6 +29,7 @@ header {
     text-align: center;
     padding: 20px;
     position: relative; /* Add position relative to the header to properly position the gradient line */
+    z-index: 1;
 }
 
 /* Horizontal gradient line below the header */
@@ -69,8 +71,11 @@ nav li a {
     text-align: left;
     transition: background-color 0.3s, transform 0.2s, border-color 0.2s; /* Add border-color transition */
     margin-left: 0;
-    font-size: 18px;
+    font-size: 1.2rem;
     transform: skewX(-20deg); /* Apply skew transformation to make a parallelogram shape */
+}
+.home-content nav li a {
+    font-size: calc(1.4vh + 0.8vh * (1 / ((1 + ( calc(vh/vw) ))*(1 + ( calc(vh/vw) ))*(1 + ( calc(vh/vw) ))*(1 + ( calc(vh/vw) )))));
 }
 
 nav li a:hover {
@@ -121,6 +126,7 @@ footer::before {
     width: 35%;
     vertical-align: top;
     margin-left: 10%;
+    overflow: hidden;
 }
 
 .home-main {

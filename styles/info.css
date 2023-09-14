@@ -1,4 +1,5 @@
-p {
+.main-content {
+    margin-left: 10%;
     margin-right: 7%;
 }
 
@@ -55,4 +56,8 @@ p {
     height: auto;
     display: none;
     /*transform: translateY(0); /* Vertically align the image at 50% of its height */
+}
+
+.hyperlink {
+    color: #aeb9ec;
 }
