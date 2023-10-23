@@ -1,0 +1,13 @@
+Audun Risan Heimsjø;Trondheim Snooker;1551.66;1
+Nassim Sekat;Trondheim Snooker;1538.99;1
+Erik Dullerud;Trondheim Snooker;1488;1
+Magnus Martinsen Melien;Trondheim Snooker;1441.12;1
+Tore Hansen;Trondheim Snooker;1415;1
+Sondre Sundt;Trondheim Snooker;1162.32;1
+Eirik Hammarstøm;Trondheim Snooker;1150;0
+Robin Strand;Trondheim Snooker;1104.65;1
+Roald Pettersen;Trondheim Snooker;1035.34;1
+Odne Oksavik;Trondheim Snooker;1006;1
+Geir Ellefsen;Trondheim Snooker;926.867;1
+Ivar Havtor Hovden;Trondheim Snooker;893;1
+Bjørnar Jacobsen;Trondheim Snooker;869.185;1

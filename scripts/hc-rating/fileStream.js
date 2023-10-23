@@ -2,7 +2,7 @@ import Player from './player.js'; // Adjust the path accordingly
 import RatingList from './rating-list.js'; // Adjust the path accordingl
 import { Match, matchFromString } from './match.js';
 
-function toFile(ratingList, filename = "default") {
+export function toFile(ratingList, filename = "default") {
     const playerStrings = ratingList.getList().map(player => {
         return `${player.getName()};${player.getClub()};${player.getRating()};${player.getRobust()}`;
     });
@@ -13,14 +13,14 @@ function toFile(ratingList, filename = "default") {
     console.log('RatingList content saved to local storage.');
 }
 
-function fromFile(filename = "default") {
+export function fromFile(filename = "default") {
     if (filename === "default") {
         console.log('Error: please input a valid filename for the rating list in fromFile().');
         throw new Error('Error: please input a valid filename for the rating list in fromFile().');
         return;
     }
 
-    const content = localStorage.getItem(filename);
+    const content = sessionStorage.getItem(filename);
     
     if (content) {
         const lines = content.split('\n');
@@ -40,9 +40,8 @@ function fromFile(filename = "default") {
     }
 }
 
-function matchesToFile(matches, filename) {
-    // filename = `${filename}.txt`;
-
+export function matchesToFile(matches, filename) {
+    
     const matchStrings = matches.map(match => {
         return match.matchToString();
     });
@@ -52,12 +51,10 @@ function matchesToFile(matches, filename) {
     console.log(`Matches saved to local storage "${filename}".`);
 }
 
-function matchesFromFile(ratingList, filename = 'default') {
+export function matchesFromFile(ratingList, filename = 'default') {
     if (filename === 'default') { throw new Error('Please input a filename for the matches.') };
 
-    filename = `data/${filename}.txt`;
-
-    const content = localStorage.getItem(filename);
+    const content = sessionStorage.getItem(filename);
 
     if (content) {
         const lines = content.split('\n');

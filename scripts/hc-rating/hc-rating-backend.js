@@ -11,17 +11,18 @@
 */
 
 import RatingList from './rating-list.js';
+// import Match from './match.js';
 import { toFile, fromFile, matchesToFile, matchesFromFile } from './fileStream.js';
 
 
-
+/*
 // import from files
-function initialize(listName = 'Trondheim Snooker') {
+function initialize(listName = 'Norway') {
     const writeToFileCont = true;
     const filename = `${listName}_RatingList.txt`;
 
-    let ratingList = new RatingList(listName); // You need to create an instance of the RatingList class with "new"
-    let nullMatches = []; let liveMatches = []; let finishedMatches = [];
+    var ratingList = new RatingList(listName); // You need to create an instance of the RatingList class with "new"
+    var nullMatches = []; var liveMatches = []; var finishedMatches = [];
 
     try {
         ratingList = fromFile(filename);
@@ -32,7 +33,7 @@ function initialize(listName = 'Trondheim Snooker') {
     catch (error) {
         console.error('An error reading from files occurred: ', error.message);
     }
-}
+}*/
 
 // wait while user uses website
 
@@ -42,4 +43,25 @@ function saveAll(ratingList, nullMatches, liveMatches, finishedMatches) {
     matchesToFile(nullMatches, 'nullMatches.txt');
     matchesToFile(liveMatches, 'liveMatches.txt');
     matchesToFile(finishedMatches, 'finishedMatches.txt');
+}
+
+// Initialize: (import from files)
+const listName = 'Norway';
+const writeToFileCont = true;
+const filename = `${listName}_RatingList.txt`;
+
+var ratingList = new RatingList(listName); // You need to create an instance of the RatingList class with "new"
+var nullMatches = []; var liveMatches = []; var finishedMatches = [];
+
+try {
+    // ratingList = fromFile('data/' + filename);
+    ratingList = fromFile('data/Norway_RatingList.txt');
+    nullMatches = matchesFromFile(ratingList, 'data/nullMatches.txt');
+    liveMatches = matchesFromFile(ratingList, 'data/liveMatches.txt');
+    finishedMatches = matchesFromFile(ratingList, 'data/finishedMatches.txt');
+    
+    console.log('Read files successfully');
+}
+catch (error) {
+    console.error('An error reading from files occurred: ', error.message);
 }

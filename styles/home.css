@@ -82,7 +82,7 @@ nav li a:hover {
     background-color: #555;
     border-top: 2px solid #fff; /* Add top border on hover */
     border-left: 2px solid #fff; /* Add left border on hover */
-    transform: scale(1.1) skewX(-20deg); /* Scale and skew on hover */
+    transform: scale(1.15) skewX(-20deg); /* Scale and skew on hover */
 }
 
 nav li a:active {
@@ -136,48 +136,215 @@ footer::before {
     flex-direction: row;
 }
 
+/*Variables for zoom:*/
+:root {
+    --zoom-in-duration: 500ms;
+    --zoom-out-duration: 1s;
+    /*--background-image-w: calc(1024px * 1.1);
+    --background-image-h: calc(728px * 1.1);*/
+    --background-image-h: calc(100vh - 40px - 3.34em - 20px - 20px);
+    --background-image-w: calc(var(--background-image-h)*(1024/728));
+    --zoom-factor: 1.3;
+    --background-zoom-w: calc(var(--background-image-w) * var(--zoom-factor));
+    --background-zoom-h: calc(var(--background-image-h) * var(--zoom-factor));
+}
+
+
 .home-background {
     flex: 1;
     padding: 0;
     background-image: url(../images/home-background.jpg);
-    filter: blur(8px);
+    /*filter: blur(8px);*/
     background-repeat: no-repeat;
-    background-position: left;
-    background-size: cover;
+    background-position: top left;
+    background-size: var(--background-image-w) var(--background-image-h);
     position: relative;
     overflow: hidden;
-    transition: background-size 0.5s; /* Add a transition to smooth out background-size changes */
+    /*transition: background-size 0.5s; /* Add a transition to smooth out background-size changes */
+    transition: all 0.5s ease-in-out;
+    /*animation: myZoom 5s infinite;*/
 }
-  
 
-
+/*Original zoom effects*/
+/*
+.zoom-effect-0 {
+    animation: myZoomIn0 var(--zoom-in-duration) forwards;
+}
 .zoom-effect-1 {
-    background-position: top left;
-    background-size: 130%;
-    /*animation: zoomAnimation 0.5s forwards; /* Apply the zoom effect using CSS animation */
-    
+    animation: myZoomIn1 var(--zoom-in-duration) forwards;
 }
 .zoom-effect-2 {
-    background-position: left;
-    background-size: 130%;
-    /*animation: zoomAnimation 0.5s forwards; /* Apply the zoom effect using CSS animation */
-    
+    animation: myZoomIn2 var(--zoom-in-duration) forwards;
 }
 .zoom-effect-3 {
-    background-position: bottom left;
-    background-size: 130%;
-    /*animation: zoomAnimation 0.5s forwards; /* Apply the zoom effect using CSS animation */
-    
+    animation: myZoomIn3 var(--zoom-in-duration) forwards;
 }
-  
+.zoom-effect-4 {
+    animation: myZoomIn4 var(--zoom-in-duration) forwards;
+}
+.zoom-effect-5 {
+    animation: myZoomIn5 var(--zoom-in-duration) forwards;
+}
+.zoom-out-0 {
+    animation: myZoomOut0 var(--zoom-out-duration) forwards;
+}
+.zoom-out-1 {
+    animation: myZoomOut1 var(--zoom-out-duration) forwards;
+}
+.zoom-out-2 {
+    animation: myZoomOut2 var(--zoom-out-duration) forwards;
+}
+.zoom-out-3 {
+    animation: myZoomOut3 var(--zoom-out-duration) forwards;
+}
+.zoom-out-4 {
+    animation: myZoomOut4 var(--zoom-out-duration) forwards;
+}
+.zoom-out-5 {
+    animation: myZoomOut5 var(--zoom-out-duration) forwards;
+}
+*/
+
+/*New (correct!) zoom effects*/
+.zoom-effect-0 {
+    background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);
+}
+.zoom-effect-1 {
+    background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(1 * 15%);
+}
+.zoom-effect-2 {
+    background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(2 * 15%);
+}
+.zoom-effect-3 {
+    background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(3 * 15%);
+}
+.zoom-effect-4 {
+    background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(4 * 15%);
+}
+.zoom-effect-5 {
+    background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(5 * 15%);
+}
+.zoom-out {
+    background-size: var(--background-image-w) var(--background-image-h);
+    background-position: top left;
+}
+
+
+/*  
 @keyframes zoomAnimation {
     from {
-      background-size: cover; /* Starting background size */
+      background-size: cover; /* Starting background size 
     }
     to {
-      background-size: 130%; /* Ending background size for zoom */
+      background-size: 130%; /* Ending background size for zoom 
+    }
+}*/
+
+/*Obsolete now:*/
+/*
+@keyframes myZoomIn0 {
+    to {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(0 * 15%);
     }
 }
+@keyframes myZoomIn1 {
+    to {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(1 * 15%);
+    }
+}
+@keyframes myZoomIn2 {
+    to {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(2 * 15%);
+    }
+}
+@keyframes myZoomIn3 {
+    to {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(3 * 15%);
+    }
+}
+@keyframes myZoomIn4 {
+    to {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(4 * 15%);
+    }
+}
+@keyframes myZoomIn5 {
+    to {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(5 * 15%);
+    }
+}
+@keyframes myZoomOut0 {
+    from {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(0 * 15%);
+    }
+    to {
+        background-size: var(--background-image-w) var(--background-image-h);
+        background-position: top left;
+    }
+}
+@keyframes myZoomOut1 {
+    from {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(1 * 15%);
+    }
+    to {
+        background-size: var(--background-image-w) var(--background-image-h);
+        background-position: top left;
+    }
+}
+@keyframes myZoomOut2 {
+    from {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(2 * 15%);
+    }
+    to {
+        background-size: var(--background-image-w) var(--background-image-h);
+        background-position: top left;
+    }
+}
+@keyframes myZoomOut3 {
+    from {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(3 * 15%);
+    }
+    to {
+        background-size: var(--background-image-w) var(--background-image-h);
+        background-position: top left;
+    }
+}
+@keyframes myZoomOut4 {
+    from {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(4 * 15%);
+    }
+    to {
+        background-size: var(--background-image-w) var(--background-image-h);
+        background-position: top left;
+    }
+}
+@keyframes myZoomOut5 {
+    from {
+        background-size: var(--background-zoom-w) var(--background-zoom-h);
+        background-position-y: calc(5 * 15%);
+    }
+    to {
+        background-size: var(--background-image-w) var(--background-image-h);
+        background-position: top left;
+    }
+}
+*/
 
 /*
 .home-background::before {

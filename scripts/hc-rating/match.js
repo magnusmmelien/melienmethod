@@ -1,5 +1,10 @@
-import { KfactorFrameCoeff, KfactorMatchCoeff, ratingNormFactor, initKfactor } from './variables.js';
+import { KfactorFrameCoeff, KfactorMatchCoeff, ratingNormFactor, initKfactor, robustHigh, robustMedium } from './variables.js';
+//import { hcToRating } from './player.js';
 import { Player, hcToRating } from './player.js';
+
+function dumbTest() {
+    var test = new Player();
+}
 
 function exScoreElo(ratingDelta) { //expected score of playerA
 	return 1 / (1 + Math.pow(10, (-ratingDelta) / ratingNormFactor));
@@ -10,8 +15,8 @@ function newRatingElo(rating, score, exScore, Kfactor = initKfactor) {
 }
 
 function effKfactor(playerA, playerB) { //returns the K_eff for playerA
-    const robustA = playerA.getRobustness();
-	const robustB = playerB.getRobustness();
+    const robustA = playerA.getRobust();
+	const robustB = playerB.getRobust();
 
 	if (robustA > robustHigh) {
 		if (robustB > robustHigh) { return initKfactor; }
@@ -25,26 +30,28 @@ function effKfactor(playerA, playerB) { //returns the K_eff for playerA
 	return 2 * initKfactor;
 }
 
-class MatchState {
+export class MatchState {
     static null = 0;
     static live = 1;
     static finished = 2;
 }
 
-class HCsystem {
+export class HCsystem {
     static match = 0;
     static frame = 1;
 }
 
-class DistanceType {
+export class DistanceType {
     static bestOf = 0;
     static justFrames = 1;
 }
 
-class Match {
-    constructor(playerA, playerB, totalDistance, HC = 0, 
+export class Match {
+    constructor(id, playerA, playerB, totalDistance = 0, HC = 0, 
         distanceType = DistanceType.bestOf, enumHCsystem = HCsystem.frame) 
     {
+        this.id = id;
+
         this.playerA = playerA;
         this.playerB = playerB;
         this.totalDistance = totalDistance;
@@ -59,7 +66,40 @@ class Match {
         this.currentRatingB = playerB.getRating();
         this.deltaA = 0;
         this.deltaB = 0;
-        
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+
+            playerA: this.playerA.toJSON(), // Convert playerA to JSON
+            playerB: this.playerB.toJSON(), // Convert playerB to JSON
+            totalDistance: this.totalDistance,
+            HC: this.HC,
+            distanceType: this.distanceType,
+            enumHCsystem: this.enumHCsystem,
+
+            state: this.state,
+            scoreA: this.scoreA,
+            scoreB: this.scoreB,
+            currentRatingA: this.currentRatingA,
+            currentRatingB: this.currentRatingB,
+            deltaA: this.deltaA,
+            deltaB: this.deltaB
+        };
+    }
+    static fromJSON(json) {
+        const parsedJSON = JSON.parse(json);
+        const { id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem, state, scoreA, scoreB, currentRatingA, currentRatingB, deltaA, deltaB } = parsedJSON;
+        const match = new Match(id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem);
+        match.state = state;
+        match.scoreA = scoreA;
+        match.scoreB = scoreB;
+        match.currentRatingA = currentRatingA;
+        match.currentRatingB = currentRatingB;
+        match.deltaA = deltaA;
+        match.deltaB = deltaB;
+        return match;
     }
 
     updateRatingFromMatch() {
@@ -85,13 +125,13 @@ class Match {
                 matchScoreA = 1;
                 matchScoreB = 0;
             }
-            this.playerA.updateRating(newRatingElo(this.playerA.getRating(), matchScoreA, exScoreA, playerA_Keff * (1 - Math.exp(-KfactorMatchCoeff * this.totalDistance)))); //the extra factor behind playerA_Keff is just a coeff that quickly approaches 1 (just so that longer matches count a little heavier in the ratings)
-            this.playerB.updateRating(newRatingElo(this.playerB.getRating(), matchScoreB, exScoreB, playerB_Keff * (1 - Math.exp(-KfactorMatchCoeff * this.totalDistance))));
+            this.playerA.setRating(newRatingElo(this.playerA.getRating(), matchScoreA, exScoreA, playerA_Keff * (1 - Math.exp(-KfactorMatchCoeff * this.totalDistance)))); //the extra factor behind playerA_Keff is just a coeff that quickly approaches 1 (just so that longer matches count a little heavier in the ratings)
+            this.playerB.setRating(newRatingElo(this.playerB.getRating(), matchScoreB, exScoreB, playerB_Keff * (1 - Math.exp(-KfactorMatchCoeff * this.totalDistance))));
         }
         else if (enumHCsystem == HCsystem.frame) {
             const totalFramesPlayed = this.scoreA + this.scoreB;
-            this.playerA.updateRating(newRatingElo(this.playerA.getRating(), 1.0 * scoreA / totalFramesPlayed, exScoreA, playerA_Keff * (1 - Math.exp(-KfactorFrameCoeff * totalFramesPlayed))));
-            this.playerB.updateRating(newRatingElo(this.playerB.getRating(), 1.0 * scoreB / totalFramesPlayed, exScoreB, playerB_Keff * (1 - Math.exp(-KfactorFrameCoeff * totalFramesPlayed))));
+            this.playerA.setRating(newRatingElo(this.playerA.getRating(), 1.0 * scoreA / totalFramesPlayed, exScoreA, playerA_Keff * (1 - Math.exp(-KfactorFrameCoeff * totalFramesPlayed))));
+            this.playerB.setRating(newRatingElo(this.playerB.getRating(), 1.0 * scoreB / totalFramesPlayed, exScoreB, playerB_Keff * (1 - Math.exp(-KfactorFrameCoeff * totalFramesPlayed))));
         }
         
     }
@@ -111,7 +151,7 @@ class Match {
         }
         this.scoreA = finalScoreA;
         this.scoreB = finalScoreB;
-
+        
         //Note: if match isn't finished:
 
         const isBestOf = this.distanceType === DistanceType.bestOf;
@@ -151,6 +191,7 @@ class Match {
     setDeltaA(d) {this.deltaA = d;}
     setDeltaB(d) {this.deltaB = d;}
 
+    getID() {return this.id;}
     getPlayerA() {return this.playerA;}
     getPlayerB() {return this.playerB;}
     getHC() {return this.HC;}
@@ -187,13 +228,14 @@ class Match {
         ${this.totalDistance};${this.HC};${this.distanceType};${this.enumHCsystem};
         ${this.state};${this.scoreA};${this.scoreB};
         ${this.currentRatingA};${this.currentRatingB};${this.deltaA};${this.deltaB}
+        ${this.id};
         `;
     }
 }
 
-function matchFromString(line, list) {
+export function matchFromString(line, list) {
     const data = line.split(';');
-    let match = Match(list.getPlayerByName(data[0]), list.getPlayerByName(data[2]), data[4], data[5], data[6], data[7]);
+    let match = Match(data[15], list.getPlayerByName(data[0]), list.getPlayerByName(data[2]), data[4], data[5], data[6], data[7]);
     match.updateState(data[8]);
     match.updateScore(data[9], data[10]);
     match.updateCurrentRatingA(data[11]);

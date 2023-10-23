@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snooker: The Melien Method - HC-rating</title>
+    <title>The Melien Method - HC-rating</title>
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/tournament-style.css">
     <link rel="stylesheet" href="styles/hc-rating.css">
+    
 </head>
 <body>
     <header>
-        <h1>The Melien Method (demo)</h1>
+        <h1>The Melien Method</h1>
     </header>
 
     <main>
@@ -36,7 +37,54 @@
                 <div class="content">
                     <div class="close-btn" onclick="togglePlayerPopup()">&Cross;</div>
                     <h2>Create New Player</h2>
-                    <p>Here you can create a new player! Coming soon...</p>
+                    
+                    <table class="popup-table">
+                        <tr>
+                            <td style="min-width: 6rem;"><p>Name:</p></td>
+                            <td>
+                                <input class="popup-input" type="text" id="newplayer-name-input" placeholder="Enter name...">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Club:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="newplayer-club-input" type="text" name="myClub" placeholder="Enter club...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p>Advanced:</p>
+                            </td>
+                            <td>
+                                <button class="button-checkmark" id="button-advanced" onclick="toggleAdvanced()"><span class="checkmark">&checkmark;</span></button>
+                            </td>
+                        </tr>
+                        <tr class="hidden-row" id="popup-player-rating-row">
+                            <td><p>Rating:</p></td>
+                            <td>
+                                <input class="popup-input" type="number" id="newplayer-rating-input" placeholder="Enter rating (1150 default)...">
+                            </td>
+                        </tr>
+                        <tr class="hidden-row" id="popup-player-robustness-row">
+                            <td style="vertical-align: text-top;"><p>Robustness:</p></td>
+                            <td style="padding-top: 10px;">
+                                <button id="choose-robustness-high" class="robustness robustness-neutral" onclick="toggleRobustness('high')">High</button>
+                                <button id="choose-robustness-medium" class="robustness robustness-neutral" onclick="toggleRobustness('medium')">Medium</button>
+                                <button id="choose-robustness-low" class="robustness robustness-neutral" onclick="toggleRobustness('low')">Low</button>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <p class="error-message">Error: please fill in all the required information</p>
+                    <button class="button popup" style="left: 40px;" onclick="createNewPlayer()">Add Player</button>
+                    
+                    <button class="button popup" style="right: 40px; text-align: right;" onclick="togglePlayerPopup()">Cancel</button>
+
                 </div>
             </div>
             <div class="popup" id="popup-match">
@@ -44,15 +92,293 @@
                 <div class="content">
                     <div class="close-btn" onclick="toggleMatchPopup()">&Cross;</div>
                     <h2>Create New Match</h2>
-                    <p>Here you can create a new match! Coming soon...</p>
+                    
+                    <table class="popup-table">
+                        <tr>
+                            <td style="min-width: 6rem;"><p>Player A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="newmatch-playerA-input" type="text" name="myClub" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Player B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="newmatch-playerB-input" type="text" name="myClub" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Distance Type:</p></td>
+                            <td>
+                                <button id="button-best-of" class="button choose active" onclick="toggleDistanceType('best-of')">Best-of</button>
+                                <button id="button-free-frames" class="button choose" onclick="toggleDistanceType('free-frames')">Free-frames</button>
+                            </td>
+                        </tr>
+                        <tr id="popup-match-distance-row" class="hidden-row active">
+                            <td><p>Distance:</p></td>
+                            <td>
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 10rem;" id="match-distance-input" type="number" name="myClub" placeholder="Enter distance...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>HC:</p></td>
+                            <td>
+                                <button class="button-checkmark" id="button-HC" onclick="toggleHC()"><span class="checkmark">&checkmark;</span></button>
+                            </td>
+                        </tr>
+                        <tr id="popup-match-HC-row" class="hidden-row">
+                            <td> </td>
+                            <td>
+                                <input class="popup-input HC" type="number" id="newmatch-HC-input" placeholder="Enter HC...">
+                                <p id="infotext-HC" class="infotext HC">(Leave empty for recommended)</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Update-Rating-System:</p></td>
+                            <td>
+                                <button id="button-frames" class="button choose active" onclick="toggleURS('frames')">By-frame</button>
+                                <button id="button-match" class="button choose" onclick="toggleURS('match')">By-match</button>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                    
+                    <p class="error-message">Error: please fill in all the required information</p>
+                    <button class="button popup" style="left: 40px;" onclick="createNewMatch()">Add Match</button>
+                    
+                    <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleMatchPopup()">Cancel</button>
+
                 </div>
             </div>
-            <div class="popup" id="popup-calc">
+            <div class="popup popup-calc" id="popup-calc">
                 <div class="overlay"></div>
                 <div class="content">
                     <div class="close-btn" onclick="toggleCalcPopup()">&times;</div>
-                    <h2>HC-calculator</h2>
-                    <p>Here you can calculate HC! Coming soon...</p>
+                    <h2>HC-Rating Calculator</h2>
+
+                    <table>
+                        <tr>
+                            <td><p>Calculator Domain:</p></td>
+                            <td>
+                                <button id="button-by-name" class="button choose active" onclick="toggleCalcType('by-name')">
+                                    Player Name
+                                </button>
+                                <button id="button-by-rating" class="button choose" onclick="toggleCalcType('by-rating')">
+                                    Rating
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">HC-calculator</h3></td>
+                        </tr>
+                        <tr id="popup-hcCalc-playerA-row" class="hidden-row active">
+                            <td><p>Player A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerA-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-playerB-row" class="hidden-row active">
+                            <td><p>Player B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerB-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingA-row" class="hidden-row">
+                            <td><p>Rating A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingA-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingB-row" class="hidden-row">
+                            <td><p>Rating B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingB-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-HC" class="button check" onclick="hcCalcCheckHC()">Check HC</button></td>
+                            <td>
+                                <p class="text-output">&DoubleRightArrow; <span id="output-HC" class="text-output"></span></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">Rating-calculator</h3></td>
+                        </tr>
+                        <!--insert input fields here-->
+                        <tr id="popup-hcCalc-playerR-row" class="hidden-row active">
+                            <td><p>Compare Player:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerR-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingR-row" class="hidden-row">
+                            <td><p>Compare Rating:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingR-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-hcEstimate-row" class="hidden-row active">
+                            <td><p>Estimated HC:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 5rem;" id="hcCalc-hcEstimate-input" type="number" name="hcCalcInputs" placeholder="Enter HC...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-rating" class="button check" onclick="hcCalcCheckRating()">Check Rating</button></td>
+                            <td>
+                                <p class="text-output">&DoubleRightArrow; <span id="output-rating" class="text-output"></span></p>
+                            </td>
+                        </tr>
+
+                        <p class="error-message">Error: please fill in all the required information</p>
+
+                        <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleCalcPopup()">Cancel</button>
+                    </table>
+                </div>
+            </div>
+            <div class="popup" id="popup-edit">
+                <div class="overlay"></div>
+                <div class="content">
+                    <div class="close-btn" onclick="toggleEditPopup()">&times;</div>
+                    <h2>Edit Match</h2>
+                    <table class="popup-table">
+                        <tr>
+                            <td style="min-width: 6rem;"><p>Player A:</p></td>
+                            <td>
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 6rem;" id="edit-scoreA-input" type="number" name="myClub" placeholder="Edit score...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Player B:</p></td>
+                            <td>
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 6rem;" id="edit-scoreB-input" type="number" name="myClub" placeholder="Edit score...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Distance Type:</p></td>
+                            <td>
+                                <button id="edit-button-best-of" class="button choose active" onclick="toggleDistanceType('best-of', 'edit')">Best-of</button>
+                                <button id="edit-button-free-frames" class="button choose" onclick="toggleDistanceType('free-frames', 'edit')">Free-frames</button>
+                            </td>
+                        </tr>
+                        <tr id="popup-edit-distance-row" class="hidden-row active">
+                            <td><p>Distance:</p></td>
+                            <td>
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 10rem;" id="edit-distance-input" type="number" name="myClub" placeholder="Edit distance...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>HC:</p></td>
+                            <td>
+                                <button class="button-checkmark" id="edit-button-HC" onclick="toggleHC('edit')"><span class="checkmark">&checkmark;</span></button>
+                            </td>
+                        </tr>
+                        <tr id="popup-edit-HC-row" class="hidden-row">
+                            <td> </td>
+                            <td>
+                                <input class="popup-input HC" type="number" id="edit-HC-input" placeholder="Edit HC...">
+                                <p id="edit-infotext-HC" class="infotext HC">(Leave empty for recommended)</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Update-Rating-System:</p></td>
+                            <td>
+                                <button id="edit-button-frames" class="button choose active" onclick="toggleURS('frames', 'edit')">By-frame</button>
+                                <button id="edit-button-match" class="button choose" onclick="toggleURS('match', 'edit')">By-match</button>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                    
+                    <button id="confirm-edit-button" class="button popup" style="left: 40px;">Update</button>
+                    
+                    <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleEditPopup()">Cancel</button>
+
+                </div>
+            </div>
+            <div class="popup" id="popup-finish">
+                <div class="overlay"></div>
+                <div class="content" style="height: 250px;">
+                    <div class="close-btn" onclick="toggleFinishPopup()">&Cross;</div>
+                    <h2>Finish Match</h2>
+                    <p>Are you sure you want to finish match? This cannot be undone...</p>
+                    
+                    <button id="confirm-finish-button" class="button popup" style="left: 40px;">Confirm</button>
+                    
+                    <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleFinishPopup()">Cancel</button>
+                </div>
+            </div>
+            <div class="popup" id="popup-delete">
+                <div class="overlay"></div>
+                <div class="content" style="height: 250px;">
+                    <div class="close-btn" onclick="toggleDeletePopup()">&Cross;</div>
+                    <h2>Delete Match</h2>
+                    <p>Are you sure you want to delete match? This cannot be undone...</p>
+                    
+                    <button id="confirm-delete-button" class="button popup" style="left: 40px;">Confirm</button>
+                    
+                    <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleDeletePopup()">Cancel</button>
                 </div>
             </div>
 
@@ -60,7 +386,7 @@
                 <!-- Table for Rating List -->
                 <div class="rating-list-div">
                     <p class="list-info">Rating List</p>
-                    <table class="list-table">
+                    <table class="list-table" id="list-table-rating">
                         <thead>
                             <tr>
                                 <th>Position</th>
@@ -71,69 +397,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><p class="position">1</p></td>
-                                <td class="rating-list-name">Nassim Sekat</td>
-                                <td><img class="club-logo" src="images/Trondheim Snooker_log.png" onerror="this.src = 'images/default_logo.png'" alt=""></td>
-                                <td class="rating-list-rating">1545.6</td>
-                                <td><p class="robustness robustness-high">High</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">2</p></td>
-                                <td class="rating-list-name">Magnus Martinsen Melien</td>
-                                <td><img class="club-logo" src="images/Trondheim Snooker_logo.png"></td>
-                                <td class="rating-list-rating">1445.6</td>
-                                <td><p class="robustness robustness-low">Low</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">3</p></td>
-                                <td class="rating-list-name">Roald Pettersen</td>
-                                <td><img class="club-logo" src="images/Oslo Snooker_logo.png"></td>
-                                <td class="rating-list-rating">945.6</td>
-                                <td><p class="robustness robustness-medium">Medium</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">4</p></td>
-                                <td class="rating-list-name">Nassim Sekat</td>
-                                <td><img class="club-logo" src="images/Trondheim Snooker_logo.png"></td>
-                                <td class="rating-list-rating">1545.6</td>
-                                <td><p class="robustness robustness-high">High</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">5</p></td>
-                                <td class="rating-list-name">Magnus Martinsen Melien</td>
-                                <td><img class="club-logo" src="images/Stord Snookerklubb_logo.png" onerror="this.src = 'images/default_logo.png'" alt=""></td>
-                                <td class="rating-list-rating">1445.6</td>
-                                <td><p class="robustness robustness-high">High</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">6</p></td>
-                                <td class="rating-list-name">Roald Pettersen</td>
-                                <td><img class="club-logo" src="images/Os Biljard og Snookerklubb_logo.png" onerror="this.src = 'images/default_logo.png'" alt=""></td>
-                                <td class="rating-list-rating">945.6</td>
-                                <td><p class="robustness robustness-medium">Medium</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">7</p></td>
-                                <td class="rating-list-name">Nassim Sekat</td>
-                                <td><img class="club-logo" src="images/Trondheim Snooker_logo.png"></td>
-                                <td class="rating-list-rating">1545.6</td>
-                                <td><p class="robustness robustness-high">High</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">8</p></td>
-                                <td class="rating-list-name">Magnus Martinsen Melien</td>
-                                <td><img class="club-logo" src="images/Trondheim Snooker_logo.png"></td>
-                                <td class="rating-list-rating">1445.6</td>
-                                <td><p class="robustness robustness-low">Low</p></td>
-                            </tr>
-                            <tr>
-                                <td><p class="position">9</p></td>
-                                <td class="rating-list-name">Roald Pettersen</td>
-                                <td><img class="club-logo" src="images/Trondheim Snooker_logo.png"></td>
-                                <td class="rating-list-rating">945.6</td>
-                                <td><p class="robustness robustness-medium">Medium</p></td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -142,7 +406,7 @@
                 <!-- Table for Match List -->
                 <div class="match-list-div">
                     <p class="list-info">Matches</p>
-                    <table class="list-table">
+                    <table class="list-table" id="list-table-match">
                         <thead>
                             <tr>
                                 <th>Match</th>
@@ -155,418 +419,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr id="match-12">
-                                <td><p class="position" id="match-12-number">12</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-12-clubA" src="images/Trondheim Snooker_logo.png" onerror="this.src = 'images/default_logo.png'"></td>
-                                <td style="text-align: right;" id="match-12-playerA">Magnus Martinsen Melien (15)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <div id="match-12-scoreA">-</div>
-                                        </div>
-                                    <div class="match-info">
-                                        <span id="match-12-distance">( 5 )</span>
-                                        <button class="expand" id="match-12-expand" onclick="toggleExpand(12)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <div id="match-12-scoreB">-</div>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-12-playerB">Nassim Sekat</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-12-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    <!--<button class="match-button" id="match-12-finish">Finish</button>-->
-                                    <button class="match-button" id="match-12-start">Start</button>
-                                    <button class="match-button delete" id="match-12-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info" id="match-12-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-12-ratingA" style="text-align: right;">1436.1</td>
-                                <td id="match-12-urs">URS: match</td>
-                                <td id="match-12-ratingB" style="text-align: left;">1566.7</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-12-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr id="match-11">
-                                <td><p class="position" id="match-11-number">11</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-11-clubA" src="images/Oslo Snooker_logo.png" onerror="this.src = 'images/default_logo.png'"></td>
-                                <td style="text-align: right;" id="match-11-playerA">Roald Pettersen (45)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <div id="match-11-scoreA">-</div>
-                                        </div>
-                                    <div class="match-info">
-                                        <span id="match-11-distance">( 17 )</span>
-                                        <button class="expand" id="match-11-expand" onclick="toggleExpand(11)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <div id="match-11-scoreB">-</div>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-11-playerB">Audun Risan Heimsjø</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-11-clubB" src="images/Os Biljard og Snookerklubb_logo.png"></td>
-                                <td>
-                                    <!--<button class="match-button" id="match-11-finish">Finish</button>-->
-                                    <button class="match-button" id="match-11-start">Start</button>
-                                    <button class="match-button delete" id="match-11-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info" id="match-11-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-11-ratingA" style="text-align: right;">975.3</td>
-                                <td id="match-11-urs">URS: match</td>
-                                <td id="match-11-ratingB" style="text-align: left;">1546.7</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-11-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr id="match-10">
-                                <td><p class="position" id="match-10-number">10</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-10-clubA" src="images/Trondheim Snooker_logo.png" onerror="this.src = 'images/default_logo.png'"></td>
-                                <td style="text-align: right;" id="match-10-playerA">Magnus Martinsen Melien</td>
-                                <td>
-                                    <div class="score-div">
-                                        <div id="match-10-scoreA">-</div>
-                                        </div>
-                                    <div class="match-info">
-                                        <span id="match-10-distance">( 7 )</span>
-                                        <button class="expand" id="match-10-expand" onclick="toggleExpand(10)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <div id="match-10-scoreB">-</div>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-10-playerB">(15) Nassim Sekat</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-10-clubB" src="images/Stord Snookerklubb_logo.png"></td>
-                                <td>
-                                    <!--<button class="match-button" id="match-10-finish">Finish</button>-->
-                                    <button class="match-button" id="match-10-start">Start</button>
-                                    <button class="match-button delete" id="match-10-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info" id="match-10-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-10-ratingA" style="text-align: right;">1436.1</td>
-                                <td id="match-10-urs">URS: match</td>
-                                <td id="match-10-ratingB" style="text-align: left;">1566.7</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-10-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr id="match-9">
-                                <td><p class="position" id="match-9-number">9</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-9-clubA" src="images/Trondhjæm Snooker_logo.png" onerror="this.src = 'images/default_logo.png'"></td>
-                                <td style="text-align: right;" id="match-9-playerA">Roald Pettersen (50)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <div id="match-9-scoreA">-</div>
-                                        </div>
-                                    <div class="match-info">
-                                        <span id="match-9-distance">( 9 )</span>
-                                        <button class="expand" id="match-9-expand" onclick="toggleExpand(9)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <div id="match-9-scoreB">-</div>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-9-playerB">Audun Risan Heimsjø</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-9-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    <!--<button class="match-button" id="match-9-finish">Finish</button>-->
-                                    <button class="match-button" id="match-9-start">Start</button>
-                                    <button class="match-button delete" id="match-9-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info" id="match-9-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-9-ratingA" style="text-align: right;">975.3</td>
-                                <td id="match-9-urs">URS: match</td>
-                                <td id="match-9-ratingB" style="text-align: left;">1546.7</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-9-edit">Edit</button></td>
-                            </tr>
-                            
-                            
-                            <tr class="match-live" id="match-8">
-                                <td><p class="position" id="match-8-number">8</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-8-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-8-playerA">Sondre Sundt (30)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-left"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-8-scoreA">5</div>
-                                        <button class="score-button score-button-minus-left"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                    <div class="match-info">
-                                        <span id="match-8-distance">( 35 )</span>
-                                        <button class="expand" id="match-8-expand" onclick="toggleExpand(8)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-right"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-8-scoreB">7</div>
-                                        <button class="score-button score-button-minus-right"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-8-playerB">Erik Dullerud</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-8-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    <button class="match-button" id="match-8-finish">Finish</button>
-                                    <!--<button class="match-button">Start</button>-->
-                                    <button class="match-button delete" id="match-8-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr class="match-live"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-live" id="match-8-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-8-ratingA" style="text-align: right;">1150.6</td>
-                                <td id="match-8-urs">URS: match</td>
-                                <td id="match-8-ratingB" style="text-align: left;">1490.3</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-8-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-live" id="match-7">
-                                <td><p class="position" id="match-7-number">7</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-7-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-7-playerA">Sondre Sundt (30)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-left"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-7-scoreA">5</div>
-                                        <button class="score-button score-button-minus-left"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                    <div class="match-info">
-                                        <span id="match-7-distance">( 35 )</span>
-                                        <button class="expand" id="match-7-expand" onclick="toggleExpand(7)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-right"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-7-scoreB">7</div>
-                                        <button class="score-button score-button-minus-right"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-7-playerB">Erik Dullerud</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-7-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    <button class="match-button" id="match-7-finish">Finish</button>
-                                    <!--<button class="match-button">Start</button>-->
-                                    <button class="match-button delete" id="match-7-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr class="match-live"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-live" id="match-7-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-7-ratingA" style="text-align: right;">1150.6</td>
-                                <td id="match-7-urs">URS: match</td>
-                                <td id="match-7-ratingB" style="text-align: left;">1490.3</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-7-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-live" id="match-6">
-                                <td><p class="position" id="match-6-number">6</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-6-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-6-playerA">Sondre Sundt (30)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-left"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-6-scoreA">5</div>
-                                        <button class="score-button score-button-minus-left"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                    <div class="match-info">
-                                        <span id="match-6-distance">( 35 )</span>
-                                        <button class="expand" id="match-6-expand" onclick="toggleExpand(6)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-right"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-6-scoreB">7</div>
-                                        <button class="score-button score-button-minus-right"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-6-playerB">Erik Dullerud</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-6-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    <button class="match-button" id="match-6-finish">Finish</button>
-                                    <!--<button class="match-button">Start</button>-->
-                                    <button class="match-button delete" id="match-6-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr class="match-live"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-live" id="match-6-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-6-ratingA" style="text-align: right;">1150.6</td>
-                                <td id="match-6-urs">URS: match</td>
-                                <td id="match-6-ratingB" style="text-align: left;">1490.3</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-6-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-live" id="match-5">
-                                <td><p class="position" id="match-5-number">5</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-5-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-5-playerA">Sondre Sundt (30)</td>
-                                <td>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-left"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-5-scoreA">5</div>
-                                        <button class="score-button score-button-minus-left"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                    <div class="match-info">
-                                        <span id="match-5-distance">( 35 )</span>
-                                        <button class="expand" id="match-5-expand" onclick="toggleExpand(5)"> </button>
-                                    </div>
-                                    <div class="score-div">
-                                        <button class="score-button score-button-plus-right"><span class="plus-sign">&plus;</span></button>
-                                        <div class="score" id="match-5-scoreB">7</div>
-                                        <button class="score-button score-button-minus-right"><span class="minus-sign">&minus;</span></button>
-                                    </div>
-                                </td>
-                                <td style="text-align: left;" id="match-5-playerB">Erik Dullerud</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-5-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    <button class="match-button" id="match-5-finish">Finish</button>
-                                    <!--<button class="match-button">Start</button>-->
-                                    <button class="match-button delete" id="match-5-delete">Delete</button>
-                                </td>
-                            </tr>
-                            <tr class="match-live"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-live" id="match-5-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-5-ratingA" style="text-align: right;">1150.6</td>
-                                <td id="match-5-urs">URS: match</td>
-                                <td id="match-5-ratingB" style="text-align: left;">1490.3</td>
-                                <td></td>
-                                <td><button class="match-button" id="match-5-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-finished" id="match-4">
-                                <td><p class="position" id="match-4-number">4</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-4-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-4-playerA">Robin Strand</td>
-                                <td>
-                                    <div class="score-div" id="match-4-scoreA">11</div>
-                                    <div class="match-info">
-                                        <span id="match-4-distance">( - )</span>
-                                        <button class="expand expand-finished" id="match-4-expand" onclick="toggleExpand(4)"> </button>
-                                    </div>
-                                    <div class="score-div winner"  id="match-4-scoreB">13</div>
-                                </td>
-                                <td class="winner" style="text-align: left;"  id="match-4-playerB">Julian Lerstad</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-4-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
 
-                                </td>
-                            </tr>
-                            <tr class="match-finished"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-finished" id="match-4-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-4-ratingA" style="text-align: right;"><span class="rating-loss">&minus; 3.7</span>1200.6</td>
-                                <td id="match-4-urs">URS: frames</td>
-                                <td id="match-4-ratingB" style="text-align: left;">1090.3<span class="rating-win">&plus; 3.7</span></td>
-                                <td></td>
-                                <td><button class="match-button" id="match-4-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-finished" id="match-3">
-                                <td><p class="position" id="match-3-number">3</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-3-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-3-playerA">Robin Strand</td>
-                                <td>
-                                    <div class="score-div" id="match-3-scoreA">11</div>
-                                    <div class="match-info">
-                                        <span id="match-3-distance">( 25 )</span>
-                                        <button class="expand expand-finished" id="match-3-expand" onclick="toggleExpand(3)"> </button>
-                                    </div>
-                                    <div class="score-div winner"  id="match-3-scoreB">13</div>
-                                </td>
-                                <td class="winner" style="text-align: left;"  id="match-3-playerB">Julian Lerstad</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-3-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-
-                                </td>
-                            </tr>
-                            <tr class="match-finished"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-finished" id="match-3-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-3-ratingA" style="text-align: right;"><span class="rating-loss">&minus; 6.3</span>1200.6</td>
-                                <td id="match-3-urs">URS: frames</td>
-                                <td id="match-3-ratingB" style="text-align: left;">1090.3<span class="rating-win">&plus; 6.3</span></td>
-                                <td></td>
-                                <td><button class="match-button" id="match-3-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-finished" id="match-2">
-                                <td><p class="position" id="match-2-number">2</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-2-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td class="tie" style="text-align: right;" id="match-2-playerA">Robin Strand</td>
-                                <td>
-                                    <div class="score-div tie" id="match-2-scoreA">12</div>
-                                    <div class="match-info">
-                                        <span id="match-2-distance">( 24 )</span>
-                                        <button class="expand expand-finished" id="match-2-expand" onclick="toggleExpand(2)"> </button>
-                                    </div>
-                                    <div class="score-div tie" id="match-2-scoreB">12</div>
-                                </td>
-                                <td class="tie" style="text-align: left;" id="match-2-playerB">Julian Lerstad</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match" id="match-2-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-                                    
-                                </td>
-                            </tr>
-                            <tr class="match-finished"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-finished" id="match-2-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-2-ratingA" style="text-align: right;"><span class="rating-loss">&minus; 2.1</span>1200.6</td>
-                                <td id="match-2-urs">URS: frames</td>
-                                <td id="match-2-ratingB" style="text-align: left;">1090.3<span class="rating-win">&plus; 2.1</span></td>
-                                <td></td>
-                                <td><button class="match-button" id="match-2-edit">Edit</button></td>
-                            </tr>
-                            
-                            <tr class="match-finished" id="match-1">
-                                <td><p class="position" id="match-1-number">1</p></td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-1-clubA" src="images/Trondheim Snooker_logo.png"></td>
-                                <td style="text-align: right;" id="match-1-playerA">Robin Strand</td>
-                                <td>
-                                    <div class="score-div" id="match-1-scoreA">11</div>
-                                    <div class="match-info">
-                                        <span id="match-1-distance">( 25 )</span>
-                                        <button class="expand expand-finished" id="match-1-expand" onclick="toggleExpand(1)"> </button>
-                                    </div>
-                                    <div class="score-div winner"  id="match-1-scoreB">13</div>
-                                </td>
-                                <td class="winner" style="text-align: left;"  id="match-1-playerB">Julian Lerstad</td>
-                                <td style="padding: 0;"><img class="club-logo club-logo-match"  id="match-1-clubB" src="images/Trondheim Snooker_logo.png"></td>
-                                <td>
-
-                                </td>
-                            </tr>
-                            <tr class="match-finished"></tr> <!--dummy (for alternating colors)-->
-                            <tr class="match-list-info match-finished" id="match-1-info">
-                                <td></td>
-                                <td></td>
-                                <td id="match-1-ratingA" style="text-align: right;"><span class="rating-loss">&minus; 9.3</span>1200.6</td>
-                                <td id="match-1-urs">URS: match</td>
-                                <td id="match-1-ratingB" style="text-align: left;">1090.3<span class="rating-win">&plus; 9.3</span></td>
-                                <td></td>
-                                <td><button class="match-button" id="match-1-edit">Edit</button></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -586,5 +439,6 @@
     </footer>
 
     <script src="scripts/hc-rating/hc-rating-frontend.js"></script>
+    <script type="module" src="scripts/hc-rating/hc-rating-backend-json.js"></script>
 </body>
 </html>

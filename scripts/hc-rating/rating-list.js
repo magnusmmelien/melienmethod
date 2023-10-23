@@ -7,11 +7,65 @@ class RatingList {
         if (name.includes('_')) {
             console.log(`Invalid input while constructing RatingList ${name}, please try again.`);
             throw new Error(`Invalid input while constructing RatingList ${name}, please try again.`);
-            return;
         }
         this.name = name;
         this.players = [];
     }
+
+    toJSON() {
+        return {
+            name: this.name,
+            players: this.players.map(player => JSON.stringify(player.toJSON())) // Convert each player to JSON
+        };
+    }
+    static fromJSON(json) {
+        const debugMode = false;
+        if (debugMode) {console.log('Debug: fromJSON(json)');}
+
+        const parsedJSON = JSON.parse(json);
+        const { name, players } = parsedJSON;
+        
+        if (debugMode) {console.log('parsedData.name =');}
+        if (debugMode) {console.log(name);}
+        if (debugMode) {console.log('parsedData.players =');}
+        if (debugMode) {console.log(players);}
+        const ratingList = new RatingList(name);
+        if (debugMode) {console.log('created new ratingList =');}
+        if (debugMode) {console.log(ratingList);}
+        players.forEach(player => {
+            ratingList.addPlayer(Player.fromJSON(player));
+        });
+        if (debugMode) {console.log('filled new ratingList =');}
+        if (debugMode) {console.log(ratingList);}
+        return ratingList;
+    }
+    /*static fromJSON(json) {
+        const debugMode = true;
+        if (debugMode) {console.log('Debug: fromJSON(json)');}
+        const parsedData = JSON.parse(json);
+        if (debugMode) {console.log('parsedData =');}
+        if (debugMode) {console.log(parsedData);}
+        
+        if (!parsedData.name || !parsedData.players) {
+            throw new Error("Invalid JSON data for RatingList.");
+        }
+        if (debugMode) {console.log('parsedData.name =');}
+        if (debugMode) {console.log(parsedData.name);}
+        if (debugMode) {console.log('parsedData.players =');}
+        if (debugMode) {console.log(parsedData.players);}
+    
+        const ratingList = new RatingList(parsedData.name);
+        
+        for (const playerData of parsedData.players) { // JOBB HER: PRØV forEach playerData in parsedData.players???
+            const player = Player.fromJSON(playerData);
+            ratingList.addNewPlayer(player.getName(), player.getClub(), player.getRating(), player.getRobust());
+        }
+    
+        if (debugMode) {console.log('new RatingList ratingList =');}
+        if (debugMode) {console.log(ratingList);}
+        return ratingList;
+    }*/
+
     
     getSize() { return this.players.length; }
     getList() { return this.players; }
@@ -23,24 +77,21 @@ class RatingList {
         return names;
     }
 
-    /*
-    // I don't think this will be used
-    addPlayer(player) { 
-        if (this.getPlayer(player) != null) {
-            console.log('Tried to add player already in rating list');
+    
+    addPlayer(player) { // I don't think this will be used
+        if (this.getPlayer(player) !== null) {
+            throw new Error(`Error: player ${player.getName()} already in list. Please try another name`);
             return;
         }
         this.players.push(player);
         this.players.sort(this.comparePlayersByRating); // Sort players when adding
-    }
-    */
-    
+    }    
     addNewPlayer(fullName, club, estimatedRating = defaultRating, initRobust = 0) {
-        if (this.getPlayerByName(fullName) === null) {
+        if (this.getPlayerByName(fullName) !== null) {
             throw new Error(`Error: player ${fullName} already in list. Please try another name`);
             return;
         }
-        this.players.push(Player(fullName, club, estimatedRating, initRobust));
+        this.players.push(new Player(fullName, club, estimatedRating, initRobust));
         this.players.sort(this.comparePlayersByRating); // Sort players when adding
     }
     sort() {

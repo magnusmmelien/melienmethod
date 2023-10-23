@@ -1,5 +1,5 @@
-import * as variabels from './variables.js';
-import Club from './club.js';
+import * as variables from './variables.js';
+//import Club from './club.js';
 
 
 function f_exp(ratingDelta) {
@@ -12,7 +12,7 @@ function f_exp(ratingDelta) {
     }
 }
 
-function ratingToHC(ratingA, ratingB, rounding = variabels.defaultRounding) {
+function ratingToHC(ratingA, ratingB, rounding = variables.defaultRounding) {
     if (typeof ratingA != 'number' || typeof ratingB != 'number' || typeof rounding != 'number') {
         throw new Error('Input into ratingToHC() must be a number');
     }
@@ -23,49 +23,63 @@ function ratingToHC(ratingA, ratingB, rounding = variabels.defaultRounding) {
     }
 }
 
-function hcToRating(hc) {
+export function hcToRating(hc) {
     if (typeof hc != 'number') {
         throw new Error('Input into hcToRating() must be a number');
     }
     else {
         if (hc === 0) {return 0;}
-        const absRatingDelta = -(1 / beta) * Math.log(1 - (Math.abs(hc) / variabels.hcMax));
+        const absRatingDelta = -(1 / variables.beta) * Math.log(1 - (Math.abs(hc) / variables.hcMax));
         if (hc < 0) {return -absRatingDelta;}
         return absRatingDelta;
     }
 }
 
 class Robustness { // enum type: robustness
-    static low = 0;
-    static medium = 1;
-    static high = 2;
+    static low = 'Low';
+    static medium = 'Medium';
+    static high = 'High';
 }
 
 function robustLevel(robust) {
     if (robust <= 1.1 && robust >= 0) { // 1.1 because this code could potentially produce numbers marginally bigger than 1, but that doesn't matter
-        if (robust >= variabels.robustHigh) {return Robustness.high;}
-        if (robust >= variabels.robustMedium) {return Robustness.medium;}
+        if (robust >= variables.robustHigh) {return Robustness.high;}
+        if (robust >= variables.robustMedium) {return Robustness.medium;}
         return Robustness.low;
     }
-    throw new Error('Robustness out of bounds');
+    console.warn('Warning: Robustness out of bounds');
+    //throw new Error('Robustness out of bounds');
     return Robustness.high;
 }
 
 // Define the Player class
-class Player {
-    constructor(name, club, rating = variabels.defaultRating, robust = 0) {
+export class Player {
+    constructor(name, club, rating = variables.defaultRating, robust = 0) {
         if (name.includes(';') || club.includes(';') || typeof rating != 'number' || typeof robust != 'number') {
             console.log(`Invalid input while constructing player ${name}, please try again.`);
             throw new Error(`Invalid input while constructing player ${name}, please try again.`);
-            return;
         }
         this.name = name;
         this.club = club; // i think we'll keep this as a string (and not an object)...
         this.rating = rating;
         this.robust = robust;
 
-        this.updateK();
+        //this.updateK();
         //club.incSize();
+    }
+
+    toJSON() {
+        return {
+            name: this.name,
+            club: this.club,
+            rating: this.rating,
+            robust: this.robust
+        };
+    }
+    static fromJSON(json) {
+        const parsedJSON = JSON.parse(json);
+        const { name, club, rating, robust } = parsedJSON;
+        return new Player(name, club, rating, robust);
     }
 
     // Getters and setters
@@ -82,24 +96,25 @@ class Player {
 
     updateRobust() {
         if (this.robust <= 1.1 && this.robust >= 0) { // 1.1 because this code could potentially produce numbers marginally bigger than 1, but that doesn't matter
-            this.robust += (1 - this.robust) * variabels.robustnessCoeff;
-            this.updateK();
+            this.robust += (1 - this.robust) * variables.robustnessCoeff;
+            //this.updateK();
             return;
         }
         throw new Error(`Robustness out of bounds in updateRobust() for: ${this.name}`);
     }
 
-    updateK() {
-        if (robust > variabels.robustHigh) {
+    // Don't think we need this (i.e. a player has a personalized associated K-factor since the effKfactor()-function only uses Player.getRobustness()...)
+    /*updateK() {
+        if (this.robust > variabels.robustHigh) {
             this.Kfactor = variabels.initKfactor;
             return;
         }
-        if (robust > variabels.robustMedium) {
+        if (this.robust > variabels.robustMedium) {
             this.Kfactor = 1.5 * variabels.initKfactor;
             return;
         }
         this.Kfactor = 2 * variabels.initKfactor;
-    }
+    }*/
 
     isEqualTo(otherPlayer) {
         return this.name === otherPlayer.name && this.rating === otherPlayer.rating 
