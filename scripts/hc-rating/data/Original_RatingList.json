@@ -1,0 +1,83 @@
+{
+  "name": "Norway",
+  "players": [
+      {
+        "name": "Audun Risan Heimsjø",
+        "club": "Trondheim Snooker",
+        "rating": 1551.66,
+        "robustness": 1
+      },
+      {
+        "name": "Nassim Sekat",
+        "club": "Trondheim Snooker",
+        "rating": 1538.99,
+        "robustness": 1
+      },
+      {
+        "name": "Erik Dullerud",
+        "club": "Trondheim Snooker",
+        "rating": 1488,
+        "robustness": 1
+      },
+      {
+        "name": "Magnus Martinsen Melien",
+        "club": "Trondheim Snooker",
+        "rating": 1441.12,
+        "robustness": 1
+      },
+      {
+        "name": "Tore Hansen",
+        "club": "Trondheim Snooker",
+        "rating": 1415,
+        "robustness": 1
+      },
+      {
+        "name": "Sondre Sundt",
+        "club": "Trondheim Snooker",
+        "rating": 1162.32,
+        "robustness": 1
+      },
+      {
+        "name": "Eirik Hammarstøm",
+        "club": "Trondheim Snooker",
+        "rating": 950,
+        "robustness": 0
+      },
+      {
+        "name": "Robin Strand",
+        "club": "Trondheim Snooker",
+        "rating": 1104.65,
+        "robustness": 1
+      },
+      {
+        "name": "Roald Pettersen",
+        "club": "Trondheim Snooker",
+        "rating": 1035.34,
+        "robustness": 1
+      },
+      {
+        "name": "Odne Oksavik",
+        "club": "Trondheim Snooker",
+        "rating": 1006,
+        "robustness": 1
+      },
+      {
+        "name": "Geir Ellefsen",
+        "club": "Trondheim Snooker",
+        "rating": 926.867,
+        "robustness": 1
+      },
+      {
+        "name": "Ivar Havtor Hovden",
+        "club": "Trondheim Snooker",
+        "rating": 893,
+        "robustness": 1
+      },
+      {
+        "name": "Bjørnar Jacobsen",
+        "club": "Trondheim Snooker",
+        "rating": 869.185,
+        "robustness": 1
+      }
+    ]
+}

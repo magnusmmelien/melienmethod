@@ -1,0 +1,106 @@
+[
+    {
+        "id": 1,
+        "playerA": {
+            "name": "Audun Risan Heimsjø",
+            "club": "Trondheim Snooker",
+            "rating": 1551.66,
+            "robustness": 1
+        },
+        "playerB": {
+            "name": "Nassim Sekat",
+            "club": "Trondheim Snooker",
+            "rating": 1538.99,
+            "robustness": 1
+        },
+        "totalDistance": 5,
+        "HC": 0,
+        "distanceType": 0,
+        "enumHCsystem": 1,
+        "state": 0,
+        "scoreA": 0,
+        "scoreB": 0,
+        "currentRatingA": 1551.66,
+        "currentRatingB": 1538.99,
+        "deltaA": 0,
+        "deltaB": 0
+    },
+    {
+        "id": 2,
+        "playerA": {
+            "name": "Erik Dullerud",
+            "club": "Trondheim Snooker",
+            "rating": 1488,
+            "robustness": 1
+        },
+        "playerB": {
+            "name": "Magnus Martinsen Melien",
+            "club": "Trondheim Snooker",
+            "rating": 1441.12,
+            "robustness": 1
+        },
+        "totalDistance": 3,
+        "HC": -15,
+        "distanceType": 0,
+        "enumHCsystem": 0,
+        "state": 0,
+        "scoreA": 0,
+        "scoreB": 0,
+        "currentRatingA": 1488,
+        "currentRatingB": 1441.12,
+        "deltaA": 0,
+        "deltaB": 0
+    },
+    {
+        "id": 3,
+        "playerA": {
+            "name": "Erik Dullerud",
+            "club": "Trondheim Snooker",
+            "rating": 1488,
+            "robustness": 1
+        },
+        "playerB": {
+            "name": "Magnus Martinsen Melien",
+            "club": "Trondheim Snooker",
+            "rating": 1441.12,
+            "robustness": 1
+        },
+        "totalDistance": 0,
+        "HC": 0,
+        "distanceType": 1,
+        "enumHCsystem": 1,
+        "state": 0,
+        "scoreA": 0,
+        "scoreB": 0,
+        "currentRatingA": 1488,
+        "currentRatingB": 1441.12,
+        "deltaA": 0,
+        "deltaB": 0
+    },
+    {
+        "id": 4,
+        "playerA": {
+            "name": "Tore Hansen",
+            "club": "Trondheim Snooker",
+            "rating": 1415,
+            "robustness": 1
+        },
+        "playerB": {
+            "name": "Sondre Sundt",
+            "club": "Trondheim Snooker",
+            "rating": 1162.32,
+            "robustness": 1
+        },
+        "totalDistance": 3,
+        "HC": 20,
+        "distanceType": 0,
+        "enumHCsystem": 1,
+        "state": 0,
+        "scoreA": 0,
+        "scoreB": 0,
+        "currentRatingA": 1415,
+        "currentRatingB": 1162.32,
+        "deltaA": 0,
+        "deltaB": 0
+    }
+]

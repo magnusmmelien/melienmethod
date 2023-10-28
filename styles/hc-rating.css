@@ -9,7 +9,7 @@ main-content::after {
 }
 
 .main-content {
-    margin-right: 4%;
+    margin-right: 1%;
 }
 
 
@@ -37,6 +37,7 @@ nav li a:active {
 .div-main-buttons {
     display: inline-block;
     height: 8vh;
+    min-height: 70px;
 }
 .button {
     display: inline-block;
@@ -58,14 +59,14 @@ nav li a:active {
     vertical-align: middle;
 }
 .button:hover {
-    background-color: #ddd;
+    background-color: #33333330;
     border-top: 2px solid #333; /* Add top border on hover */
     border-left: 2px solid #333; /* Add left border on hover */
     transform: scale(1.1) skewX(-20deg); /* Scale and skew on hover */
     cursor: pointer;
 }
 .button:active {
-    background-color: #333; /* Set the background color to white on active */
+    background-color: #000000c0; /* Set the background color to white on active */
     color: #f9fbff; /* Set the text color to the background color of main (#333) on active */
     border-top: 2px solid black; /* Add top border with white color on active */
     border-left: 2px solid black; /* Add left border with white color on active */
@@ -90,11 +91,13 @@ main {
 }
 .table-content table {
     overflow: auto;
+    scrollbar-width: thin;
     max-height: 50vh;
+    min-height: 360px;
 }
 .table-content thead {
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 1;
 }
 
@@ -168,6 +171,8 @@ main {
     border-radius: 0.2rem;
     margin: 0;
     text-align: center;
+    max-width: 100px;
+    border: none;
 }
 .robustness-high {
     background-color: #c8e6c9;
@@ -180,6 +185,10 @@ main {
 .robustness-medium {
     background-color: #fff0c2;
     color: #a68b00;
+}
+.robustness-neutral {
+    background-color: #d1d1d1;
+    color: #666666;
 }
 
 
@@ -348,10 +357,10 @@ main {
     background-color: #172266;
 }
 
-.match-list-info {
+.match-list-info, .hidden-row {
     display: none;
 }
-.match-list-info.active {
+.match-list-info.active, .hidden-row.active {
     display: table-row;
 }
 
@@ -392,8 +401,7 @@ main {
     height: 100vh;
     background: rgba(0, 0, 0, 0.7);
     z-index: 2;
-    display: none;
-}
+    display: none;}
 .popup .content {
     position: absolute;
     top: 50%;
@@ -402,14 +410,12 @@ main {
     color: #000;
     background: #fff;
     width: 450px;
-    height: 450px;
+    height: 650px;
     max-width: 80vw;
-    max-height: 80vh;
     z-index: 3;
     text-align: center;
     padding: 20px;
-    box-sizing: border-box;
-}
+    box-sizing: border-box;}
 .popup .close-btn {
     cursor: pointer;
     position: absolute;
@@ -425,19 +431,547 @@ main {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 30px;
     text-align: center;
-    border-radius: 50%;
-}
+    border-radius: 50%;}
 .popup.active .overlay {
-    display: block;
-}
+    display: block;}
 .popup.active .content {
     transition: all 300ms ease-in-out;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);}
+
+.popup table {
+    text-align: left;
+
+    max-width: 70vw;
+}
+.popup tr {
+    min-height: 40px;
+}
+.popup td {
+    padding: 0.2rem 0.5rem;
+    min-width: 100px;
+}
+.popup td:first-child {
+    width: 100px;
+}
+.popup.popup-calc td p {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
 }
 
-/*
-To do list
-    chatGPT: local dev server - slik at import av js filer fungerer riktig...
-    pop up window for knapper på hc-rating
-    litt front-end js for hc-rating
+.popup-input {
+    font-family: "Exo", sans-serif;
+    border: none;
+    border-bottom: 2px solid #333;
+    border-right: 2px solid #333;
+    transform: skewX(-20deg);
+    height: 2rem;
+    width: 120%;
+    max-width: 30vw;
+    
+    padding: 0.5rem;
+    background-color: transparent;}
+.popup-input:focus {
+    outline: none;
+    border: 2px solid #333;
+    box-shadow: 0 5px 10px #00000040;
+    
+    height: calc(2rem - 2px);
+    background-color: #f1f1f1;}
+.popup-input.HC {
+    width: 5rem;
+    position: absolute;
+    transform: translate(4rem, -3.8rem) skewX(-20deg);
+}
+.popup-calc .popup-input {
+    height: 1.7rem;}
+.popup-calc .popup-input:focus {
+    height: calc(1.7rem - 2px);
+}
+.infotext.HC {
+    color: #666;
+    margin: 0;
+    font-size: 14px;
+}
+
+.button-checkmark {
+    cursor: pointer;
+    height: 2rem;
+    width: 2rem;
+    font-size: 3rem;
+    color: grey;
+    vertical-align: middle;
+    border: 1px solid #4f546ce0;
+    line-height: 4rem;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 5px;
+    font-weight: 900;}
+.button-checkmark:hover {
+    box-shadow: 0 5px 10px #00000040;
+    color: #ffc875;}
+.checkmark {
+    position: absolute;
+    transform: translate(-50%, calc(-50% - 0.3rem));}
+.button-checkmark.active {
+    color: #FF9800;
+    background-color: #ec8e0140;
+    font-size: 3.5rem;
+    border-width: 2px;}
+.button.popup {
+    bottom: 20px;
+    width: 30%;
+    font-size: 16px;}
+
+button.robustness {
+    cursor: pointer;
+    display: block;
+    width: 6rem;
+    text-align: center;
+    margin: 5px 0;
+    transition: scale 0.2s, background-color 0.2s, color 0.2s;}
+button.robustness:hover {
+    box-shadow: 0 0 10px #00000040;
+    opacity: 0.9;}
+button.robustness:active {
+    background-color: #666;
+    color: #fff;}
+button.robustness.active {
+    transform: scale(1.3);}
+
+.button.choose {
+    position: relative;
+    width: 60px;
+    white-space: nowrap;
+    font-size: 12px;
+    margin-right: 10px;}
+.button.choose.active {
+    border: 2px dotted black;
+    color: #fff;
+    background-color: #ad3737;}
+.button.choose.active:hover {
+    background-color: #803030f0;
+    border-top: 2px solid #333;
+    border-left: 2px solid #333;}
+.button-hide {
+    display: none;
+}
+
+.button.check {
+    transform: translate(-0.1rem, -1.1rem) skewX(-20deg);
+    font-size: 12px;
+    max-width: 25%;
+}
+.button.check:hover {
+    transform: translate(-0.1rem, calc(-1.1rem - 2px)) skewX(-20deg);
+}
+.recommend-text {
+    font-size: 12px;
+    color: #00000080;
+}
+.popup.popup-calc td p.text-output {
+    display: inline-block;
+    font-family: "Orbitron", sans-serif;
+    font-size: 22px;
+    color: #ad3737;
+    margin-block-start: 0;
+    margin-block-end: 0.1em;
+    padding: 0 0.5rem;
+    border: none;
+    border-radius: .5rem;
+    transition: all ease-out 0.5s;
+}
+.popup.popup-calc td p.text-output.flash {
+    color: white;
+    background-color: #333;
+    box-shadow: 0 0 10px 16px #333;
+}
+.popup.subheading {
+    overflow: visible;
+    max-width: 80px;
+    max-height: 50px;
+    white-space: nowrap;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+td.text-output {
+    height: calc(55px);
+}
+td.text-output .box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;    
+}
+td.text-output .box .title {
+    width: fit-content;
+    min-width: 100px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px; 
+    margin-left: 1rem;
+}
+td.text-output .box .title .block {
+    width: 0%;
+    height: inherit;
+    background: #ad3737;
+    position: absolute;
+    animation: mainBlock 2s cubic-bezier(.74, .06, .4, .92) forwards;
+    display: flex;
+}
+td.text-output .box .title p {
+    font-family: 'Orbitron', sans-serif;
+    color: #333;
+    font-size: 22px;
+    opacity: 0;
+    display: inline-block;
+    width: 100%;
+    align-items: baseline;
+    position: relative;
+    text-align: right;
+}
+td.text-output .box .title p.animation {
+    -webkit-animation: mainFadeIn 2s forwards;
+    -o-animation: mainFadeIn 2s forwards;
+    animation: mainFadeIn 2s forwards;
+    animation-delay: 1.6s;
+}
+td.text-output .box .title p span {
+    width:0px;
+    height: 0px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+    background: #ad3737;
+    -webkit-animation: load 0.6s cubic-bezier(.74, .06, .4, .92) forwards;
+    animation: popIn 0.8s cubic-bezier(.74, .06, .4, .92) forwards;
+    animation-delay: 2s;
+    margin-left: 5px;
+    margin-top: -10px;
+    position: absolute;
+    bottom: 13px;
+    right: -12px;
+}
+@keyframes mainBlock {
+    0% {
+      width: 0%;
+      left: 0;
+  
+    }
+    50% {
+      width: 100%;
+      left: 0;
+  
+    }
+    100% {
+      width: 0;
+      left: 100%;
+    }
+}
+@keyframes mainFadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+/*Autocomplete input test*/
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;}
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    font-family: "Exo", sans-serif;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: -0.5rem;
+    right: 0;
+    
+    width: calc(130%);
+    max-width: 30vw;}
+.autocomplete-items div {
+    padding: 10px;
+    padding-left: calc(10px + 0.5rem);
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;}
+.autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9;}
+.autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: #ad3737 !important;
+    color: #ffffff;
+}
+
+/* popup-calc new
+<div class="popup popup-calc" id="popup-calc">
+                <div class="overlay"></div>
+                <div class="content">
+                    <div class="close-btn" onclick="toggleCalcPopup()">&times;</div>
+                    <h2>HC-Rating Calculator</h2>
+
+                    <table>
+                        <tr>
+                            <td><p>Calculator Domain:</p></td>
+                            <td>
+                                <button id="button-by-name" class="button choose active" onclick="toggleCalcType('by-name')">
+                                    Player Name
+                                </button>
+                                <button id="button-by-rating" class="button choose" onclick="toggleCalcType('by-rating')">
+                                    Rating
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">HC-calculator</h3></td>
+                        </tr>
+                        <tr id="popup-hcCalc-playerA-row" class="hidden-row active">
+                            <td><p>Player A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerA-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-playerB-row" class="hidden-row active">
+                            <td><p>Player B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerB-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingA-row" class="hidden-row">
+                            <td><p>Rating A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingA-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingB-row" class="hidden-row">
+                            <td><p>Rating B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingB-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-HC" class="button check" onclick="hcCalcCheckHC()">Check HC</button></td>
+                            <td class="text-output">
+                                <!--<p class="text-output">&DoubleRightArrow; <span id="output-HC" class="text-output"></span></p>-->
+                                <div class="box">
+                                    <div class="title">
+                                        <span class="block"></span>
+                                        <p id="output-HC" class="text-output"></span><span></p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">Rating-calculator</h3></td>
+                        </tr>
+                        <!--insert input fields here-->
+                        <tr id="popup-hcCalc-playerR-row" class="hidden-row active">
+                            <td><p>Compare Player:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerR-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingR-row" class="hidden-row">
+                            <td><p>Compare Rating:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingR-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-hcEstimate-row" class="hidden-row active">
+                            <td><p>Estimated HC:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 5rem;" id="hcCalc-hcEstimate-input" type="number" name="hcCalcInputs" placeholder="Enter HC...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-rating" class="button check" onclick="hcCalcCheckRating()">Check Rating</button></td>
+                            <td class="text-output">
+                                <!--<p class="text-output">&DoubleRightArrow; <span id="output-rating" class="text-output"></span></p>-->
+                                <div class="box">
+                                    <div class="title">
+                                        <span class="block"></span>
+                                        <p id="output-rating" class="text-output"></span><span></p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <p class="error-message">Error: please fill in all the required information</p>
+
+                        <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleCalcPopup()">Cancel</button>
+                    </table>
+                </div>
+            </div>
 */
+
+/* popup-calc old
+<div class="popup popup-calc" id="popup-calc">
+                <div class="overlay"></div>
+                <div class="content">
+                    <div class="close-btn" onclick="toggleCalcPopup()">&times;</div>
+                    <h2>HC-Rating Calculator</h2>
+
+                    <table>
+                        <tr>
+                            <td><p>Calculator Domain:</p></td>
+                            <td>
+                                <button id="button-by-name" class="button choose active" onclick="toggleCalcType('by-name')">
+                                    Player Name
+                                </button>
+                                <button id="button-by-rating" class="button choose" onclick="toggleCalcType('by-rating')">
+                                    Rating
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">HC-calculator</h3></td>
+                        </tr>
+                        <tr id="popup-hcCalc-playerA-row" class="hidden-row active">
+                            <td><p>Player A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerA-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-playerB-row" class="hidden-row active">
+                            <td><p>Player B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerB-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingA-row" class="hidden-row">
+                            <td><p>Rating A:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingA-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingB-row" class="hidden-row">
+                            <td><p>Rating B:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingB-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-HC" class="button check" onclick="hcCalcCheckHC()">Check HC</button></td>
+                            <td>
+                                <p class="text-output">&DoubleRightArrow; <span id="output-HC" class="text-output"></span></p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">Rating-calculator</h3></td>
+                        </tr>
+                        <!--insert input fields here-->
+                        <tr id="popup-hcCalc-playerR-row" class="hidden-row active">
+                            <td><p>Compare Player:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-playerR-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-ratingR-row" class="hidden-row">
+                            <td><p>Compare Rating:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="hcCalc-ratingR-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-hcCalc-hcEstimate-row" class="hidden-row active">
+                            <td><p>Estimated HC:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 5rem;" id="hcCalc-hcEstimate-input" type="number" name="hcCalcInputs" placeholder="Enter HC...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-rating" class="button check" onclick="hcCalcCheckRating()">Check Rating</button></td>
+                            <td>
+                                <p class="text-output">&DoubleRightArrow; <span id="output-rating" class="text-output"></span></p>
+                            </td>
+                        </tr>
+
+                        <p class="error-message">Error: please fill in all the required information</p>
+
+                        <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleCalcPopup()">Cancel</button>
+                    </table>
+                </div>
+            </div>
+             */

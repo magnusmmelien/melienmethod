@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snooker: The Melien Method - Info</title>
+    <title>The Melien Method - Info</title>
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/info.css">
     
@@ -15,7 +15,7 @@
     </header>
 
     <main>
-        <div class="main-content">
+        <div class="main-content" style="margin-bottom: 80px;">
             <h2>Info</h2>
             <p>
                 <a href="https://en.wikipedia.org/wiki/Snooker" class="hyperlink" target="_blank">Snooker</a> 
@@ -25,6 +25,9 @@
                 colored balls into the pockets, aiming to score points and outmaneuver their opponents.
                 Snooker has become a popular and competitive sport worldwide, attracting enthusiasts from
                 all walks of life.
+            </p>
+            <p>
+                For info, feedback and potential bugs: <a href="mailto:magnusmmelien@hotmail.com" class="hyperlink">send me an email</a>.
             </p>
             <h3 id="section-draw">Tournament Draw</h3>
             <p>
@@ -100,33 +103,104 @@
                 This model is an extension of the industry standard 
                 <a href="https://en.wikipedia.org/wiki/Elo_rating_system" class="hyperlink" target="_blank">ELO-model</a>
                 for calculating playing strength 
-                and generating a rating list.The idea emanated from the need to evaluate the handicap (HC)
+                and generating a rating list.The idea emanated from the need to evaluate the handicap (\(HC\))
                 between two players in the game of snooker. Fortunatly, we already have access to a 
                 <a href="https://cuescore.com/nb/ratings" class="hyperlink" target="_blank">rating list</a>
-                provided by the NBF (ELO-model with rating delta normalization factor 400 and K-factor 20) - from
-                there it's just a matter of estimating a formula for calculating the HC based on the relative
-                rating. This allows you the option of playing with, without or even with customized HC while
+                provided by the NBF (ELO-model with rating delta normalization factor 400 and \(K\)-factor 20) - from
+                there it's just a matter of estimating a formula for calculating the \(HC\) based on the relative
+                rating. This allows you the option of playing with, without or even with customized \(HC\) while
                 maintaining the intergrity and true equilibrium of the model. Because of the intrinsic
                 complexities of the game of snooker there is no rigorous way of determining this formula - hence
                 I have tried to use my experience and knowledge to come up with an elegant solution:
             </p>
             <p>
-                $${ HC = HC_{max} (1 - e^{- ( | \Delta r | / b ) ^a});  \;\;\;\; 
-                \mathscr{where:} \;\;  \Delta r = \mathscr{rating} \; \mathscr{delta} ,\;HC_{max} = 147,\; a = 1,\; b = 1400. }$$
+                $${ HC = HC_{max} (1 - e^{-  (  | \Delta r | \, / \, \beta ) ^{\alpha}});  \;\;\;\; 
+                \mathscr{where:} \;\;  \Delta r = \mathscr{rating} \; \mathscr{delta} ,\;HC_{max} = 147,\; \alpha = 1,\; \beta = 1400. }$$
             </p>
+            <p>
+                The rating is updated upon completion of a match in accordance with the standard ELO-model using the 
+                formula:
+            </p>
+            <p>
+                $${ r = r_{0} + K (x - \bar{x}),}$$
+            </p>
+            <p>
+                where \(r_{0}\) is the old (current) rating, \(x\) is the normalized score, \(\bar{x}\) is the normalized 
+                <em>expected</em> score and \(K\) is a variable "\(K\)-factor". The expected score is calculated, as a function 
+                of the difference in rating (\(\Delta r\)), by:
+            </p>
+            <p>
+                $${\bar{x}_{A}(\Delta r) = \frac{1}{10^{-  \Delta r \, / \, 400}}; \;\; \bar{x}_{B} = 1 -\bar{x}_{A}}$$
+            </p>
+            <p>
+                And \(K\) is decided by a number of factors: namely the robustness of <em>both</em> participating players, 
+                the distance of the match, the distance <em>type</em> and the selected "Update Rating System" (URS): 
+            </p>
+            <p>
+                $${K = c_{D} \, c_{R} \, K_0 (1 - e^{-  c_{URS} \, d^{\gamma}}),}$$
+            </p>
+            <p>
+                where \(c_{R}\) is the coefficient of \(K\) arising from potential differences in robustness whose possible 
+                value is specified in the table below:
+            </p>
+            <table class="list-table">
+                <tr>
+                    <td class="diag" style="background-color: #555;">
+                        <span class="sup">A</span> <span class="inf">B</span>
+                    </td>
+                    <td><p class="robustness robustness-high">High</p></td>
+                    <td><p class="robustness robustness-medium">Medium</p></td>
+                    <td><p class="robustness robustness-low">Low</p></td>
+                </tr>
+                <tr>
+                    <td><p class="robustness robustness-high">High</p></td>
+                    <td class="diag"><span class="sup">1</span><span class="inf">1</span></td>
+                    <td class="diag"><span class="sup">0.75</span><span class="inf">1.5</span></td>
+                    <td class="diag"><span class="sup">0.5</span><span class="inf">2</span></td>
+                </tr>
+                <tr>
+                    <td><p class="robustness robustness-medium">Medium</p></td>
+                    <td class="diag"><span class="sup">1.5</span><span class="inf">0.75</span></td>
+                    <td class="diag"><span class="sup">1.5</span><span class="inf">1.5</span></td>
+                    <td class="diag"><span class="sup">1</span><span class="inf">2</span></td>
+                </tr>
+                <tr>
+                    <td><p class="robustness robustness-low">Low</p></td>
+                    <td class="diag"><span class="sup">2</span><span class="inf">0.5</span></td>
+                    <td class="diag"><span class="sup">2</span><span class="inf">1</span></td>
+                    <td class="diag"><span class="sup">2</span><span class="inf">2</span></td>
+                </tr>
+            </table>
+            <p>
+                The numerical values of the remaining parameters are defined as follows:
+            </p>
+            <ul class="eq-list">
+                <li>\( c_D : \) coefficient dependent upon "distance type"; \( c_D = 0.7 \) for \( D= \) "Free-frames" 
+                    and \( c_D = 1 \) for \( D= \) "Best-of".
+                </li>
+                <li>\( K_0 = 20 \) as defined above.</li>
+                <li>\( c_{URS} = 1 \) for the "By-match" option and \( c_{URS} = 1.15 \) for "By-frame".</li>
+                <li>\( d : \) dependent upon "distance type"; equal to maximum distance (the number in the parenthesis) 
+                    for the "Best-of" option and equal to total frames <em>played</em> for "Free-frames".
+                </li>
+                <li>\( \gamma = 1/2 \) for the "By-match" option and \( \gamma = 1/3 \) for "By-frame".</li>
+            </ul>
             <h4>How To Apply</h4>
             <p>
                 Hopefully the interface is pretty self explanetary, however there are a few things you should note - 
                 particularly perteining to the match protocol:
                 
             </p>
-            <ul style="margin-bottom: 80px; font-family: Exo, sans-serif;">
+            <ul class="eq-list">
                 <li>You can't edit a match after it is finished.</li>
-                <li>Positive HC means player B starts with extra points and negative HC means player A gets a head start.</li>
-                <li>Please consider your spelling carefully when typing out player names.</li>
+                <li>Positive HC means player B starts with extra points and negative HC means player A gets a head 
+                    start. Denoted by number of points granted at the start of each frame, in parenthesis, behind the 
+                    player's name in the match display.
+                </li>
+                <li>Please consider your spelling carefully when typing out player names (or, preferably, use the autocompletion).</li>
                 <li>
-                    When creating a new match you can choose whether to play a specific distance or just playing 
-                    a non-specified number of frames (free-frames).
+                    When creating a new match you can choose whether to play a specific distance (best-of) or just playing 
+                    a non-specified number of frames (free-frames) where you can end the match whenever it suits you.
                 </li>
                 <li>Please note that matches of longer distances weigh slightly heavier when updating rating.</li>
                 <li>
@@ -135,7 +209,8 @@
                     expected outcome was closer to 4-2 will actually result in an increase of the losing player's
                     rating - like in chess); the "match"-option weighs slightly heavier than the "frames"-option.
                 </li>
-                <li>Update the score and other variables of a match by pressing the "edit"-button.</li>
+                <li>Update the score and other parameters of a match by clicking the "edit"-button 
+                    (which you can find within the expandable part of the match display).</li>
             </ul>
         </div>
 
