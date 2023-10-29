@@ -43,8 +43,8 @@
     padding: 0;
     padding-top: 40px;
     display: inline-block;
-    width: calc(70% - 300px);
-    min-width: 40%;
+    width: calc(80% - 300px);
+    min-width: 275px;
     position: relative;
     vertical-align: bottom;
     overflow: hidden;
@@ -95,22 +95,21 @@
 
 .list-table {
     color: white;
-    display: table;
+    display: block;
     justify-content: center;
     align-items: center;
     font-size: 0.9rem;
-    margin: 2rem;
+    margin: 2rem 1rem;
 
     border-collapse: collapse;
     box-shadow: 0 5px 10px #55555580;
     background-color: #555;
     text-align: center;
-    overflow: hidden;
+    overflow: auto;
 
-    max-width: 80vw;
-    overflow-x: auto;
-    white-space: nowrap;
     width: fit-content;
+    max-width: 75vw;
+    white-space: nowrap;
 }
 .list-table td.diag {background-color: #666;}
 .list-table td {
