@@ -12,18 +12,18 @@ class RatingList {
         this.players = [];
     }
 
-    toJSON() {
+    /*toJSON() {
         return {
             name: this.name,
             players: this.players.map(player => JSON.stringify(player.toJSON())) // Convert each player to JSON
         };
-    }
+    }*/
     static fromJSON(json) {
         const debugMode = false;
         if (debugMode) {console.log('Debug: fromJSON(json)');}
 
-        const parsedJSON = JSON.parse(json);
-        const { name, players } = parsedJSON;
+        //const parsedJSON = JSON.parse(json);
+        const { name, players } = json;
         
         if (debugMode) {console.log('parsedData.name =');}
         if (debugMode) {console.log(name);}
@@ -32,8 +32,10 @@ class RatingList {
         const ratingList = new RatingList(name);
         if (debugMode) {console.log('created new ratingList =');}
         if (debugMode) {console.log(ratingList);}
-        players.forEach(player => {
-            ratingList.addPlayer(Player.fromJSON(player));
+        players.forEach(playerData => {
+            //console.log('debug: RatingList.fromJSON(); playerData =');
+            //console.log(playerData);
+            ratingList.addPlayer(Player.fromJSON(playerData));
         });
         if (debugMode) {console.log('filled new ratingList =');}
         if (debugMode) {console.log(ratingList);}
@@ -66,7 +68,7 @@ class RatingList {
         return ratingList;
     }*/
 
-    
+    getName() { return this.name; }
     getSize() { return this.players.length; }
     getList() { return this.players; }
     getPlayers() {

@@ -80,7 +80,7 @@
                         </tr>
                     </table>
                     
-                    <p class="error-message">Error: please fill in all the required information</p>
+                    <p id="error-message-newPlayer" class="error-message">Error: please ensure you've filled in all the required information</p>
                     <button id="newplayer-confirm" class="button popup" style="left: 40px;">Add Player</button>
                     
                     <button class="button popup" style="right: 40px; text-align: right;" onclick="togglePlayerPopup()">Cancel</button>
@@ -156,7 +156,7 @@
                         
                     </table>
                     
-                    <p class="error-message">Error: please fill in all the required information</p>
+                    <p id="error-message-newMatch" class="error-message">Error: please ensure you've filled in all the required information</p>
                     <button id="newmatch-confirm" class="button popup" style="left: 40px;">Add Match</button>
                     
                     <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleMatchPopup()">Cancel</button>
@@ -468,6 +468,9 @@
     <footer>
         &copy; Magnus Martinsen Melien 2023. All rights reserved.
     </footer>
+
+    <!--Firebase: Realtime Database-->
+    <script type="module" src="scripts/hc-rating/database_init.js"></script>
 
     <script src="scripts/hc-rating/hc-rating-frontend.js"></script>
     <script type="module" src="scripts/hc-rating/hc-rating-backend-json.js"></script>

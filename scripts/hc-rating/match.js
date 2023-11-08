@@ -49,8 +49,18 @@ export class Match {
     {
         this.id = id;
 
-        this.playerA = playerA;
-        this.playerB = playerB;
+        if (playerA instanceof Player && playerB instanceof Player) {
+            this.playerA = playerA;
+            this.playerB = playerB;
+        } else {
+            try {
+                this.playerA = new Player(playerA.name, playerA.club, Number(playerA.rating), Number(playerA.robust));
+                this.playerB = new Player(playerB.name, playerB.club, Number(playerB.rating), Number(playerB.robust));
+            } catch(error) {
+                console.error('Error: failed to construct Match. Input not instance of Player.' + error.message);
+                alert('Error: failed to construct Match. Input not "instanceof" Player.' + error.message);
+            }
+        }
         this.totalDistance = totalDistance;
         this.HC = HC;
         this.distanceType = distanceType;
@@ -59,13 +69,29 @@ export class Match {
         this.state = MatchState.null;
         this.scoreA = 0;
         this.scoreB = 0;
-        this.currentRatingA = playerA.getRating();
-        this.currentRatingB = playerB.getRating();
+        
+        
+        /*console.log('debug: new Match: playerA =');
+        console.log(this.playerA);
+        /*const test = new Player("Test Name", "Test club", 1234, 0.7);
+        const test2 = new Player("new Name", "Test club", 1274, 0.7);
+        console.log('debug: new Match: testplayer =');
+        console.log(test);
+        console.log('is playerA instanceof Player =');
+        console.log(this.playerA instanceof Player);
+        /*console.log('debug: new Match: typeof(playerA) =');
+        console.log(typeof(playerA));
+        console.log('debug: new Match: typeof(testplayer) =');
+        console.log(typeof(test));*/
+        
+        
+        this.currentRatingA = this.playerA.getRating();
+        this.currentRatingB = this.playerB.getRating();
         this.deltaA = 0;
         this.deltaB = 0;
     }
 
-    toJSON() {
+    /*toJSON() {
         return {
             id: this.id,
 
@@ -84,19 +110,28 @@ export class Match {
             deltaA: this.deltaA,
             deltaB: this.deltaB
         };
-    }
-    static fromJSON(json) {
-        const parsedJSON = JSON.parse(json);
-        const { id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem, state, scoreA, scoreB, currentRatingA, currentRatingB, deltaA, deltaB } = parsedJSON;
-        const match = new Match(id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem);
-        match.state = state;
-        match.scoreA = scoreA;
-        match.scoreB = scoreB;
-        match.currentRatingA = currentRatingA;
-        match.currentRatingB = currentRatingB;
-        match.deltaA = deltaA;
-        match.deltaB = deltaB;
-        return match;
+    }*/
+    static fromJSON(json, ratingList) {
+        //const parsedJSON = JSON.parse(json);
+        try {
+            const { id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem, state, scoreA, scoreB, currentRatingA, currentRatingB, deltaA, deltaB } = json;
+            //console.log('mytest: fromJSON: playerA =');
+            //console.log(ratingList.getPlayerByName(playerA.name));
+            const match = new Match(Number(id), ratingList.getPlayerByName(playerA.name), ratingList.getPlayerByName(playerB.name), 
+                Number(totalDistance), Number(HC), Number(distanceType), Number(enumHCsystem));
+            match.state = Number(state);
+            match.scoreA = Number(scoreA);
+            match.scoreB = Number(scoreB);
+            match.currentRatingA = Number(currentRatingA);
+            match.currentRatingB = Number(currentRatingB);
+            match.deltaA = Number(deltaA);
+            match.deltaB = Number(deltaB);
+            //console.log(match);
+
+            return match;
+        } catch(error) {
+            console.error('Error: init match fromJSON(). ' + error.message);
+        }
     }
 
     updateRatingFromMatch() {

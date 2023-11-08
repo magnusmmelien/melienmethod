@@ -69,18 +69,20 @@ export class Player {
         //club.incSize();
     }
 
-    toJSON() {
+    /*toJSON() {
         return {
             name: this.name,
             club: this.club,
             rating: this.rating,
             robust: this.robust
         };
-    }
+    }*/
     static fromJSON(json) {
-        const parsedJSON = JSON.parse(json);
-        const { name, club, rating, robust } = parsedJSON;
-        return new Player(name, club, rating, robust);
+        //const parsedJSON = JSON.parse(json);
+        const { name, club, rating, robust } = json;
+        //console.log('debug: Player.fromJSON():' + `name=${name}, club=${club}, rating=${rating}, robust=${robust}`);
+        //console.log('robust =' + robust + ', typeof(robust) =' + typeof(robust));
+        return new Player(name, club, Number(rating), Number(robust));
     }
 
     // Getters and setters

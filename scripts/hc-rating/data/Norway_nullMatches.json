@@ -5,13 +5,13 @@
             "name": "Audun Risan Heimsjø",
             "club": "Trondheim Snooker",
             "rating": 1551.66,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Nassim Sekat",
             "club": "Trondheim Snooker",
             "rating": 1538.99,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 5,
         "HC": 0,
@@ -31,13 +31,13 @@
             "name": "Erik Dullerud",
             "club": "Trondheim Snooker",
             "rating": 1488,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Magnus Martinsen Melien",
             "club": "Trondheim Snooker",
             "rating": 1441.12,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 3,
         "HC": -15,
@@ -57,13 +57,13 @@
             "name": "Erik Dullerud",
             "club": "Trondheim Snooker",
             "rating": 1488,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Magnus Martinsen Melien",
             "club": "Trondheim Snooker",
             "rating": 1441.12,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 0,
         "HC": 0,
@@ -83,13 +83,13 @@
             "name": "Tore Hansen",
             "club": "Trondheim Snooker",
             "rating": 1415,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Sondre Sundt",
             "club": "Trondheim Snooker",
             "rating": 1162.32,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 3,
         "HC": 20,

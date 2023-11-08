@@ -4,14 +4,140 @@ import { Match, MatchState, DistanceType, HCsystem } from './match.js';
 import { listToJSON_local, listFromJSON_local, matchesToJSON_local, matchesFromJSON_local } from './jsonStream.js';
 import * as variables from './variables.js';
 // import { toggleExpand, startMatch_frontend, finishMatch_frontend, deleteMatch_frontend, toggleDeletePopup } from './hc-rating-frontend.js';
+// Database:
+import { getDatabase, ref, onValue, child, push, update, get } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+import { database, matchCounterRef, clubsRef } from './database_init.js';
 
+class LoadSystem {
+    static db = 'Firebase_database';
+    static local = 'local storage';
+    static init = 'initialize';
+}
 
+// Initialize: (import)
+const listName = 'Norway';
+const globalLoadSystem = LoadSystem.db;
+const writeToFileCont = true;
+const debugWrite = false;
+var ratingList = new RatingList(listName);
+var nullMatches = []; var liveMatches = []; var finishedMatches = [];
+const nullMatchesRef = ref(database, `${listName}_nullMatches`);
+const liveMatchesRef = ref(database, `${listName}_liveMatches`);
+const finishedMatchesRef = ref(database, `${listName}_finishedMatches`);
+
+if (!writeToFileCont) console.warn('Warning: writeTFileCont (write to db continuously) is false (off)!');
+
+// Utility functions
 function roundedToFixed(input, digits = 1) {
     var rounder = Math.pow(10, digits);
     return (Math.round(input * rounder) / rounder).toFixed(digits);
 }
+function autocomplete(inp, arr) {
+    //console.log('debug: autocomplete arr =');
+    //console.log(arr);
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          //if (arr[i].toUpperCase().includes(val.toUpperCase())) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            
+            const nameString = arr[i];
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function(e) {
+                // Insert the complete value for the autocomplete text field
+                inp.value = nameString;
+              
+                // Close the list of autocompleted values
+                closeAllLists();
+              });
+              
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
 
+// Backend functional functions
 function createNewPlayer_backend() {
+    document.getElementById('error-message-newPlayer').style = 'display: none;';
     var init_robust = 0;
     var init_rating = variables.defaultRating;
     
@@ -29,9 +155,17 @@ function createNewPlayer_backend() {
     try {
         ratingList.addNewPlayer(document.getElementById('newplayer-name-input').value, 
             document.getElementById('newplayer-club-input').value, init_rating, init_robust);
+        
+        // Database:
+        if (writeToFileCont) {
+            const updates = {};
+            updates[listName + '_RatingList'] = ratingList;
+            update(ref(database), updates);
+        }
     }
     catch(error) {
-        alert(error.message);
+        console.error(error);
+        document.getElementById('error-message-newPlayer').style = 'display: block;';
         return;
     }
     
@@ -44,10 +178,8 @@ function createNewPlayer_backend() {
     autocomplete(document.getElementById("hcCalc-playerR-input"), ratingList.getPlayers());
 }
 document.getElementById('newplayer-confirm').addEventListener("click", function() {createNewPlayer_backend();});
-// localhost import matchcounter:
-import matchCounterData from './data/matchCounter.json' assert { type: 'json'};
-var matchCounter = matchCounterData[0].id;
 function createNewMatch_backend() {
+    document.getElementById('error-message-newMatch').style = 'display: none;';
     // create new match here:
     //const url = 'scripts/hc-rating/data/matchCounter.json';
     //var matchCounter = 0;
@@ -69,27 +201,45 @@ function createNewMatch_backend() {
     }).catch(error => console.error('Error:', error));
     */
 
-    const playerA = ratingList.getPlayerByName(document.getElementById('newmatch-playerA-input').value);
-    const playerB = ratingList.getPlayerByName(document.getElementById('newmatch-playerB-input').value);
-    var distanceType = DistanceType.bestOf;
-    if (document.getElementById('button-free-frames').classList.contains('active')) distanceType = DistanceType.justFrames;
-    var distance = 0;
-    if (distanceType === DistanceType.bestOf) {
-        if (document.getElementById('match-distance-input').value === '') distance = 5; // default distance
-        else {distance = Number(document.getElementById('match-distance-input').value);}
+
+    try{
+        const playerA = ratingList.getPlayerByName(document.getElementById('newmatch-playerA-input').value);
+        const playerB = ratingList.getPlayerByName(document.getElementById('newmatch-playerB-input').value);
+        var distanceType = DistanceType.bestOf;
+        if (document.getElementById('button-free-frames').classList.contains('active')) distanceType = DistanceType.justFrames;
+        var distance = 0;
+        if (distanceType === DistanceType.bestOf) {
+            if (document.getElementById('match-distance-input').value === '') distance = 5; // default distance
+            else {distance = Number(document.getElementById('match-distance-input').value);}
+        }
+        var hc = 0;
+        if (document.getElementById('button-HC').classList.contains('active')) {
+            if (document.getElementById('newmatch-HC-input').value === '') { // i.e. "left empty"
+                hc = ratingToHC(playerA.getRating(), playerB.getRating());
+                //hc = ratingList.getHC(playerA, playerB);
+            } 
+            else {hc = Number(document.getElementById('newmatch-HC-input').value);}
+        }
+        var urs = HCsystem.frame;
+        if (document.getElementById('button-match').classList.contains('active')) {urs = HCsystem.match;}
+        
+        nullMatches.unshift(new Match(++matchCounter, playerA, playerB, distance, hc, distanceType, urs));
+
+        // Database:
+        if (writeToFileCont) {
+            const updates = {};
+            // update match counter
+            updates['matchCounter'] = matchCounter;
+            // update name_nullMatches
+            updates[listName + '_nullMatches'] = nullMatches;
+            update(ref(database), updates);
+        }
+    } 
+    catch(error) {
+        console.error(error);
+        document.getElementById('error-message-newMatch').style = 'display: block;';
+        return;
     }
-    var hc = 0;
-    if (document.getElementById('button-HC').classList.contains('active')) {
-        if (document.getElementById('newmatch-HC-input').value === '') { // i.e. "left empty"
-            hc = ratingToHC(playerA.getRating(), playerB.getRating());
-            //hc = ratingList.getHC(playerA, playerB);
-        } 
-        else {hc = Number(document.getElementById('newmatch-HC-input').value);}
-    }
-    var urs = HCsystem.frame;
-    if (document.getElementById('button-match').classList.contains('active')) {urs = HCsystem.match;}
-    
-    nullMatches.unshift(new Match(++matchCounter, playerA, playerB, distance, hc, distanceType, urs));
 
     // close window
     toggleMatchPopup();
@@ -97,7 +247,8 @@ function createNewMatch_backend() {
 }
 document.getElementById('newmatch-confirm').addEventListener("click", function() {createNewMatch_backend();});
 
-// Copied functions from 'hc-rating-frontend.js' because it can't be a module/use "export"...
+// Visual functions
+// Copied functions from 'hc-rating-frontend.js' because it can't be a module (i.e. use "export")...
 function toggleExpand(i) {
     const expandButton = document.getElementById(`match-${i}-expand`);
     const infoRow = document.getElementById(`match-${i}-info`);
@@ -153,82 +304,6 @@ function toggleFinishPopup_backend() {
 function toggleDeletePopup_backend() {
     document.getElementById("popup-delete").classList.toggle("active");
 }
-function startMatch_backend(id) {
-    var match = getMatch(id);
-    nullMatches.splice(nullMatches.indexOf(match), 1);
-    match.startMatch();
-    liveMatches.unshift(match);
-    redraw_ml();
-}
-function finishMatch_backend() {
-    //finish match backend
-    const match = getMatch(Number(document.getElementById('confirm-finish-button').name), 'live');
-    match.finishMatch();
-    liveMatches.splice(liveMatches.indexOf(match), 1);
-    finishedMatches.unshift(match);
-    //close confirm window
-    toggleFinishPopup_backend();
-    redraw();
-}
-document.getElementById('confirm-finish-button').addEventListener("click", function () {
-    if (!getMatch(Number(this.name)).isMatchFinished()) {
-        toggleFinishPopup();
-        toggleNotFinishPopup();
-    } else {
-        finishMatch_backend(); 
-    }
-});
-document.getElementById('confirm-not-finish-button').addEventListener("click", function () { 
-    const match = getMatch(Number(document.getElementById('confirm-finish-button').name));
-    
-    match.setHCsystem(HCsystem.frame);
-    match.setDistanceType(DistanceType.justFrames);
-    finishMatch_backend(); 
-    toggleFinishPopup();
-    toggleNotFinishPopup();
-});
-function deleteMatch_backend() {
-    //delete match id backend
-
-    //close confirm window
-    toggleDeletePopup_backend();
-}
-document.getElementById('confirm-delete-button').addEventListener("click", function () { deleteMatch_backend(); });
-function updateMatch_backend() {
-    // update match stats
-    const id = Number(document.getElementById('confirm-edit-button').name);
-    const match = getMatch(id);
-
-    // score
-    if (match.getState() === MatchState.live) {
-        match.updateScore(Number(document.getElementById('edit-scoreA-input').value), 
-            Number(document.getElementById('edit-scoreB-input').value));
-    }
-    // distance type
-    if (document.getElementById('edit-button-best-of').classList.contains('active')) {match.setDistanceType(DistanceType.bestOf);}
-    else {match.setDistanceType(DistanceType.justFrames);}
-    // distance
-    match.setDistance(Number(document.getElementById('edit-distance-input').value));
-    // hc
-    if (document.getElementById('edit-button-HC').classList.contains('active')) { // hc is checked "on"
-        if (['', ' ', '\n'].includes(document.getElementById('edit-HC-input').value)) { // i.e. "left empty"
-            match.setHC(ratingToHC(match.getPlayerA().getRating(), match.getPlayerB().getRating()));
-            //match.setHC(ratingList.getHC(match.getPlayerA(), match.getPlayerB()));
-        } else {
-            match.setHC(Number(document.getElementById('edit-HC-input').value));
-        }
-    } else {
-        match.setHC(0);
-    }
-    //urs
-    if (document.getElementById('edit-button-match').classList.contains('active')) {match.setHCsystem(HCsystem.match);}
-    else {match.setHCsystem(HCsystem.frame);}
-
-    // close edit window
-    toggleEditPopup_backend();
-    redraw_ml();
-}
-document.getElementById('confirm-edit-button').addEventListener("click", function () { updateMatch_backend(); });
 function hcCalcCheckHC_backend() {
     const myElement = document.getElementById('output-HC');
     const block = document.getElementById('output-HC-block');
@@ -243,6 +318,10 @@ function hcCalcCheckHC_backend() {
         try {
             const playerA = ratingList.getPlayerByName(document.getElementById('hcCalc-playerA-input').value);
             const playerB = ratingList.getPlayerByName(document.getElementById('hcCalc-playerB-input').value);
+            console.log('debug: ratingList =');
+            console.log(ratingList);
+            console.log('debug: player A =');
+            console.log(playerA);
             myElement.textContent = ratingToHC(playerA.getRating(), playerB.getRating());
         } catch (error) {
             console.error(error);
@@ -317,6 +396,169 @@ function hcCalcCheckRating_backend() {
 document.getElementById('check-rating').addEventListener("click", function () { hcCalcCheckRating_backend(); });
 
 
+// Backend functional functions
+function startMatch_backend(id) {
+    var match = getMatch(id);
+    nullMatches.splice(nullMatches.indexOf(match), 1);
+    match.startMatch();
+
+    liveMatches.unshift(match);
+
+    try {
+        // update db:
+        // null and liveMatches
+        if (writeToFileCont) {
+            const updates = {};
+            // update name_nullMatches
+            updates[listName + '_nullMatches'] = nullMatches;
+            // update name_liveMatches
+            updates[listName + '_liveMatches'] = liveMatches;
+            update(ref(database), updates);
+        }
+    } catch(error) {
+        console.error('Error starting (updating db) match (id = ' + id + '): ' + error.message + '\nPlease contact admin.');
+        alert('Error starting (updating db) match (id = ' + id + '): ' + error.message + '\nPlease contact admin.');
+    }
+
+    redraw_ml();
+}
+function finishMatch_backend() {
+    // finish match backend
+    const match = getMatch(Number(document.getElementById('confirm-finish-button').name), 'live');
+    match.finishMatch();
+    liveMatches.splice(liveMatches.indexOf(match), 1);
+
+    finishedMatches.unshift(match);
+
+    try {
+        // update db:
+        // liveMatches AND finishedMatches
+        if (writeToFileCont) {
+            const updates = {};
+            // update name_liveMatches
+            updates[listName + '_liveMatches'] = liveMatches;
+            // update name_finishedMatches
+            updates[listName + '_finishedMatches'] = finishedMatches;
+            // update rating list
+            updates[listName + '_RatingList'] = ratingList;
+            update(ref(database), updates);
+        }
+    } catch(error) {
+        console.error('Error finishing (updating db) match (id = ' + id + '): ' + error.message + '\nPlease contact admin.');
+        alert('Error finishing (updating db) match (id = ' + match.getID() + '): ' + error.message + '\nPlease contact admin.');
+    }
+
+    // close confirm window
+    toggleFinishPopup_backend();
+    redraw();
+}
+document.getElementById('confirm-finish-button').addEventListener("click", function () {
+    if (!getMatch(Number(this.name)).isMatchFinished()) {
+        toggleFinishPopup();
+        toggleNotFinishPopup();
+    } else {
+        finishMatch_backend(); 
+    }
+});
+document.getElementById('confirm-not-finish-button').addEventListener("click", function () { 
+    const match = getMatch(Number(document.getElementById('confirm-finish-button').name));
+    
+    match.setHCsystem(HCsystem.frame);
+    match.setDistanceType(DistanceType.justFrames);
+    finishMatch_backend(); 
+    toggleFinishPopup();
+    toggleNotFinishPopup();
+});
+function deleteMatch_backend() {
+    //delete match id backend
+    try {
+        const match = getMatch(Number(document.getElementById('confirm-delete-button').name));
+        const updates = {};
+
+        if (match.getState() === MatchState.null) {
+            nullMatches.splice(nullMatches.indexOf(match), 1); 
+            // update name_nullMatches
+            updates[listName + '_nullMatches'] = nullMatches;
+        }
+        else if (match.getState() === MatchState.live) {
+            liveMatches.splice(liveMatches.indexOf(match), 1);
+            // update name_liveMatches
+            updates[listName + '_liveMatches'] = liveMatches;
+        }
+        else throw new Error(`Error: failed to delete match (id = ${document.getElementById('confirm-delete-button').name})`);
+
+        // update db:
+        if (writeToFileCont) update(ref(database), updates);
+
+    } catch(error) {
+        console.error(error);
+        alert('Error deleting match: ' + error.message + '\nPlease contact admin.');
+    }
+    
+    //close confirm window
+    toggleDeletePopup_backend();
+    redraw_ml();
+}
+document.getElementById('confirm-delete-button').addEventListener("click", function () { deleteMatch_backend(); });
+function updateMatch_backend() {
+    try {
+    // update match stats
+    const id = Number(document.getElementById('confirm-edit-button').name);
+    const match = getMatch(id);
+
+    // score
+    if (match.getState() === MatchState.live) {
+        match.updateScore(Number(document.getElementById('edit-scoreA-input').value), 
+            Number(document.getElementById('edit-scoreB-input').value));
+    }
+    // distance type
+    if (document.getElementById('edit-button-best-of').classList.contains('active')) {match.setDistanceType(DistanceType.bestOf);}
+    else {match.setDistanceType(DistanceType.justFrames);}
+    // distance
+    match.setDistance(Number(document.getElementById('edit-distance-input').value));
+    // hc
+    if (document.getElementById('edit-button-HC').classList.contains('active')) { // hc is checked "on"
+        if (['', ' ', '\n'].includes(document.getElementById('edit-HC-input').value)) { // i.e. "left empty"
+            match.setHC(ratingToHC(match.getPlayerA().getRating(), match.getPlayerB().getRating()));
+            //match.setHC(ratingList.getHC(match.getPlayerA(), match.getPlayerB()));
+        } else {
+            match.setHC(Number(document.getElementById('edit-HC-input').value));
+        }
+    } else {
+        match.setHC(0);
+    }
+    //urs
+    if (document.getElementById('edit-button-match').classList.contains('active')) {match.setHCsystem(HCsystem.match);}
+    else {match.setHCsystem(HCsystem.frame);}
+
+    // update db:
+    if (writeToFileCont) {
+        const updates = {};
+        if (match.getState() === MatchState.null) {
+            // update name_nullMatches
+            updates[listName + '_nullMatches'] = nullMatches;
+        }
+        else if (match.getState() === MatchState.live) {
+            // update name_liveMatches
+            updates[listName + '_liveMatches'] = liveMatches;
+        }
+        else throw new Error('Ops! This was not supposed to happen... did you try to delete a finished match??? dunno...');
+        update(ref(database), updates);
+    }
+
+    } catch(error) {
+        console.error('Error trying to update match stats for match id = ' + id+ '.\nPlease contact admin.');
+        alert('Error trying to update match stats for match id = ' + id + '.\nPlease contact admin.');
+    }
+
+    // close edit window
+    toggleEditPopup_backend();
+    redraw_ml();
+}
+document.getElementById('confirm-edit-button').addEventListener("click", function () { updateMatch_backend(); });
+
+
+// Graphics functions
 function populateRatingListTable(ratingList) {
     const table = document.getElementById('list-table-rating').getElementsByTagName('tbody')[0];
     table.innerHTML = '';
@@ -497,10 +739,47 @@ function populateMatchListRow_main(match, mainRow) {
         minusButtonB.classList.add('score-button');
         minusButtonB.classList.add('score-button-minus-right');
 
-        plusButtonA.addEventListener("click", function() { getMatch(myID, 'live').incA(); scoreA.textContent = match.getScoreA(); });
-        minusButtonA.addEventListener("click", function() { getMatch(myID, 'live').decA(); scoreA.textContent = match.getScoreA(); });
-        plusButtonB.addEventListener("click", function() { getMatch(myID, 'live').incB(); scoreB.textContent = match.getScoreB(); });
-        minusButtonB.addEventListener("click", function() { getMatch(myID, 'live').decB(); scoreB.textContent = match.getScoreB(); });
+        const myIndex = liveMatches.indexOf(match);
+        plusButtonA.addEventListener("click", function() { 
+            getMatch(myID, 'live').incA(); scoreA.textContent = match.getScoreA(); 
+            // update db:
+            if (writeToFileCont) {
+                const updates = {};
+                // update match/scoreA
+                updates[`${listName}_liveMatches/${myIndex}/scoreA`] = match.getScoreA();
+                update(ref(database), updates);
+            }
+        });
+        minusButtonA.addEventListener("click", function() { 
+            getMatch(myID, 'live').decA(); scoreA.textContent = match.getScoreA(); 
+            // update db:
+            if (writeToFileCont) {
+                const updates = {};
+                // update match/scoreA
+                updates[`${listName}_liveMatches/${myIndex}/scoreA`] = match.getScoreA();
+                update(ref(database), updates);
+            }            
+        });
+        plusButtonB.addEventListener("click", function() { 
+            getMatch(myID, 'live').incB(); scoreB.textContent = match.getScoreB(); 
+            // update db:
+            if (writeToFileCont) {
+                const updates = {};
+                // update match/scoreB
+                updates[`${listName}_liveMatches/${myIndex}/scoreB`] = match.getScoreB();
+                update(ref(database), updates);
+            }   
+        });
+        minusButtonB.addEventListener("click", function() { 
+            getMatch(myID, 'live').decB(); scoreB.textContent = match.getScoreB(); 
+            // update db:
+            if (writeToFileCont) {
+                const updates = {};
+                // update match/scoreB
+                updates[`${listName}_liveMatches/${myIndex}/scoreB`] = match.getScoreB();
+                update(ref(database), updates);
+            } 
+        });
 
         const plusButtonAspan = document.createElement('span');
         const minusButtonAspan = document.createElement('span');
@@ -668,6 +947,12 @@ function populateMatchListTable(matches) {
     tableBody.innerHTML = ''; // Clear the table body before populating new data
 
     matches.forEach((match, index) => {
+        // debug test for matches[0]:
+        if (false) {
+        //if (index === 0) {
+            console.log('debug test: matches[' + index + '] is instanceof Match = ' + (match instanceof Match) + ' \n matches[' + index + '] =');
+            console.log(match);
+        }
         // Main row
         const mainRow = document.createElement('tr');
         mainRow.id = `match-${match.getID()}`;
@@ -689,19 +974,38 @@ function populateMatchListTable(matches) {
     });
 }
 
-class LoadSystem {
-    static db = 'Firebase_database';
-    static local = 'local storage';
-    static init = 'initialize';
-}
+
+// Database loading
 function loadRatingList(name, loadSystem) {
+    var myList = new RatingList(name);
     if (loadSystem === LoadSystem.db) {
-        return listFromJSON_db(name);
+        console.log('Initializing rating list from db');
+        //console.log(ratingList);
+        // initialize and load "onValue" from firebase
+        const ratingListRef = ref(database, `${name}_RatingList`);
+        onValue(ratingListRef, (snapshot) => {
+            ratingList = RatingList.fromJSON(snapshot.val());
+            console.log('debug: updated ratingList_db: list =');
+            console.log(ratingList);
+
+            autocomplete(document.getElementById("newmatch-playerA-input"), ratingList.getPlayers());
+            autocomplete(document.getElementById("newmatch-playerB-input"), ratingList.getPlayers());
+            autocomplete(document.getElementById("hcCalc-playerA-input"), ratingList.getPlayers());
+            autocomplete(document.getElementById("hcCalc-playerB-input"), ratingList.getPlayers());
+            autocomplete(document.getElementById("hcCalc-playerR-input"), ratingList.getPlayers());
+
+            ratingList.sort();
+            redraw_rl();
+        });
+
+        return ratingList;
+
     } else if (loadSystem === LoadSystem.local) {
         return listFromJSON_local(`data/${name}_RatingList.json`, false);
         //return localStorage.getItem(name);
     } else if (loadSystem === LoadSystem.init) {
-        var myList = new RatingList(name);
+        console.log('Initializing rating list from example');
+
         myList.addNewPlayer("Ronnie O'Sullivan",'',2651,0.2);
         myList.addNewPlayer('Kurt Maflin','Oslo Snooker',2407,0.54);
         myList.addNewPlayer('Audun Risan Heimsjø','Trondheim Snooker',1551.66,1);
@@ -717,22 +1021,80 @@ function loadRatingList(name, loadSystem) {
         myList.addNewPlayer('Geir Ellefsen','Trondheim Snooker',926.867,1);
         myList.addNewPlayer('Ivar Havtor Hovden','Trondheim Snooker',893,1);
         myList.addNewPlayer('Bjørnar Jacobsen','Trondheim Snooker',869.185,1);
+
+        autocomplete(document.getElementById("newmatch-playerA-input"), myList.getPlayers());
+        autocomplete(document.getElementById("newmatch-playerB-input"), myList.getPlayers());
+        autocomplete(document.getElementById("hcCalc-playerA-input"), myList.getPlayers());
+        autocomplete(document.getElementById("hcCalc-playerB-input"), myList.getPlayers());
+        autocomplete(document.getElementById("hcCalc-playerR-input"), myList.getPlayers());
+
         return myList;
-    } else {
-        return null;
-    }
+    } else throw new Error('Error: loadRatingList(' + name + '); error loadSystem.');
 }
-function loadMatchList(name, ratingList, loadSystem) {
+// for some reason the function above works, but not the one below so I had to move it outside...
+function loadMatchList(name, loadSystem) {
+    const debugWrite = false;
+    if (debugWrite) console.log('Initializing matches; nullMatches =');
+    if (debugWrite) console.log(nullMatches);
+    
+    
+
     if (loadSystem === LoadSystem.db) {
-        return [matchesFromJSON_db(ratingList, `data/${name}_nullMatches.json`), 
-            matchesFromJSON_db(ratingList, `data/${name}_liveMatches.json`), 
-            matchesFromJSON_db(ratingList, `data/${name}_finishedMatches.json`)];
+        console.log('Initializing match list from db');
+        if (debugWrite) console.log(nullMatches);
+
+        const nullMatchesRef = ref(database, `${listName}_nullMatches`);
+        const liveMatchesRef = ref(database, `${listName}_liveMatches`);
+        const finishedMatchesRef = ref(database, `${listName}_finishedMatches`);
+
+        onValue(nullMatchesRef, (snapshot) => {
+            nullMatches = [];
+            snapshot.val().forEach(matchData => {
+                nullMatches.unshift(Match.fromJSON(matchData, ratingList));
+            });
+            const test = nullMatches;
+            if (debugWrite) console.log('debug: loadMatchList_db: nullMatches_test =');
+            if (debugWrite) console.log(test);
+
+            //populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
+            redraw_ml();
+        });
+        onValue(liveMatchesRef, (snapshot) => {
+            liveMatches = [];
+            snapshot.val().forEach(matchData => {
+                liveMatches.push(Match.fromJSON(matchData, ratingList));
+            });
+            if (debugWrite) console.log('debug: loadMatchList_db: liveMatches =');
+            if (debugWrite) console.log(liveMatches);
+
+            //populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
+            redraw_ml();
+        });
+        onValue(finishedMatchesRef, (snapshot) => {
+            if (debugWrite) console.log('debug: loadMatchList_db: PRE finishedMatches =');
+            if (debugWrite) console.log(finishedMatches);
+            finishedMatches = [];
+            snapshot.val().forEach(matchData => {
+                finishedMatches.push(Match.fromJSON(matchData, ratingList));
+            });
+            if (true) console.log('debug: loadMatchList_db: finishedMatches =');
+            if (true) console.log(finishedMatches);
+
+            //populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
+            redraw_ml();
+        });
+
+        if (debugWrite) console.log('debug: loadMatchList_db: finishedMatches =');
+        if (debugWrite) console.log(finishedMatches);
+        
+        //return [nullMatches, liveMatches, finishedMatches];
+
     } else if (loadSystem === LoadSystem.local) {
         return [matchesFromJSON_local(ratingList, `data/${name}_nullMatches.json`), 
         matchesFromJSON_local(ratingList, `data/${name}_liveMatches.json`), 
         matchesFromJSON_local(ratingList, `data/${name}_finishedMatches.json`)];
     } else if (loadSystem === LoadSystem.init) {
-        console.log('Debug: Initializing match list to example matches.');
+        console.log('Initializing match list from examples');
         var nullMatches = []; var liveMatches = []; var finishedMatches = [];
         
         // init finished matches
@@ -782,11 +1144,7 @@ function loadMatchList(name, ratingList, loadSystem) {
     }
 }
 
-
-// Initialize: (import from files)
-const listName = 'test';
-const writeToFileCont = true;
-
+/* // Old method for saving (don't use)
 // export to files when finished (and possibly continuously during on interaction)
 function saveAllJSON_local(ratingList, nullMatches, liveMatches, finishedMatches) {
     try {
@@ -800,17 +1158,74 @@ function saveAllJSON_local(ratingList, nullMatches, liveMatches, finishedMatches
     }
 }
 // Make it so the list automatically update continuously when using Firebase db
+*/
+
+// main
+try {
+    // db import matchcounter and clubs:
+    var matchCounter = 0;
+    onValue(matchCounterRef, (snapshot) => {
+        matchCounter = snapshot.val();
+        console.log('debug: matchCounter = ' + matchCounter);
+    });
+    var clubs = [];
+    onValue(clubsRef, (snapshot) => {
+        const clubsData_db = snapshot.val();
+        clubs = clubsData_db.map(item => item.name);
+        autocomplete(document.getElementById("newplayer-club-input"), clubs);
+    });
+
+    ratingList = loadRatingList(listName, globalLoadSystem);
+    /*//console.log('Test: ratingList_db =');
+    //console.log(ratingList);
+    //[nullMatches, liveMatches, finishedMatches] = loadMatchList(listName, globalLoadSystem);
+    //loadMatchList(listName, globalLoadSystem);*/
+
+    onValue(nullMatchesRef, (snapshot) => {
+        nullMatches = [];
+        snapshot.val().forEach(matchData => {
+            nullMatches.unshift(Match.fromJSON(matchData, ratingList));
+        });
+        const test = nullMatches;
+        if (debugWrite) console.log('debug: loadMatchList_db: nullMatches_test =');
+        if (debugWrite) console.log(test);
+
+        //populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
+        redraw_ml();
+    });
+    onValue(liveMatchesRef, (snapshot) => {
+        liveMatches = [];
+        snapshot.val().forEach(matchData => {
+            liveMatches.push(Match.fromJSON(matchData, ratingList));
+        });
+        if (debugWrite) console.log('debug: loadMatchList_db: liveMatches =');
+        if (debugWrite) console.log(liveMatches);
+
+        //populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
+        redraw_ml();
+    });
+    onValue(finishedMatchesRef, (snapshot) => {
+        if (debugWrite) console.log('debug: loadMatchList_db: PRE finishedMatches =');
+        if (debugWrite) console.log(finishedMatches);
+        finishedMatches = [];
+        snapshot.val().forEach(matchData => {
+            finishedMatches.push(Match.fromJSON(matchData, ratingList));
+        });
+        if (debugWrite) console.log('debug: loadMatchList_db: finishedMatches =');
+        if (debugWrite) console.log(finishedMatches);
+
+        //populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
+        redraw_ml();
+    });
+
+    console.log('Initialization successful!')
+} catch(error) {
+    console.error('An error initializing data occured: '+ error.message);
+}
 
 
-// Initialization:
-var ratingList = new RatingList(listName);
-var nullMatches = []; var liveMatches = []; var finishedMatches = [];
-ratingList = loadRatingList(listName, LoadSystem.init);
-//console.log('init test: ratingList =');
-//console.log(ratingList);
-[nullMatches, liveMatches, finishedMatches] = loadMatchList('testMatches', ratingList, LoadSystem.init);
-
-/* // The real retrieving:
+/* // Old init method (don't use)
+// The real retrieving:
 try {
     ratingList =      listFromJSON_db(`https://server.com/scripts/hc-rating/data/${listName}_RatingList.json`);
     nullMatches =     matchesFromJSON_db(ratingList, `https://server.com/scripts/hc-rating/data/${listName}_nullMatches.json`);
@@ -830,12 +1245,21 @@ function redraw_rl() {
     populateRatingListTable(ratingList);
 }
 function redraw_ml() {
-    if (finishedMatches.length > 32) {
-        while (finishedMatches.length > 32) {
-            finishedMatches.pop();
+    /*console.log('debug test: finishedMatches.length =');
+    console.log(finishedMatches.length);*/
+    if (nullMatches && liveMatches && finishedMatches) {
+        if (finishedMatches.length > 32) {
+            while (finishedMatches.length > 32) {
+                finishedMatches.pop();
+            }
         }
+        const matches = nullMatches.concat(liveMatches, finishedMatches);
+        //console.log('debug: redraw_ml(): matches =');
+        //console.log(matches);
+        populateMatchListTable(matches);
+    } else {
+        throw new Error('Error: some matches undefined - unable to display matchlist.')
     }
-    populateMatchListTable(nullMatches.concat(liveMatches, finishedMatches));
 }
 function redraw() {redraw_rl(); redraw_ml();}
 function getMatch(id, states='all') {
@@ -867,116 +1291,6 @@ function getMatch(id, states='all') {
     }
 }
 
-/*Autocomplete input test*/
-import clubsData from './data/clubs.json' assert { type: 'json'};
-const clubs = clubsData.map(item => item.name);
-function autocomplete(inp, arr) {
-    /*the autocomplete function takes two arguments,
-    the text field element and an array of possible autocompleted values:*/
-    var currentFocus;
-    /*execute a function when someone writes in the text field:*/
-    inp.addEventListener("input", function(e) {
-        var a, b, i, val = this.value;
-        /*close any already open lists of autocompleted values*/
-        closeAllLists();
-        if (!val) { return false;}
-        currentFocus = -1;
-        /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
-        this.parentNode.appendChild(a);
-        /*for each item in the array...*/
-        for (i = 0; i < arr.length; i++) {
-          /*check if the item starts with the same letters as the text field value:*/
-          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          //if (arr[i].toUpperCase().includes(val.toUpperCase())) {
-            /*create a DIV element for each matching element:*/
-            b = document.createElement("DIV");
-            /*make the matching letters bold:*/
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            /*insert a input field that will hold the current array item's value:*/
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-            
-            const nameString = arr[i];
-            /*execute a function when someone clicks on the item value (DIV element):*/
-            b.addEventListener("click", function(e) {
-                // Insert the complete value for the autocomplete text field
-                inp.value = nameString;
-              
-                // Close the list of autocompleted values
-                closeAllLists();
-              });
-              
-            a.appendChild(b);
-          }
-        }
-    });
-    /*execute a function presses a key on the keyboard:*/
-    inp.addEventListener("keydown", function(e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-          /*If the arrow DOWN key is pressed,
-          increase the currentFocus variable:*/
-          currentFocus++;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 38) { //up
-          /*If the arrow UP key is pressed,
-          decrease the currentFocus variable:*/
-          currentFocus--;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 13) {
-          /*If the ENTER key is pressed, prevent the form from being submitted,*/
-          e.preventDefault();
-          if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
-            if (x) x[currentFocus].click();
-          }
-        }
-    });
-    function addActive(x) {
-      /*a function to classify an item as "active":*/
-      if (!x) return false;
-      /*start by removing the "active" class on all items:*/
-      removeActive(x);
-      if (currentFocus >= x.length) currentFocus = 0;
-      if (currentFocus < 0) currentFocus = (x.length - 1);
-      /*add class "autocomplete-active":*/
-      x[currentFocus].classList.add("autocomplete-active");
-    }
-    function removeActive(x) {
-      /*a function to remove the "active" class from all autocomplete items:*/
-      for (var i = 0; i < x.length; i++) {
-        x[i].classList.remove("autocomplete-active");
-      }
-    }
-    function closeAllLists(elmnt) {
-      /*close all autocomplete lists in the document,
-      except the one passed as an argument:*/
-      var x = document.getElementsByClassName("autocomplete-items");
-      for (var i = 0; i < x.length; i++) {
-        if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-      }
-    }
-  }
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-      closeAllLists(e.target);
-  });
-}
-autocomplete(document.getElementById("newplayer-club-input"), clubs);
-autocomplete(document.getElementById("newmatch-playerA-input"), ratingList.getPlayers());
-autocomplete(document.getElementById("newmatch-playerB-input"), ratingList.getPlayers());
-autocomplete(document.getElementById("hcCalc-playerA-input"), ratingList.getPlayers());
-autocomplete(document.getElementById("hcCalc-playerB-input"), ratingList.getPlayers());
-autocomplete(document.getElementById("hcCalc-playerR-input"), ratingList.getPlayers());
-
 /* // Tests: Player storage JSON tests:
 const player1 = new Player('Magnus Bajs', 'TS', 1379);
 console.log(player1);
@@ -989,7 +1303,7 @@ console.log('jsontest2 =');
 console.log(jsontest2);
 console.log('jsontest3 =');
 console.log(jsontest3);
-*/
+
 
 /* // Tests: for rating list storage
 ratingList.addNewPlayer('Magnus', 'TS');

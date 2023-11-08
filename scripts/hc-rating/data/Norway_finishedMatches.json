@@ -1,17 +1,17 @@
 [
     {
-        "id": 1,
+        "id": 9,
         "playerA": {
             "name": "Audun Risan Heimsjø",
             "club": "Trondheim Snooker",
             "rating": 1555.66,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Nassim Sekat",
             "club": "Trondheim Snooker",
             "rating": 1534.99,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 5,
         "HC": 0,
@@ -26,18 +26,18 @@
         "deltaB": -4
     },
     {
-        "id": 2,
+        "id": 10,
         "playerA": {
             "name": "Erik Dullerud",
             "club": "Trondheim Snooker",
             "rating": 1482,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Magnus Martinsen Melien",
             "club": "Trondheim Snooker",
             "rating": 1447.12,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 3,
         "HC": 0,
@@ -52,18 +52,18 @@
         "deltaB": 6
     },
     {
-        "id": 3,
+        "id": 11,
         "playerA": {
             "name": "Erik Dullerud",
             "club": "Trondheim Snooker",
             "rating": 1491,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Magnus Martinsen Melien",
             "club": "Trondheim Snooker",
             "rating": 1438.12,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 0,
         "HC": -15,
@@ -78,18 +78,18 @@
         "deltaB": -3
     },
     {
-        "id": 4,
+        "id": 12,
         "playerA": {
             "name": "Tore Hansen",
             "club": "Trondheim Snooker",
             "rating": 1411,
-            "robustness": 1
+            "robust": 1
         },
         "playerB": {
             "name": "Sondre Sundt",
             "club": "Trondheim Snooker",
             "rating": 1166.32,
-            "robustness": 1
+            "robust": 1
         },
         "totalDistance": 3,
         "HC": 20,
