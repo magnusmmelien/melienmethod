@@ -1184,7 +1184,7 @@ try {
     onValue(nullMatchesRef, (snapshot) => {
         nullMatches = [];
         snapshot.val().forEach(matchData => {
-            nullMatches.unshift(Match.fromJSON(matchData, ratingList));
+            nullMatches.push(Match.fromJSON(matchData, ratingList));
         });
         const test = nullMatches;
         if (debugWrite) console.log('debug: loadMatchList_db: nullMatches_test =');
