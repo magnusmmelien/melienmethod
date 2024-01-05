@@ -25,7 +25,7 @@ const nullMatchesRef = ref(database, `${listName}_nullMatches`);
 const liveMatchesRef = ref(database, `${listName}_liveMatches`);
 const finishedMatchesRef = ref(database, `${listName}_finishedMatches`);
 
-if (!writeToFileCont) console.warn('Warning: writeTFileCont (write to db continuously) is false (off)!');
+if (!writeToFileCont) console.warn('Warning: writeTFileCont (write to db continuously) is off (false)!');
 
 // Utility functions
 function roundedToFixed(input, digits = 1) {
@@ -137,7 +137,7 @@ function autocomplete(inp, arr) {
 
 // Backend functional functions
 function createNewPlayer_backend() {
-    document.getElementById('error-message-newPlayer').style = 'display: none;';
+    document.getElementById('error-message-newPlayer').classList.remove('show');
     var init_robust = 0;
     var init_rating = variables.defaultRating;
     
@@ -165,7 +165,7 @@ function createNewPlayer_backend() {
     }
     catch(error) {
         console.error(error);
-        document.getElementById('error-message-newPlayer').style = 'display: block;';
+        document.getElementById('error-message-newPlayer').classList.add('show');
         return;
     }
     
@@ -176,10 +176,11 @@ function createNewPlayer_backend() {
     autocomplete(document.getElementById("hcCalc-playerA-input"), ratingList.getPlayers());
     autocomplete(document.getElementById("hcCalc-playerB-input"), ratingList.getPlayers());
     autocomplete(document.getElementById("hcCalc-playerR-input"), ratingList.getPlayers());
+    autocomplete(document.getElementById("estimate-playerR-input"), ratingList.getPlayers());
 }
 document.getElementById('newplayer-confirm').addEventListener("click", function() {createNewPlayer_backend();});
 function createNewMatch_backend() {
-    document.getElementById('error-message-newMatch').style = 'display: none;';
+    document.getElementById('error-message-newMatch').classList.remove('show');
     // create new match here:
     //const url = 'scripts/hc-rating/data/matchCounter.json';
     //var matchCounter = 0;
@@ -237,7 +238,7 @@ function createNewMatch_backend() {
     } 
     catch(error) {
         console.error(error);
-        document.getElementById('error-message-newMatch').style = 'display: block;';
+        document.getElementById('error-message-newMatch').classList.add('show');
         return;
     }
 
@@ -311,7 +312,7 @@ function hcCalcCheckHC_backend() {
     document.getElementById('hcCalc-ratingR-input').value = '';
     document.getElementById('hcCalc-hcEstimate-input').value = '';
     document.getElementById('output-rating').textContent = '';
-    document.getElementById('error-message-hcCalc').style = 'display: none;';
+    document.getElementById('error-message-hcCalc').classList.remove('show');
 
     myElement.textContent = 'error';
     if (document.getElementById('button-by-name').classList.contains('active')) {
@@ -358,7 +359,7 @@ function hcCalcCheckRating_backend() {
     document.getElementById('hcCalc-ratingA-input').value = '';
     document.getElementById('hcCalc-ratingB-input').value = '';
     document.getElementById('output-HC').textContent = '';
-    document.getElementById('error-message-hcCalc').style = 'display: none;';
+    document.getElementById('error-message-hcCalc').classList.remove('show');
 
     myElement.textContent = 'error';
     if (document.getElementById('button-by-name').classList.contains('active')) {
@@ -394,6 +395,59 @@ function hcCalcCheckRating_backend() {
     setTimeout(function() {block.classList.add('block')}, 100);
 }
 document.getElementById('check-rating').addEventListener("click", function () { hcCalcCheckRating_backend(); });
+function estimateCheckRating() {
+    const myElement = document.getElementById('output-rating-estimate');
+    const block = document.getElementById('output-rating-block-estimate');
+    document.getElementById('error-message-estimate').classList.remove('show');
+
+    myElement.textContent = 'error';
+    if (document.getElementById('button-by-name-estimate').classList.contains('active')) {
+        try {
+            const inputHC = - Number(document.getElementById('estimate-hcEstimate-input').value); //negative because we enter it in the opposite order
+            const playerRtext = document.getElementById('estimate-playerR-input').value;
+            if (Math.abs(inputHC) >= variables.hcMax || !playerRtext) {throw new Error('Error: please fill in all required information')};
+            myElement.textContent = roundedToFixed(ratingList.getPlayerByName(playerRtext).getRating() + hcToRating(inputHC));
+        } catch (error) { 
+            console.error(error);
+            document.getElementById('error-message-estimate').classList.add('show');
+            return;
+        }
+    } else if (document.getElementById('button-by-rating-estimate').classList.contains('active')) {
+        try {
+            const inputHC = - Number(document.getElementById('estimate-hcEstimate-input').value);
+            const inputRatingText = document.getElementById('estimate-ratingR-input').value;
+            if (Math.abs(inputHC) >= variables.hcMax || !inputRatingText) {throw new Error('Error: please fill in all required information')};
+            myElement.textContent = roundedToFixed(Number(inputRatingText) + hcToRating(inputHC));
+        } catch (error) {
+            console.error(error);
+            document.getElementById('error-message-estimate').classList.add('show');
+            return;
+        }
+    }
+
+    myElement.classList.remove('animation');
+    document.getElementById('output-rating-estimate').classList.remove('animation');
+    setTimeout(function() {myElement.classList.add('animation')}, 100);
+
+    block.classList.remove('block');
+    document.getElementById('output-rating-block-estimate').classList.remove('block');
+    setTimeout(function() {block.classList.add('block')}, 100);
+}
+document.getElementById('check-rating-estimate').addEventListener("click", function () { estimateCheckRating(); });
+function confirmEstimate() {
+    try {
+        const myElement = document.getElementById('output-rating-estimate');
+        if (myElement.textContent === 'error' || myElement.textContent === '') throw new Error('Invalid rating output');
+        document.getElementById('newplayer-rating-input').value = Number(myElement.textContent);
+        toggleEstimatePopup();
+    }
+    catch(error) {
+        console.error(error);
+        document.getElementById('error-message-estimate').classList.add('show');
+    }
+    
+}
+document.getElementById('estimateConfirmButton').addEventListener("click", function () { confirmEstimate(); });
 
 
 // Backend functional functions
@@ -993,6 +1047,7 @@ function loadRatingList(name, loadSystem) {
             autocomplete(document.getElementById("hcCalc-playerA-input"), ratingList.getPlayers());
             autocomplete(document.getElementById("hcCalc-playerB-input"), ratingList.getPlayers());
             autocomplete(document.getElementById("hcCalc-playerR-input"), ratingList.getPlayers());
+            autocomplete(document.getElementById("estimate-playerR-input"), ratingList.getPlayers());
 
             ratingList.sort();
             redraw_rl();

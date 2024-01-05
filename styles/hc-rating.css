@@ -482,6 +482,10 @@ main {
     position: absolute;
     transform: translate(4rem, -3.8rem) skewX(-20deg);
 }
+.popup-input.rating {
+    width: 40%;
+    min-width: 6rem;
+}
 .popup-calc .popup-input {
     height: 1.7rem;}
 .popup-calc .popup-input:focus {
@@ -498,7 +502,7 @@ main {
     height: 2rem;
     width: 2rem;
     font-size: 3rem;
-    color: grey;
+    color: transparent;
     vertical-align: middle;
     border: 1px solid #4f546ce0;
     line-height: 4rem;
@@ -521,6 +525,14 @@ main {
     bottom: 20px;
     width: 30%;
     font-size: 16px;}
+.button.estimate {
+    font-size: 16px;
+    min-width: 0;
+    width: fit-content;
+    margin-top: 0.25rem;
+    margin-left: 1.5rem;
+    position: relative;
+}
 
 button.robustness {
     cursor: pointer;

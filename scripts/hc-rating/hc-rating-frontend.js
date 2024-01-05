@@ -9,6 +9,7 @@ function togglePlayerPopup() {
     document.getElementById("newplayer-name-input").value = "";
     document.getElementById("newplayer-rating-input").value = "";
     document.getElementById("newplayer-club-input").value = "";
+    document.getElementById("error-message-newPlayer").classList.remove('show');
     
     toggleRobustness('low');
 
@@ -20,6 +21,7 @@ function toggleMatchPopup() {
     document.getElementById("newmatch-playerB-input").value = "";
     document.getElementById("match-distance-input").value = "";
     document.getElementById("newmatch-HC-input").value = "";
+    document.getElementById("error-message-newMatch").classList.remove('show');
 
     toggleDistanceType('best-of');
     toggleURS('frames');
@@ -29,6 +31,16 @@ function toggleCalcPopup() {
     document.getElementById("popup-calc").classList.toggle("active");
     toggleCalcType('by-name');
     document.getElementById('error-message-hcCalc').style = 'display: none;';
+}
+function toggleEstimatePopup() {
+    document.getElementById("popup-estimate").classList.toggle("active");
+    document.getElementById("popup-player").classList.toggle("active");
+    toggleCalcType('by-name');
+    document.getElementById("estimate-playerR-input").value = '';
+    document.getElementById("estimate-ratingR-input").value = '';
+    document.getElementById("estimate-hcEstimate-input").value = '';
+    document.getElementById("output-rating-estimate").textContent = '';
+    document.getElementById('error-message-estimate').classList.remove('show');
 }
 function toggleEditPopup() {
     document.getElementById("popup-edit").classList.toggle("active");
@@ -189,6 +201,33 @@ function toggleCalcType(typeString) {
         
         document.getElementById('popup-hcCalc-playerR-row').classList.add('active');
         document.getElementById('popup-hcCalc-ratingR-row').classList.remove('active');
+    }
+
+}
+function toggleCalcTypeEstimate(typeString) {
+    
+    document.getElementById('output-rating-estimate').textContent = '';
+    
+    document.getElementById('error-message-estimate').classList.remove('show');
+
+    document.getElementById('button-by-name-estimate').classList.remove('active');
+    document.getElementById('button-by-rating-estimate').classList.remove('active');
+    document.getElementById('output-rating-block-estimate').classList.remove('block');
+
+    document.getElementById(`button-${typeString}-estimate`).classList.add('active');
+
+    /*Empty all containers/input-output-fields etc.*/
+    document.getElementById('estimate-playerR-input').value = '';
+    document.getElementById('estimate-ratingR-input').value = '';
+    document.getElementById('estimate-hcEstimate-input').value = '';
+
+    if (typeString === "by-rating") {        
+        document.getElementById('popup-estimate-playerR-row').classList.remove('active');
+        document.getElementById('popup-estimate-ratingR-row').classList.add('active');
+    }
+    else {        
+        document.getElementById('popup-estimate-playerR-row').classList.add('active');
+        document.getElementById('popup-estimate-ratingR-row').classList.remove('active');
     }
 
 }

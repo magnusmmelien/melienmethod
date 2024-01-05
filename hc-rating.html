@@ -42,7 +42,9 @@
                         <tr>
                             <td style="min-width: 6rem;"><p>Name:</p></td>
                             <td>
-                                <input class="popup-input" type="text" id="newplayer-name-input" placeholder="Enter name...">
+                                <div class="autocomplete"> <!--I added this extra redundant div because it kept changing size when not supposed to and this was a quick fix-->
+                                    <input class="popup-input" type="text" id="newplayer-name-input" placeholder="Enter name...">
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -67,7 +69,8 @@
                         <tr class="hidden-row" id="popup-player-rating-row">
                             <td><p>Rating:</p></td>
                             <td>
-                                <input class="popup-input" type="number" id="newplayer-rating-input" placeholder="Enter rating (1150 default)...">
+                                <input class="popup-input rating" type="number" id="newplayer-rating-input" placeholder="1150 default...">
+                                <button id="new-player-estimate-rating" class="button estimate" onclick="toggleEstimatePopup()">Estimate</button>
                             </td>
                         </tr>
                         <tr class="hidden-row" id="popup-player-robustness-row">
@@ -80,10 +83,93 @@
                         </tr>
                     </table>
                     
-                    <p id="error-message-newPlayer" class="error-message">Error: please ensure you've filled in all the required information</p>
+                    <p id="error-message-newPlayer" class="error-message hc-rating">Error: please ensure you've filled in all the required information</p>
                     <button id="newplayer-confirm" class="button popup" style="left: 40px;">Add Player</button>
                     
                     <button class="button popup" style="right: 40px; text-align: right;" onclick="togglePlayerPopup()">Cancel</button>
+
+                </div>
+            </div>
+            <div class="popup popup-calc" id="popup-estimate">
+                <div class="overlay"></div>
+                <div class="content" style="height: 600px;">
+                    <div class="close-btn" onclick="toggleEstimatePopup()">&times;</div>
+                    <h2>New Player Rating Calculator</h2>
+
+                    <table>
+                        <tr>
+                            <td><p>Calculator Domain:</p></td>
+                            <td>
+                                <button id="button-by-name-estimate" class="button choose active" onclick="toggleCalcTypeEstimate('by-name')">
+                                    Player Name
+                                </button>
+                                <button id="button-by-rating-estimate" class="button choose" onclick="toggleCalcTypeEstimate('by-rating')">
+                                    Rating
+                                </button>
+                            </td>
+                        </tr>
+
+                        
+                        <tr>
+                            <td class="popup subheading"><h3 style="margin: 0;">Rating-calculator</h3></td>
+                        </tr>
+                        <!--insert input fields here-->
+                        <tr id="popup-estimate-playerR-row" class="hidden-row active">
+                            <td><p>Compare Player:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="estimate-playerR-input" type="text" name="estimateInputs" placeholder="Enter name...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-estimate-ratingR-row" class="hidden-row">
+                            <td><p>Compare Rating:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" id="estimate-ratingR-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="popup-estimate-hcEstimate-row" class="hidden-row active">
+                            <td><p>Estimated HC:</p></td>
+                            <td>
+                                <!--Make sure the form has the autocomplete function switched off:-->
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 5rem;" id="estimate-hcEstimate-input" type="number" name="hcCalcInputs" placeholder="Enter HC...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="hidden-row active">
+                            <td></td>
+                            <td>
+                                <p class="infotext HC">(HC &gt; 0 &hArr; your head start)</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button id="check-rating-estimate" class="button check" style="font-size: 14px;">Estimate</button></td>
+                            <td class="text-output">
+                                <!--<p class="text-output">&DoubleRightArrow; <span id="output-rating" class="text-output"></span></p>-->
+                                <div class="box">
+                                    <div class="title">
+                                        <span id="output-rating-block-estimate" class="block"></span>
+                                        <p id="output-rating-estimate" class="text-output"></span><span></p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <button id="estimateConfirmButton" class="button popup" style="left: 40px;">Confirm</button>
+                        <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleEstimatePopup()">Cancel</button>
+                    </table>
+                    <p id="error-message-estimate" class="error-message hc-rating">Error: make sure you've clicked "Estimate"...</p>
 
                 </div>
             </div>
@@ -156,7 +242,7 @@
                         
                     </table>
                     
-                    <p id="error-message-newMatch" class="error-message">Error: please ensure you've filled in all the required information</p>
+                    <p id="error-message-newMatch" class="error-message hc-rating">Error: please ensure you've filled in all the required information</p>
                     <button id="newmatch-confirm" class="button popup" style="left: 40px;">Add Match</button>
                     
                     <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleMatchPopup()">Cancel</button>
@@ -295,7 +381,7 @@
                         
                         <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleCalcPopup()">Cancel</button>
                     </table>
-                    <p id="error-message-hcCalc" class="error-message">Error: please fill in all the required information</p>
+                    <p id="error-message-hcCalc" class="error-message hc-rating">Error: please fill in all the required information</p>
 
                 </div>
             </div>
