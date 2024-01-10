@@ -633,7 +633,7 @@ function populateRatingListTable(ratingList) {
 
         positionCell.innerHTML = `<p class="position">${i + 1}</p>`;
         nameCell.innerHTML = player.getName();
-        clubCell.innerHTML = `<img class="club-logo" src="images/${player.getClub()}_logo.png" onerror="this.src = 'images/default_logo.png'" alt="">`;
+        clubCell.innerHTML = `<img class="club-logo" src="images/${player.getClub()}_logo.png" title="${player.getClub()}" onerror="this.src = 'images/default_logo.png'" alt="">`;
         ratingCell.innerHTML = roundedToFixed(player.getRating());
         robustnessCell.innerHTML = `<p class="robustness robustness-${player.getRobustLevel().toLowerCase()}">${player.getRobustLevel()}</p>`;
     }
@@ -661,8 +661,8 @@ function populateMatchListRow_main(match, mainRow) {
         logoAimg.src = `images/${match.getPlayerA().getClub()}_logo.png`;
         logoAimg.onerror = "this.src = 'images/default_logo.png'";*/
         logoAcell.innerHTML = `<img id="match-${myID}-clubA" class="club-logo club-logo-match" 
-            src="images/${match.getPlayerA().getClub()}_logo.png" onerror="this.src = 'images/default_logo.png'" 
-            alt="" style="padding: 0;">`;
+            src="images/${match.getPlayerA().getClub()}_logo.png" title="${match.getPlayerA().getClub()}" 
+            onerror="this.src = 'images/default_logo.png'" alt="" style="padding: 0;">`;
         //logoAcell.appendChild(logoAimg);
         mainRow.appendChild(logoAcell);
 
@@ -733,7 +733,7 @@ function populateMatchListRow_main(match, mainRow) {
         */
         logoBcell.innerHTML = `<img id="match-${myID}-clubB" class="club-logo club-logo-match" 
             src="images/${match.getPlayerB().getClub()}_logo.png" onerror="this.src = 'images/default_logo.png'" 
-            alt="" style="padding: 0;">`;
+            title ="${match.getPlayerB().getClub()}" alt="" style="padding: 0;">`;
         //logoBcell.appendChild(logoBimg);
         mainRow.appendChild(logoBcell);
 
