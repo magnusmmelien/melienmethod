@@ -81,6 +81,7 @@ main {
     color: #333;
     font-size: 1.2rem;
     font-family: "Orbitron", sans-serif;
+    margin-block-start: 2em;
 }
 
 /*Rating-list*/
@@ -195,7 +196,7 @@ main {
 /*Match-list*/
 
 .match-list-div {
-    margin-right: 0;
+    margin-right: 3rem;
 }
 
 .score-div {
@@ -726,264 +727,80 @@ td.text-output .box .title p span {
     color: #ffffff;
 }
 
-/* popup-calc new
-<div class="popup popup-calc" id="popup-calc">
-                <div class="overlay"></div>
-                <div class="content">
-                    <div class="close-btn" onclick="toggleCalcPopup()">&times;</div>
-                    <h2>HC-Rating Calculator</h2>
+.score-button.addBreak {
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    font-size: 24px;
+    vertical-align: middle;
+}
+.input-break {
+    height: 26px;
+    width: 0px;
+    padding: 1px 0;
+    border: none;
+    border-top: 1px solid #4f546ce0;
+    border-bottom: 1px solid #4f546ce0;
+    border-radius: 0;
+    font-family: "Exo";
+    color: #555;
+    vertical-align: middle;
+    text-align: center;
 
-                    <table>
-                        <tr>
-                            <td><p>Calculator Domain:</p></td>
-                            <td>
-                                <button id="button-by-name" class="button choose active" onclick="toggleCalcType('by-name')">
-                                    Player Name
-                                </button>
-                                <button id="button-by-rating" class="button choose" onclick="toggleCalcType('by-rating')">
-                                    Rating
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="popup subheading"><h3 style="margin: 0;">HC-calculator</h3></td>
-                        </tr>
-                        <tr id="popup-hcCalc-playerA-row" class="hidden-row active">
-                            <td><p>Player A:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-playerA-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-playerB-row" class="hidden-row active">
-                            <td><p>Player B:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-playerB-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-ratingA-row" class="hidden-row">
-                            <td><p>Rating A:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-ratingA-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-ratingB-row" class="hidden-row">
-                            <td><p>Rating B:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-ratingB-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><button id="check-HC" class="button check" onclick="hcCalcCheckHC()">Check HC</button></td>
-                            <td class="text-output">
-                                <!--<p class="text-output">&DoubleRightArrow; <span id="output-HC" class="text-output"></span></p>-->
-                                <div class="box">
-                                    <div class="title">
-                                        <span class="block"></span>
-                                        <p id="output-HC" class="text-output"></span><span></p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+    transition: all ease-in-out 0.5s;
+}
+.input-break.show {
+    width: 50px;
+    padding: 1px 2px;
+    border: 1px solid #4f546ce0;
+}
+.input-break:focus-visible {
+    outline: none;
+}
 
-                        <tr>
-                            <td class="popup subheading"><h3 style="margin: 0;">Rating-calculator</h3></td>
-                        </tr>
-                        <!--insert input fields here-->
-                        <tr id="popup-hcCalc-playerR-row" class="hidden-row active">
-                            <td><p>Compare Player:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-playerR-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-ratingR-row" class="hidden-row">
-                            <td><p>Compare Rating:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-ratingR-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-hcEstimate-row" class="hidden-row active">
-                            <td><p>Estimated HC:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" style="width: 5rem;" id="hcCalc-hcEstimate-input" type="number" name="hcCalcInputs" placeholder="Enter HC...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><button id="check-rating" class="button check" onclick="hcCalcCheckRating()">Check Rating</button></td>
-                            <td class="text-output">
-                                <!--<p class="text-output">&DoubleRightArrow; <span id="output-rating" class="text-output"></span></p>-->
-                                <div class="box">
-                                    <div class="title">
-                                        <span class="block"></span>
-                                        <p id="output-rating" class="text-output"></span><span></p>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+.breaks-list-breaks {
+    text-align: left;
+    word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+}
 
-                        <p class="error-message">Error: please fill in all the required information</p>
-
-                        <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleCalcPopup()">Cancel</button>
-                    </table>
-                </div>
-            </div>
-*/
-
-/* popup-calc old
-<div class="popup popup-calc" id="popup-calc">
-                <div class="overlay"></div>
-                <div class="content">
-                    <div class="close-btn" onclick="toggleCalcPopup()">&times;</div>
-                    <h2>HC-Rating Calculator</h2>
-
-                    <table>
-                        <tr>
-                            <td><p>Calculator Domain:</p></td>
-                            <td>
-                                <button id="button-by-name" class="button choose active" onclick="toggleCalcType('by-name')">
-                                    Player Name
-                                </button>
-                                <button id="button-by-rating" class="button choose" onclick="toggleCalcType('by-rating')">
-                                    Rating
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="popup subheading"><h3 style="margin: 0;">HC-calculator</h3></td>
-                        </tr>
-                        <tr id="popup-hcCalc-playerA-row" class="hidden-row active">
-                            <td><p>Player A:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-playerA-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-playerB-row" class="hidden-row active">
-                            <td><p>Player B:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-playerB-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-ratingA-row" class="hidden-row">
-                            <td><p>Rating A:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-ratingA-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-ratingB-row" class="hidden-row">
-                            <td><p>Rating B:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-ratingB-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><button id="check-HC" class="button check" onclick="hcCalcCheckHC()">Check HC</button></td>
-                            <td>
-                                <p class="text-output">&DoubleRightArrow; <span id="output-HC" class="text-output"></span></p>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="popup subheading"><h3 style="margin: 0;">Rating-calculator</h3></td>
-                        </tr>
-                        <!--insert input fields here-->
-                        <tr id="popup-hcCalc-playerR-row" class="hidden-row active">
-                            <td><p>Compare Player:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-playerR-input" type="text" name="hcCalcInputs" placeholder="Enter name...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-ratingR-row" class="hidden-row">
-                            <td><p>Compare Rating:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" id="hcCalc-ratingR-input" type="number" name="hcCalcInputs" placeholder="Enter rating...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr id="popup-hcCalc-hcEstimate-row" class="hidden-row active">
-                            <td><p>Estimated HC:</p></td>
-                            <td>
-                                <!--Make sure the form has the autocomplete function switched off:-->
-                                <form autocomplete="off">
-                                    <div class="autocomplete">
-                                        <input class="popup-input" style="width: 5rem;" id="hcCalc-hcEstimate-input" type="number" name="hcCalcInputs" placeholder="Enter HC...">
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><button id="check-rating" class="button check" onclick="hcCalcCheckRating()">Check Rating</button></td>
-                            <td>
-                                <p class="text-output">&DoubleRightArrow; <span id="output-rating" class="text-output"></span></p>
-                            </td>
-                        </tr>
-
-                        <p class="error-message">Error: please fill in all the required information</p>
-
-                        <button class="button popup" style="right: 40px; text-align: right;" onclick="toggleCalcPopup()">Cancel</button>
-                    </table>
-                </div>
-            </div>
-             */
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    min-height: 3rem;
+    width: 24rem;
+    max-width: 40vw;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 5;
+    top: -130%;
+    left: 150%;
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 65%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #555 transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

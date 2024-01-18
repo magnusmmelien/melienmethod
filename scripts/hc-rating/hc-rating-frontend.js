@@ -272,6 +272,33 @@ document.getElementsByName('hcCalcInputs').forEach((element) => {
         document.getElementById('output-HC').textContent = '';
     });
 });
+function addBreak(i, x) {
+    // i: match id
+    // x: playerA = "A", playerB = "B"
+
+    const myInput = document.getElementById(`match-${i}-break${x}input`);
+
+    if (myInput.classList.contains('show')) { // input field is showing
+        // try to add break
+        if (myInput.value >= 25 && myInput.value <= 155) {
+            try {
+                const myBreak = myInput.value;
+                setTimeout(function() {
+                    // crude: no db - just text
+                    document.getElementById(`match-${i}-breaks${x}`).textContent += `, ${myBreak}`;
+                }, 250);
+            }
+            catch(error) {
+                alert(error);
+                throw new Error(error);
+            }
+        }
+        else if (myInput.value) alert('Error: invalid break.');
+    }
+    
+    myInput.value = '';
+    myInput.classList.toggle('show');
+}
 
 function createNewPlayer() {
     // check if valid input

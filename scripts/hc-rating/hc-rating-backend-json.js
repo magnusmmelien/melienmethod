@@ -1,6 +1,7 @@
 import { Player, hcToRating, ratingToHC } from './player.js';
 import RatingList from './rating-list.js';
 import { Match, MatchState, DistanceType, HCsystem } from './match.js';
+import { BreaksList, BreaksEntry } from './breakslist.js';
 import { listToJSON_local, listFromJSON_local, matchesToJSON_local, matchesFromJSON_local } from './jsonStream.js';
 import * as variables from './variables.js';
 // import { toggleExpand, startMatch_frontend, finishMatch_frontend, deleteMatch_frontend, toggleDeletePopup } from './hc-rating-frontend.js';
@@ -21,6 +22,7 @@ const writeToFileCont = true;
 const debugWrite = false;
 var ratingList = new RatingList(listName);
 var nullMatches = []; var liveMatches = []; var finishedMatches = [];
+var breaksList = new BreaksList(listName);
 const nullMatchesRef = ref(database, `${listName}_nullMatches`);
 const liveMatchesRef = ref(database, `${listName}_liveMatches`);
 const finishedMatchesRef = ref(database, `${listName}_finishedMatches`);
@@ -253,8 +255,10 @@ document.getElementById('newmatch-confirm').addEventListener("click", function()
 function toggleExpand(i) {
     const expandButton = document.getElementById(`match-${i}-expand`);
     const infoRow = document.getElementById(`match-${i}-info`);
+    const breakRow = document.getElementById(`match-${i}-break`);
     expandButton.classList.toggle("active");
     infoRow.classList.toggle("active");
+    breakRow.classList.toggle("active");
 
     // check if match is finished to see if edit-button should be displayed:
     const matchRow = document.getElementById(`match-${i}`);
@@ -298,6 +302,9 @@ function toggleEditPopup_backend() {
     let ursString = 'frames';
     if (match.getHCsystem() === HCsystem.match) {ursString = 'match';}
     toggleURS(ursString, 'edit');
+
+    document.getElementById('edit-breaksA-input').value = match.getBreaksA().join(', ');
+    document.getElementById('edit-breaksB-input').value = match.getBreaksB().join(', ');
 }
 function toggleFinishPopup_backend() {
     document.getElementById("popup-finish").classList.toggle("active");
@@ -448,7 +455,60 @@ function confirmEstimate() {
     
 }
 document.getElementById('estimateConfirmButton').addEventListener("click", function () { confirmEstimate(); });
+function addBreak_backend(i, x) {
+    // i: match id
+    // x: playerA = "A", playerB = "B"
 
+    const myInput = document.getElementById(`match-${i}-break${x}input`);
+
+    if (myInput.classList.contains('show')) { // input field is showing
+        // try to add break
+        if (myInput.value >= 25 && myInput.value <= 155) {
+            try {
+                const myBreak = Number(myInput.value);
+                setTimeout(function() {
+                    // just test: no db - just text
+                    //console.log(getMatch(i));
+                    //console.log(liveMatches);
+                    if (x === 'A') getMatch(i).addBreakA(myBreak);
+                    else if (x === 'B') getMatch(i).addBreakB(myBreak);
+                    //console.log(getMatch(i));
+                    //console.log(liveMatches);
+                    //document.getElementById(`match-${i}-breaks${x}`).textContent += `, ${myBreak}`;
+                    // Database:
+                    if (writeToFileCont) {
+                        const updates = {};
+                        // update match counter
+                        updates[listName + '_liveMatches'] = liveMatches;
+                        update(ref(database), updates);
+                    }
+                }, 250);
+            }
+            catch(error) {
+                alert(error);
+                throw new Error(error);
+            }
+        }
+        else if (myInput.value) alert('Error: invalid break.');
+    }
+    
+    myInput.value = '';
+    myInput.classList.toggle('show');
+}
+function updateBreaksList(match) {
+    try {
+        if (match.getState() !== MatchState.finished) throw new Error('Tried to register breaks from un-finished match (id = ' + match.getID());
+        const nameA = match.getPlayerA().getName();
+        const nameB = match.getPlayerB().getName();
+        match.getBreaksA().forEach(x => {
+            breaksList.addBreak(nameA, x);
+        });
+        match.getBreaksB().forEach(x => {
+            breaksList.addBreak(nameB, x);
+        });
+    }
+    catch(error) {console.error(error);}    
+}
 
 // Backend functional functions
 function startMatch_backend(id) {
@@ -483,6 +543,7 @@ function finishMatch_backend() {
     liveMatches.splice(liveMatches.indexOf(match), 1);
 
     finishedMatches.unshift(match);
+    updateBreaksList(match);
 
     try {
         // update db:
@@ -495,6 +556,10 @@ function finishMatch_backend() {
             updates[listName + '_finishedMatches'] = finishedMatches;
             // update rating list
             updates[listName + '_RatingList'] = ratingList;
+            // update breaks list
+            console.log('test: breaksList = ');
+            console.log(breaksList);
+            updates[listName + '_BreaksList'] = breaksList;
             update(ref(database), updates);
         }
     } catch(error) {
@@ -556,51 +621,82 @@ function deleteMatch_backend() {
 document.getElementById('confirm-delete-button').addEventListener("click", function () { deleteMatch_backend(); });
 function updateMatch_backend() {
     try {
-    // update match stats
-    const id = Number(document.getElementById('confirm-edit-button').name);
-    const match = getMatch(id);
+        // update match stats
+        const id = Number(document.getElementById('confirm-edit-button').name);
+        const match = getMatch(id);
 
-    // score
-    if (match.getState() === MatchState.live) {
-        match.updateScore(Number(document.getElementById('edit-scoreA-input').value), 
-            Number(document.getElementById('edit-scoreB-input').value));
-    }
-    // distance type
-    if (document.getElementById('edit-button-best-of').classList.contains('active')) {match.setDistanceType(DistanceType.bestOf);}
-    else {match.setDistanceType(DistanceType.justFrames);}
-    // distance
-    match.setDistance(Number(document.getElementById('edit-distance-input').value));
-    // hc
-    if (document.getElementById('edit-button-HC').classList.contains('active')) { // hc is checked "on"
-        if (['', ' ', '\n'].includes(document.getElementById('edit-HC-input').value)) { // i.e. "left empty"
-            match.setHC(ratingToHC(match.getPlayerA().getRating(), match.getPlayerB().getRating()));
-            //match.setHC(ratingList.getHC(match.getPlayerA(), match.getPlayerB()));
+        // score
+        if (match.getState() === MatchState.live) {
+            match.updateScore(Number(document.getElementById('edit-scoreA-input').value), 
+                Number(document.getElementById('edit-scoreB-input').value));
+        }
+        // distance type
+        if (document.getElementById('edit-button-best-of').classList.contains('active')) {match.setDistanceType(DistanceType.bestOf);}
+        else {match.setDistanceType(DistanceType.justFrames);}
+        // distance
+        match.setDistance(Number(document.getElementById('edit-distance-input').value));
+        // hc
+        if (document.getElementById('edit-button-HC').classList.contains('active')) { // hc is checked "on"
+            if (['', ' ', '\n'].includes(document.getElementById('edit-HC-input').value)) { // i.e. "left empty"
+                match.setHC(ratingToHC(match.getPlayerA().getRating(), match.getPlayerB().getRating()));
+                //match.setHC(ratingList.getHC(match.getPlayerA(), match.getPlayerB()));
+            } else {
+                match.setHC(Number(document.getElementById('edit-HC-input').value));
+            }
         } else {
-            match.setHC(Number(document.getElementById('edit-HC-input').value));
+            match.setHC(0);
         }
-    } else {
-        match.setHC(0);
-    }
-    //urs
-    if (document.getElementById('edit-button-match').classList.contains('active')) {match.setHCsystem(HCsystem.match);}
-    else {match.setHCsystem(HCsystem.frame);}
+        //urs
+        if (document.getElementById('edit-button-match').classList.contains('active')) {match.setHCsystem(HCsystem.match);}
+        else {match.setHCsystem(HCsystem.frame);}
 
-    // update db:
-    if (writeToFileCont) {
-        const updates = {};
-        if (match.getState() === MatchState.null) {
-            // update name_nullMatches
-            updates[listName + '_nullMatches'] = nullMatches;
+        // breaks
+        if (document.getElementById('edit-breaksA-input').value !== match.getBreaksA().join(', ')) {
+            //update breaks for A
+            const inputString = document.getElementById('edit-breaksA-input').value;
+            var xxx = inputString.split(', ');
+            for (let i = 0; i < xxx.length; i++) {
+                //console.log(Number(xxx[i]));
+                if (Number(xxx[i]) < 25 || Number(xxx[i]) > 155) {
+                    console.error('Error: tried to enter a break (' + xxx[i] + ') out of bounds (skipped).');
+                    xxx.splice(i, 1);
+                }
+            }
+            match.setBreaksA(xxx);
+            //console.log('update breaks for A: inputString = ' + inputString + ' ; xxx = ' + xxx + ' ; getBreaksA() = ' + match.getBreaksA());
         }
-        else if (match.getState() === MatchState.live) {
-            // update name_liveMatches
-            updates[listName + '_liveMatches'] = liveMatches;
+        if (document.getElementById('edit-breaksB-input').value !== match.getBreaksB().join(', ')) {
+            //update breaks for B
+            const inputString = document.getElementById('edit-breaksB-input').value;
+            var xxx = inputString.split(', ');
+            for (let i = 0; i < xxx.length; i++) {
+                //console.log(Number(xxx[i]));
+                if (Number(xxx[i]) < 25 || Number(xxx[i]) > 155) {
+                    console.error('Error: tried to enter a break (' + xxx[i] + ') out of bounds (skipped).');
+                    xxx.splice(i, 1);
+                }
+            }
+            match.setBreaksB(xxx);
+            //console.log('update breaks for B: inputString = ' + inputString + ' ; xxx = ' + xxx + ' ; getBreaksB() = ' + match.getBreaksB());
         }
-        else throw new Error('Ops! This was not supposed to happen... did you try to delete a finished match??? dunno...');
-        update(ref(database), updates);
-    }
+
+        // update db:
+        if (writeToFileCont) {
+            const updates = {};
+            if (match.getState() === MatchState.null) {
+                // update name_nullMatches
+                updates[listName + '_nullMatches'] = nullMatches;
+            }
+            else if (match.getState() === MatchState.live) {
+                // update name_liveMatches
+                updates[listName + '_liveMatches'] = liveMatches;
+            }
+            else throw new Error('Ops! This was not supposed to happen... did you try to delete a finished match??? dunno...');
+            update(ref(database), updates);
+        }
 
     } catch(error) {
+        const id = Number(document.getElementById('confirm-edit-button').name);
         console.error('Error trying to update match stats for match id = ' + id+ '.\nPlease contact admin.');
         alert('Error trying to update match stats for match id = ' + id + '.\nPlease contact admin.');
     }
@@ -697,6 +793,7 @@ function populateMatchListRow_main(match, mainRow) {
         matchInfo.appendChild(matchDistance);
         const toggleExpandButton = document.createElement('button');
         toggleExpandButton.classList.add('expand');
+        if (trackExpand.includes(myID)) toggleExpandButton.classList.add('active');
         toggleExpandButton.id = `match-${myID}-expand`;
         toggleExpandButton.onclick = function() { toggleExpand(myID); };
         matchInfo.appendChild(toggleExpandButton);
@@ -996,7 +1093,123 @@ function populateMatchListRow_info(match, infoRow) {
         //update visuals???
     }
 }
+function populateMatchListRow_break(match, breakRow) {
+    // NULL / GENERAL
+    // not visable until live
+
+    // LIVE
+    if (match.getState() === MatchState.live) {
+        breakRow.classList.add('match-live');
+        
+        const cell1 = document.createElement('td');
+        breakRow.appendChild(cell1);
+        const cell2 = document.createElement('td');
+        breakRow.appendChild(cell2);
+
+        const breakAcell = document.createElement('td');
+        breakAcell.style = "text-align: right;";
+        breakAcell.innerHTML = `<div id="match-${match.getID()}-breaksA" style="display: inline-block;">${match.getBreaksA().join(', ')}</div>`;
+        breakAcell.innerHTML += `&emsp;<input id="match-${match.getID()}-breakAinput" type="number" placeholder="25+" class="input-break" min="25" max="155">`;
+        //breakAcell.innerHTML += `<button id="match-${match.getID()}-breakAbutton" onclick="addBreak_backend(${match.getID()}, 'A')" class="score-button addBreak">&plus;</button>`;
+        const breakAbutton = document.createElement('button');
+        breakAbutton.id = `match-${match.getID()}-breakAbutton`;
+        breakAbutton.classList.add('score-button', 'addBreak');
+        breakAbutton.innerHTML = '&plus;';
+        breakAbutton.addEventListener("click", function() {
+            addBreak_backend(match.getID(), 'A');
+        });
+        breakAcell.appendChild(breakAbutton);
+        breakRow.appendChild(breakAcell);
+
+        const breaksCell = document.createElement('td');
+        breaksCell.id = `match-${match.getID()}-breaks`;
+        breaksCell.innerHTML = 'Breaks:';
+        breaksCell.style = 'padding-top: 1rem; padding-bottom: 0.5rem;';
+        breakRow.appendChild(breaksCell);
+        
+        const breakBcell = document.createElement('td');
+        breakBcell.style = "text-align: left;";
+        breakBcell.innerHTML = `<input id="match-${match.getID()}-breakBinput" type="number" placeholder="25+" class="input-break" min="25" max="155">`;
+        //breakBcell.innerHTML += `<button id="match-${match.getID()}-breakBbutton" onclick="addBreak_backend(${match.getID()}, 'B')" class="score-button addBreak">&plus;</button>`;
+        const breakBbutton = document.createElement('button');
+        breakBbutton.id = `match-${match.getID()}-breakBbutton`;
+        breakBbutton.classList.add('score-button', 'addBreak');
+        breakBbutton.innerHTML = '&plus;';
+        breakBbutton.addEventListener("click", function() {
+            addBreak_backend(match.getID(), 'B');
+        });
+        breakBcell.appendChild(breakBbutton);
+        const breaksBdiv = document.createElement('div');
+        breaksBdiv.id = `match-${match.getID()}-breaksB`;
+        breaksBdiv.style = 'display: inline-block;';
+        breaksBdiv.innerHTML = '&emsp;' + match.getBreaksB().join(', ');
+        breakBcell.appendChild(breaksBdiv);
+        //breakBcell.innerHTML += `&emsp;<div id="match-${match.getID()}-breaksB" style="display: inline-block;">${match.getBreaksB().join(', ')}</div>`;
+        breakRow.appendChild(breakBcell);
+
+        const cell3 = document.createElement('td');
+        breakRow.appendChild(cell3);
+
+        const cell4 = document.createElement('td');
+        breakRow.appendChild(cell4);
+
+        // extra cell for scrollbar..?
+        const scrollCell = document.createElement('td');
+        scrollCell.style = 'padding: 0.25rem';
+        breakRow.appendChild(scrollCell);
+    }
+    
+    // FINISHED
+    if (match.getState() === MatchState.finished) {
+        // if (no breaks) return;
+        if (!match.getBreaksA() || !match.getBreaksB()) return;
+        if ((match.getBreaksA().length === 0) && (match.getBreaksB().length === 0)) return;
+
+        breakRow.classList.add('match-finished');
+
+        const cell1 = document.createElement('td');
+        breakRow.appendChild(cell1);
+        const cell2 = document.createElement('td');
+        breakRow.appendChild(cell2);
+
+        const breakAcell = document.createElement('td');
+        breakAcell.style = "text-align: right;";
+        breakAcell.innerHTML = `<div id="match-${match.getID()}-breaksA" style="display: inline-block;">${match.getBreaksA().join(', ')}</div>`
+        breakRow.appendChild(breakAcell);
+
+        const breaksCell = document.createElement('td');
+        breaksCell.id = `match-${match.getID()}-breaks`;
+        breaksCell.innerHTML = 'Breaks:';
+        breaksCell.style = 'padding-top: 1rem; padding-bottom: 0.5rem;';
+        breakRow.appendChild(breaksCell);
+        
+        const breakBcell = document.createElement('td');
+        breakBcell.style = "text-align: left;";
+        breakBcell.innerHTML = `<div id="match-${match.getID()}-breaksB" style="display: inline-block;">${match.getBreaksB().join(', ')}</div>`;
+        breakRow.appendChild(breakBcell);
+
+        const cell3 = document.createElement('td');
+        breakRow.appendChild(cell3);
+
+        const cell4 = document.createElement('td');
+        breakRow.appendChild(cell4);
+
+        // extra cell for scrollbar..?
+        const scrollCell = document.createElement('td');
+        scrollCell.style = 'padding: 0.25rem';
+        breakRow.appendChild(scrollCell);
+    }
+}
+var trackExpand = [];
 function populateMatchListTable(matches) {
+    trackExpand = [];
+    matches.forEach((match) => {
+        const myRow = document.getElementById(`match-${match.getID()}-info`);
+        if (myRow && myRow.classList.contains('active')) {
+            trackExpand.push(match.getID());
+        }
+    });
+
     const tableBody = document.querySelector('#list-table-match tbody');
     tableBody.innerHTML = ''; // Clear the table body before populating new data
 
@@ -1007,25 +1220,71 @@ function populateMatchListTable(matches) {
             console.log('debug test: matches[' + index + '] is instanceof Match = ' + (match instanceof Match) + ' \n matches[' + index + '] =');
             console.log(match);
         }
+
+        const myID = match.getID();
+
         // Main row
         const mainRow = document.createElement('tr');
-        mainRow.id = `match-${match.getID()}`;
+        mainRow.id = `match-${myID}`;
         populateMatchListRow_main(match, mainRow);
 
         // Dummy row for alternating colors
-        const dummyRow = document.createElement('tr');
+        const dummyRow1 = document.createElement('tr');
 
         // Additional information row
         const infoRow = document.createElement('tr');
         infoRow.classList.add('match-list-info');
-        infoRow.id = `match-${match.getID()}-info`;
+        if (trackExpand.includes(myID)) infoRow.classList.add('active');
+        infoRow.id = `match-${myID}-info`;
         populateMatchListRow_info(match, infoRow);
+
+        // Dummy row for alternating colors
+        const dummyRow2 = document.createElement('tr');
+
+        // Additional breaks row
+        const breakRow = document.createElement('tr');
+        breakRow.classList.add('match-list-info');
+        if (trackExpand.includes(myID)) breakRow.classList.add('active');
+        breakRow.id = `match-${myID}-break`;
+        populateMatchListRow_break(match, breakRow);
 
         // Append all rows to the table body
         tableBody.appendChild(mainRow);
-        tableBody.appendChild(dummyRow);
+        tableBody.appendChild(dummyRow1);
         tableBody.appendChild(infoRow);
+        tableBody.appendChild(dummyRow2);
+        tableBody.appendChild(breakRow);
     });
+}
+function populateBreaksListTable(breaksList) {
+    const table = document.getElementById('list-table-breaks').getElementsByTagName('tbody')[0];
+    table.innerHTML = '';
+    const entries = breaksList.getEntries();
+    for (let i = 0; i < entries.length; i++) {
+        const entry = entries[i];
+        const player = ratingList.getPlayerByName(entry.getName());
+        //console.log('populateBreaksListTable: player[' + i + '] = ' + player);
+        const row = table.insertRow(-1);
+
+        const positionCell = row.insertCell(0);
+        const nameCell = row.insertCell(1);
+        nameCell.classList.add('rating-list-name');
+        const clubCell = row.insertCell(2);
+        const highbreakCell = row.insertCell(3);
+        const breaksCell = row.insertCell(4);
+        breaksCell.classList.add('breaks-list-breaks');
+        const breaksCellP = document.createElement('p');
+        //breaksCellDiv.classList.add('breaks-list-breaks');
+        const scrollCell = row.insertCell(5);
+        scrollCell.style = 'padding: 0.25rem';
+
+        positionCell.innerHTML = `<p class="position">${i + 1}</p>`;
+        nameCell.innerHTML = entry.getName();
+        clubCell.innerHTML = `<img class="club-logo" src="images/${player.getClub()}_logo.png" title="${player.getClub()}" onerror="this.src = 'images/default_logo.png'" alt="">`;
+        highbreakCell.innerHTML = entry.getHighbreak();
+        breaksCellP.innerHTML = entry.getBreaks().join(', ');
+        breaksCell.appendChild(breaksCellP);
+    }
 }
 
 
@@ -1198,22 +1457,32 @@ function loadMatchList(name, loadSystem) {
         return null;
     }
 }
+function loadBreaksList(name, loadSystem) {
+    var myList = new BreaksList(name);
+    if (loadSystem === LoadSystem.db) {
+        console.log('Initializing breaks list from db');
+        // initialize and load "onValue" from firebase
+        const highBreaksRef = ref(database, `${listName}_BreaksList`);
+        onValue(highBreaksRef, (snapshot) => {
+            breaksList = BreaksList.fromJSON(snapshot.val());
+            console.log('debug: updated breaksList_db: list =');
+            console.log(breaksList);
 
-/* // Old method for saving (don't use)
-// export to files when finished (and possibly continuously during on interaction)
-function saveAllJSON_local(ratingList, nullMatches, liveMatches, finishedMatches) {
-    try {
-        listToJSON_local(ratingList, `data/${listName}_RatingList.json`);
-        matchesToJSON_local(nullMatches,  `data/${listName}_nullMatches.json`);
-        matchesToJSON_local(liveMatches,  `data/${listName}_liveMatches.json`);
-        matchesToJSON_local(finishedMatches,  `data/${listName}_finishedMatches.json`);
-    }
-    catch(error) {
-        console.error('An error occured while saving files (JSON_local): ' + error.message);
-    }
+            breaksList.sort();
+            redraw_bl();
+        });
+
+        return breaksList;
+
+    } else if (loadSystem === LoadSystem.local) {
+        console.warn('Tried to initialize breaks list LOCAL. Returned null.');
+        return null;
+    } else if (loadSystem === LoadSystem.init) {
+        console.warn('Tried to initialize breaks list INIT. Returned null.');
+        return null;
+    } else throw new Error('Error: loadBreaksList(' + name + '); error loadSystem.');
 }
-// Make it so the list automatically update continuously when using Firebase db
-*/
+
 
 // main
 try {
@@ -1238,9 +1507,11 @@ try {
 
     onValue(nullMatchesRef, (snapshot) => {
         nullMatches = [];
-        snapshot.val().forEach(matchData => {
-            nullMatches.push(Match.fromJSON(matchData, ratingList));
-        });
+        if (snapshot.val()) {
+            snapshot.val().forEach(matchData => {
+                nullMatches.push(Match.fromJSON(matchData, ratingList));
+            });
+        }
         const test = nullMatches;
         if (debugWrite) console.log('debug: loadMatchList_db: nullMatches_test =');
         if (debugWrite) console.log(test);
@@ -1250,9 +1521,11 @@ try {
     });
     onValue(liveMatchesRef, (snapshot) => {
         liveMatches = [];
-        snapshot.val().forEach(matchData => {
-            liveMatches.push(Match.fromJSON(matchData, ratingList));
-        });
+        if (snapshot.val()) {
+            snapshot.val().forEach(matchData => {
+                liveMatches.push(Match.fromJSON(matchData, ratingList));
+            });
+        }
         if (debugWrite) console.log('debug: loadMatchList_db: liveMatches =');
         if (debugWrite) console.log(liveMatches);
 
@@ -1273,26 +1546,14 @@ try {
         redraw_ml();
     });
 
+    breaksList = loadBreaksList(listName, globalLoadSystem);
+
     console.log('Initialization successful!')
 } catch(error) {
     console.error('An error initializing data occured: '+ error.message);
 }
 
 
-/* // Old init method (don't use)
-// The real retrieving:
-try {
-    ratingList =      listFromJSON_db(`https://server.com/scripts/hc-rating/data/${listName}_RatingList.json`);
-    nullMatches =     matchesFromJSON_db(ratingList, `https://server.com/scripts/hc-rating/data/${listName}_nullMatches.json`);
-    liveMatches =     matchesFromJSON_db(ratingList, `https://server.com/scripts/hc-rating/data/${listName}_liveMatches.json`);
-    finishedMatches = matchesFromJSON_db(ratingList, `https://server.com/scripts/hc-rating/data/${listName}_finishedMatches.json`);
-    
-    console.log('Read files successfully');
-}
-catch (error) {
-    console.error('An error reading from files occurred: ', error.message);
-}
-*/
 
 // Post init functions
 function redraw_rl() {
@@ -1316,7 +1577,11 @@ function redraw_ml() {
         throw new Error('Error: some matches undefined - unable to display matchlist.')
     }
 }
-function redraw() {redraw_rl(); redraw_ml();}
+function redraw_bl() {
+    breaksList.sort();
+    populateBreaksListTable(breaksList);
+}
+function redraw() {redraw_rl(); redraw_ml(); redraw_bl();}
 function getMatch(id, states='all') {
     if (states === 'live') {
         for (const match of liveMatches) {

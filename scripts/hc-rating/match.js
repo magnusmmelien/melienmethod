@@ -15,13 +15,13 @@ function effKfactor(playerA, playerB) { //returns the K_eff for playerA
     const robustA = playerA.getRobust();
 	const robustB = playerB.getRobust();
 
-	if (robustA > robustHigh) {
-		if (robustB > robustHigh) { return initKfactor; }
-		if (robustB > robustMedium) { return 0.75 * initKfactor; }
+	if (robustA >= robustHigh) {
+		if (robustB >= robustHigh) { return initKfactor; }
+		if (robustB >= robustMedium) { return 0.75 * initKfactor; }
 		return 0.5 * initKfactor;
 	}
-	if (robustA > robustMedium) {
-		if (robustB > robustMedium) { return 1.5 * initKfactor; }
+	if (robustA >= robustMedium) {
+		if (robustB >= robustMedium) { return 1.5 * initKfactor; }
 		return initKfactor;
 	}
 	return 2 * initKfactor;
@@ -69,6 +69,8 @@ export class Match {
         this.state = MatchState.null;
         this.scoreA = 0;
         this.scoreB = 0;
+        this.breaksA = [];
+        this.breaksB = [];
         
         
         /*console.log('debug: new Match: playerA =');
@@ -114,7 +116,7 @@ export class Match {
     static fromJSON(json, ratingList) {
         //const parsedJSON = JSON.parse(json);
         try {
-            const { id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem, state, scoreA, scoreB, currentRatingA, currentRatingB, deltaA, deltaB } = json;
+            const { id, playerA, playerB, totalDistance, HC, distanceType, enumHCsystem, state, scoreA, scoreB, breaksA, breaksB, currentRatingA, currentRatingB, deltaA, deltaB } = json;
             //console.log('mytest: fromJSON: playerA =');
             //console.log(ratingList.getPlayerByName(playerA.name));
             const match = new Match(Number(id), ratingList.getPlayerByName(playerA.name), ratingList.getPlayerByName(playerB.name), 
@@ -122,6 +124,10 @@ export class Match {
             match.state = Number(state);
             match.scoreA = Number(scoreA);
             match.scoreB = Number(scoreB);
+            if (breaksA) match.breaksA = breaksA;
+            else match.breaksA = [];
+            if (breaksB) match.breaksB = breaksB;
+            else match.breaksB = [];
             match.currentRatingA = Number(currentRatingA);
             match.currentRatingB = Number(currentRatingB);
             match.deltaA = Number(deltaA);
@@ -183,6 +189,8 @@ export class Match {
     incB() { this.scoreB++; }
     decA() { if (this.scoreA > 0) this.scoreA--; }
     decB() { if (this.scoreB > 0) this.scoreB--; }
+    addBreakA(x) { this.breaksA.push(x); }
+    addBreakB(x) { this.breaksB.push(x); }
 
     isMatchFinished() {
         const isBestOf = this.distanceType === DistanceType.bestOf;
@@ -261,6 +269,8 @@ export class Match {
     setDistance(d) {this.totalDistance = d;}
     setHC(x) {this.HC = x;}
     setHCsystem(urs) {this.enumHCsystem = urs;}
+    setBreaksA(breaks) {this.breaksA = breaks;}
+    setBreaksB(breaks) {this.breaksB = breaks;}
 
     getID() {return this.id;}
     getPlayerA() {return this.playerA;}
@@ -272,6 +282,8 @@ export class Match {
     getState() {return this.state;}
     getScoreA() {return this.scoreA;}
     getScoreB() {return this.scoreB;}
+    getBreaksA() {return this.breaksA;}
+    getBreaksB() {return this.breaksB;}
     getOrigRatingA() {return this.currentRatingA;}
     getOrigRatingB() {return this.currentRatingB;}
     getDeltaA() {return this.deltaA;}

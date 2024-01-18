@@ -387,7 +387,7 @@
             </div>
             <div class="popup" id="popup-edit">
                 <div class="overlay"></div>
-                <div class="content">
+                <div class="content" style="height: 750px;">
                     <div class="close-btn" onclick="toggleEditPopup()">&times;</div>
                     <h2>Edit Match</h2>
                     <table class="popup-table">
@@ -446,6 +446,26 @@
                             <td>
                                 <button id="edit-button-frames" class="button choose active" onclick="toggleURS('frames', 'edit')">By-frame</button>
                                 <button id="edit-button-match" class="button choose" onclick="toggleURS('match', 'edit')">By-match</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Breaks A:</p></td>
+                            <td>
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 10rem;" id="edit-breaksA-input" type="text" name="breaksA" placeholder="Breaks player A...">
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p>Breaks B:</p></td>
+                            <td>
+                                <form autocomplete="off">
+                                    <div class="autocomplete">
+                                        <input class="popup-input" style="width: 10rem;" id="edit-breaksB-input" type="text" name="breaksB" placeholder="Breaks player B...">
+                                    </div>
+                                </form>
                             </td>
                         </tr>
                         
@@ -532,6 +552,36 @@
                                 <th style="text-align: left;">Player B</th>
                                 <th></th><!--Club B-->
                                 <th></th>
+                                <th style="padding: 0.25rem;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table for Breaks List -->
+                <div class="rating-list-div">
+                    <p class="list-info" style="display: inline-block;">
+                        Breaks of 2024
+                    </p>
+                    <div class="tooltip" style="color: #333;">
+                        &#9432;
+                        <span class="tooltiptext">
+                            All your breaks <em>above</em> half your current high break will be automatically 
+                            registered below.
+                        </span>
+                    </div>
+                    
+                    <table class="list-table" id="list-table-breaks" style="white-space: normal;">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th class="rating-list-name">Name</th>
+                                <th>Club</th>
+                                <th>High Break</th>
+                                <th style="text-align: left;">Breaks (25+)</th>
                                 <th style="padding: 0.25rem;"></th>
                             </tr>
                         </thead>

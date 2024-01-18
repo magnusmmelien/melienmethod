@@ -8,5 +8,5 @@ export const robustHigh = 0.85;
 export const defaultRounding = 5;
 export const KfactorFrameCoeff = 1.15; // feel free to experiment...
 export const KfactorMatchCoeff = 1; // feel free to experiment...
-export const KfactorJustFramesCoeff = 0.7;
+export const KfactorJustFramesCoeff = 0.75;
 export const ratingNormFactor = 400;
