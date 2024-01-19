@@ -491,6 +491,9 @@ function addBreak_backend(i, x) {
         }
         else if (myInput.value) alert('Error: invalid break.');
     }
+    else { // input field is not showing now --> so it will open now --> give focus
+        myInput.focus();
+    }
     
     myInput.value = '';
     myInput.classList.toggle('show');
@@ -539,11 +542,17 @@ function startMatch_backend(id) {
 function finishMatch_backend() {
     // finish match backend
     const match = getMatch(Number(document.getElementById('confirm-finish-button').name), 'live');
-    match.finishMatch();
-    liveMatches.splice(liveMatches.indexOf(match), 1);
+    try {
+        match.finishMatch();
+        liveMatches.splice(liveMatches.indexOf(match), 1);
 
-    finishedMatches.unshift(match);
-    updateBreaksList(match);
+        finishedMatches.unshift(match);
+        updateBreaksList(match);
+    }
+    catch(error) {
+        console.error('Error: unable to finish match (backend):\n' + error.message);
+        alert('Error: unable to finish match (backend):\n' + error.message);
+    }
 
     try {
         // update db:
@@ -563,7 +572,7 @@ function finishMatch_backend() {
             update(ref(database), updates);
         }
     } catch(error) {
-        console.error('Error finishing (updating db) match (id = ' + id + '): ' + error.message + '\nPlease contact admin.');
+        console.error('Error finishing (updating db) match (id = ' + match.getID() + '): ' + error.message + '\nPlease contact admin.');
         alert('Error finishing (updating db) match (id = ' + match.getID() + '): ' + error.message + '\nPlease contact admin.');
     }
 

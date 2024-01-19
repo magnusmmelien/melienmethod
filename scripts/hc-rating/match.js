@@ -193,6 +193,7 @@ export class Match {
     addBreakB(x) { this.breaksB.push(x); }
 
     isMatchFinished() {
+        if (this.scoreA === 0 && this.scoreB === 0) { return false; }
         const isBestOf = this.distanceType === DistanceType.bestOf;
         if (!isBestOf && this.scoreA + this.scoreB > 0) { return true; }
 
@@ -237,6 +238,9 @@ export class Match {
         const tooManyFramesBestOfB = 1.0 * this.scoreB >= this.totalDistance / 2.0 + 1;
         const tooManyFramesBestOf = tooManyFramesBestOfA || tooManyFramesBestOfB;
 
+        if (this.scoreA === 0 && this.scoreB === 0) {
+            throw new Error(`Error: tried to finish match[${this.id}] 0-0; not allowed!`);
+        }
         if (isBestOf && (!(onePlayerAboveHalf || bothExactlyAtHalf) || tooManyFramesBestOf) )
         {
             // OBS OBS(!): SHOULD BE AN ABORT OR WARNING HERE - NOT JUST CONTINUE...
@@ -245,7 +249,7 @@ export class Match {
                 == true) {
                     this.enumHCsystem = HCsystem.frame;
                     this.distanceType = DistanceType.justFrames;
-            } else { throw new Error(`Error: aborted finishing of match (${this.id})`); }
+            } else { throw new Error(`Error: aborted finishing of match[${this.id}]`); }
         }
 
         // This means that rating is updated from what your rating is NOW (not when match was started). This is by design!!

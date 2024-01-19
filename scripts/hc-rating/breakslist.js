@@ -71,7 +71,7 @@ export class BreaksList {
         if (debugMode) {console.log('Debug: fromJSON(json)');}
 
         //const parsedJSON = JSON.parse(json);
-        var { name, entries } = json;
+        const { name, entries } = json;
         
         if (debugMode) {console.log('parsedData.name =');}
         if (debugMode) {console.log(name);}
@@ -80,8 +80,9 @@ export class BreaksList {
         const breaksList = new BreaksList(name);
         if (debugMode) {console.log('created new breaksList =');}
         if (debugMode) {console.log(breaksList);}
-        if (!entries) entries = [];
-        entries.forEach(entriesData => {
+        //if (!entries) entries = [];
+        const entriesArr = [].concat(entries || []);
+        entriesArr.forEach(entriesData => {
             //console.log('debug: breaksList.fromJSON(); entriesData =');
             //console.log(entriesData);
             breaksList.addEntry(BreaksEntry.fromJSON(entriesData));
