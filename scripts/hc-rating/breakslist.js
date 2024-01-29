@@ -116,10 +116,10 @@ export class BreaksList {
             return -(a.getPlayer().getRating() - b.getPlayer().getRating()); // negative because highest rating first
             */
 
-            // Sort by highbreak, then number of registered breaks...
-            const dx = -(a.getHighbreak() - b.getHighbreak());
-            if (dx !== 0) return dx;
-            return -(a.getSize() - b.getSize());
+            // Sort by number of registered breaks, then highbreak... 
+            const n = -(a.getSize() - b.getSize());
+            if (n !== 0) return n;
+            return -(a.getHighbreak() - b.getHighbreak());
         });
     } 
 

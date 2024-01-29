@@ -144,6 +144,10 @@ footer::before {
     --background-image-h: calc(728px * 1.1);*/
     --background-image-h: calc(100vh - 40px - 3.34em - 20px - 20px);
     --background-image-w: calc(var(--background-image-h)*(1024/728));
+    /*--background-image-w: 52vw;
+    --background-image-h: calc(--background-image-w * 728/1024);*/
+    /*--background-image-h: calc(52vw * 728/1024);
+    --background-image-w: calc(var(--background-image-h)*(1024/728));*/
     --zoom-factor: 1.5;
     --background-zoom-w: calc(var(--background-image-w) * var(--zoom-factor));
     --background-zoom-h: calc(var(--background-image-h) * var(--zoom-factor));

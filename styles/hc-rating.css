@@ -405,7 +405,7 @@ main {
     display: none;}
 .popup .content {
     position: absolute;
-    top: 50%;
+    top: clamp(120px, 50%, calc(325px + 300px));
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     color: #000;
@@ -776,6 +776,7 @@ td.text-output .box .title p span {
     text-align: center;
     vertical-align: text-top;
     font-size: 0.9rem;
+    font-family: "Exo";
 }
 .tooltip .tooltiptext {
     visibility: hidden;

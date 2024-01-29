@@ -220,7 +220,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><p>HC:</p></td>
+                            <td>
+                                <p style="display: inline-block;">HC:</p>
+                                <div class="tooltip">
+                                    i
+                                    <span class="tooltiptext">
+                                        Leave the checkbox <strong>un-checked</strong> to play without HC; 
+                                        negative HC means player <strong>A</strong> starts each frame with extra points; 
+                                        positive HC means player <strong>B</strong> starts each frame with extra points; 
+                                        leave the input field <strong>empty</strong> to play with the recommended HC.
+                                    </span>
+                                </div>
+                            </td>
                             <td>
                                 <button class="button-checkmark" id="button-HC" onclick="toggleHC()"><span class="checkmark">&checkmark;</span></button>
                             </td>
@@ -233,7 +244,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><p>Update-Rating-System:</p></td>
+                            <td>
+                                <p style="display: inline-block; width: 70%;">Update-Rating-System:</p>
+                                <div class="tooltip">
+                                    i
+                                    <span class="tooltiptext">
+                                        Choose whether you want, upon completion of match, to update rating based solely on "<strong>match</strong>" outcome 
+                                        (win-lose-draw) or whether you want to take the final "<strong>frame</strong>"-scoreline into account.
+                                    </span>
+                                </div>
+                            </td>
                             <td>
                                 <button id="button-frames" class="button choose active" onclick="toggleURS('frames')">By-frame</button>
                                 <button id="button-match" class="button choose" onclick="toggleURS('match')">By-match</button>
@@ -429,7 +449,18 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><p>HC:</p></td>
+                            <td>
+                                <p style="display: inline-block;">HC:</p>
+                                <div class="tooltip">
+                                    i
+                                    <span class="tooltiptext">
+                                        Leave the checkbox <strong>un-checked</strong> to play without HC; 
+                                        negative HC means player <strong>A</strong> starts each frame with extra points; 
+                                        positive HC means player <strong>B</strong> starts each frame with extra points; 
+                                        leave the input field <strong>empty</strong> to play with the recommended HC.
+                                    </span>
+                                </div>
+                            </td>
                             <td>
                                 <button class="button-checkmark" id="edit-button-HC" onclick="toggleHC('edit')"><span class="checkmark">&checkmark;</span></button>
                             </td>
@@ -442,7 +473,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><p>Update-Rating-System:</p></td>
+                            <td>
+                                <p style="display: inline-block; width: 70%;">Update-Rating-System:</p>
+                                <div class="tooltip">
+                                    i
+                                    <span class="tooltiptext">
+                                        Choose whether you want, upon completion of match, to update rating based solely on "<strong>match</strong>" outcome 
+                                        (win-lose-draw) or whether you want to take the final "<strong>frame</strong>"-scoreline into account.
+                                    </span>
+                                </div>
+                            </td>
                             <td>
                                 <button id="edit-button-frames" class="button choose active" onclick="toggleURS('frames', 'edit')">By-frame</button>
                                 <button id="edit-button-match" class="button choose" onclick="toggleURS('match', 'edit')">By-match</button>
@@ -544,10 +584,10 @@
                         Breaks of 2024
                     </p>
                     <div class="tooltip">
-                        i<!--&#9432;-->
+                        i
                         <span class="tooltiptext">
                             All your breaks <em>above</em> half your current high break will be automatically 
-                            registered below.
+                            registered below - sorted by number of entries.
                         </span>
                     </div>
                     
