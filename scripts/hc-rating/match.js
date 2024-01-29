@@ -206,12 +206,20 @@ export class Match {
         const playerBexactlyAtHalf = 1.0 * this.scoreB === this.totalDistance / 2.0;
         const bothExactlyAtHalf = playerAexactlyAtHalf && playerBexactlyAtHalf;
 
-        const tooManyFramesBestOfA = 1.0 * this.scoreA >= this.totalDistance / 2.0 + 1;
-        const tooManyFramesBestOfB = 1.0 * this.scoreB >= this.totalDistance / 2.0 + 1;
+        const tooManyFramesBestOfA = 1.0 * this.scoreA > this.totalDistance / 2.0 + 1;
+        const tooManyFramesBestOfB = 1.0 * this.scoreB > this.totalDistance / 2.0 + 1;
         const tooManyFramesBestOf = tooManyFramesBestOfA || tooManyFramesBestOfB;
 
-        if (isBestOf && (!(onePlayerAboveHalf || bothExactlyAtHalf) || tooManyFramesBestOf) )
-        { return false; }
+        
+        if (this.scoreA === 0 && this.scoreB === 0) return false;
+        if (isBestOf) {
+            if (!(onePlayerAboveHalf || bothExactlyAtHalf) || tooManyFramesBestOf) {
+                if (this.totalDistance % 2 === 0 && this.scoreA + this.scoreB === this.totalDistance) {
+                    // if distance even => allow if scoreA + scoreB === totalDistance
+                }
+                else {return false;}
+            }
+        }
         return true;
     }
     finishMatch(finalScoreA = this.scoreA, finalScoreB = this.scoreB) {
@@ -234,22 +242,28 @@ export class Match {
         const playerBexactlyAtHalf = 1.0 * this.scoreB === this.totalDistance / 2.0;
         const bothExactlyAtHalf = playerAexactlyAtHalf && playerBexactlyAtHalf;
 
-        const tooManyFramesBestOfA = 1.0 * this.scoreA >= this.totalDistance / 2.0 + 1;
-        const tooManyFramesBestOfB = 1.0 * this.scoreB >= this.totalDistance / 2.0 + 1;
+        const tooManyFramesBestOfA = 1.0 * this.scoreA > this.totalDistance / 2.0 + 1;
+        const tooManyFramesBestOfB = 1.0 * this.scoreB > this.totalDistance / 2.0 + 1;
         const tooManyFramesBestOf = tooManyFramesBestOfA || tooManyFramesBestOfB;
 
         if (this.scoreA === 0 && this.scoreB === 0) {
             throw new Error(`Error: tried to finish match[${this.id}] 0-0; not allowed!`);
         }
-        if (isBestOf && (!(onePlayerAboveHalf || bothExactlyAtHalf) || tooManyFramesBestOf) )
-        {
-            // OBS OBS(!): SHOULD BE AN ABORT OR WARNING HERE - NOT JUST CONTINUE...
-            if (confirm(`Error: this match (ID = ${this.id}) does not seem to have reached it's natural 
-            conclusion. Would you like to change the "distance type" to "just frames" and finish?`)
-                == true) {
-                    this.enumHCsystem = HCsystem.frame;
-                    this.distanceType = DistanceType.justFrames;
-            } else { throw new Error(`Error: aborted finishing of match[${this.id}]`); }
+        if (isBestOf) {
+            if (!(onePlayerAboveHalf || bothExactlyAtHalf) || tooManyFramesBestOf) {
+                if (this.totalDistance % 2 === 0 && this.scoreA + this.scoreB === this.totalDistance) {
+                    // if distance even => allow if scoreA + scoreB === totalDistance
+                }
+                else {
+                    // OBS OBS(!): SHOULD BE AN ABORT OR WARNING HERE - NOT JUST CONTINUE...
+                    if (confirm(`Error: this match (ID = ${this.id}) does not seem to have reached it's natural 
+                    conclusion. Would you like to change the "distance type" to "just frames" and finish?`)
+                        == true) {
+                            this.enumHCsystem = HCsystem.frame;
+                            this.distanceType = DistanceType.justFrames;
+                    } else { throw new Error(`Error: aborted finishing of match[${this.id}]`); }
+                }
+            }
         }
 
         // This means that rating is updated from what your rating is NOW (not when match was started). This is by design!!
