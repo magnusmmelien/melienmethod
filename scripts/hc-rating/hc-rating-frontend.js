@@ -30,12 +30,16 @@ function toggleMatchPopup() {
 function toggleCalcPopup() {
     document.getElementById("popup-calc").classList.toggle("active");
     toggleCalcType('by-name');
-    document.getElementById('error-message-hcCalc').style = 'display: none;';
+    document.getElementById('error-message-hcCalc').classList.remove('show');
 }
 function toggleEstimatePopup() {
     document.getElementById("popup-estimate").classList.toggle("active");
     document.getElementById("popup-player").classList.toggle("active");
-    toggleCalcType('by-name');
+
+    document.getElementById('button-by-name-estimate').classList.add('active');
+    document.getElementById('button-by-rating-estimate').classList.remove('active');
+    document.getElementById('output-rating-block-estimate').classList.remove('block');
+
     document.getElementById("estimate-playerR-input").value = '';
     document.getElementById("estimate-ratingR-input").value = '';
     document.getElementById("estimate-hcEstimate-input").value = '';
@@ -165,7 +169,7 @@ function toggleCalcType(typeString) {
     document.getElementById('output-rating').textContent = '';
     document.getElementById('output-HC').textContent = '';
     
-    document.getElementById('error-message-hcCalc').style = 'display: none;';
+    document.getElementById('error-message-hcCalc').classList.remove('show');
 
     document.getElementById('button-by-name').classList.remove('active');
     document.getElementById('button-by-rating').classList.remove('active');

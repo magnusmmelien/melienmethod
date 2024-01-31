@@ -333,7 +333,7 @@ function hcCalcCheckHC_backend() {
             myElement.textContent = ratingToHC(playerA.getRating(), playerB.getRating());
         } catch (error) {
             console.error(error);
-            document.getElementById('error-message-hcCalc').style = 'display: block;';
+            document.getElementById('error-message-hcCalc').classList.add('show');
             return;
         }
     } else if (document.getElementById('button-by-rating').classList.contains('active')) {
@@ -344,7 +344,7 @@ function hcCalcCheckHC_backend() {
             myElement.textContent = ratingToHC(Number(ratingAtext), Number(ratingBtext));
         } catch (error) {
             console.error(error);
-            document.getElementById('error-message-hcCalc').style = 'display: block;';
+            document.getElementById('error-message-hcCalc').classList.add('show');
             return;
         }
     }
@@ -377,7 +377,7 @@ function hcCalcCheckRating_backend() {
             myElement.textContent = roundedToFixed(ratingList.getPlayerByName(playerRtext).getRating() + hcToRating(inputHC));
         } catch (error) { 
             console.error(error);
-            document.getElementById('error-message-hcCalc').style = 'display: block;';
+            document.getElementById('error-message-hcCalc').classList.add('show');
             return;
         }
     } else if (document.getElementById('button-by-rating').classList.contains('active')) {
@@ -388,7 +388,7 @@ function hcCalcCheckRating_backend() {
             myElement.textContent = roundedToFixed(Number(inputRatingText) + hcToRating(inputHC));
         } catch (error) {
             console.error(error);
-            document.getElementById('error-message-hcCalc').style = 'display: block;';
+            document.getElementById('error-message-hcCalc').classList.add('show');
             return;
         }
     }
