@@ -1,14 +1,9 @@
 
-
 document.addEventListener("DOMContentLoaded", function() {
-    const button1 = document.getElementById("button1");
-    const button2 = document.getElementById("button2");
-    const button3 = document.getElementById("button3");
-    const button4 = document.getElementById("button4");
-    const button5 = document.getElementById("button5");
     const homeBackground = document.querySelector(".home-background");
-
     const buttons = document.getElementsByClassName('button');
+    const li_list = document.querySelectorAll('#home-menu li');
+    
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener("mouseenter", () => {
             homeBackground.classList.remove(`zoom-out`);        
@@ -18,8 +13,8 @@ document.addEventListener("DOMContentLoaded", function() {
             homeBackground.classList.remove(`zoom-effect-${i}`);
             homeBackground.classList.add(`zoom-out`);
         });
+        li_list[i].style = `top: calc(4rem + 8vh + ${i+1}*2*(0.5rem + 0.8*(0.5vw + 2vh)));`;
     }
-
     /*
     button1.addEventListener("mouseenter", () => {
         homeBackground.classList.remove("zoom-out-1");
@@ -95,5 +90,4 @@ document.addEventListener("DOMContentLoaded", function() {
       homeBackground.classList.add("zoom-out-5");
     });
     */
-
 });

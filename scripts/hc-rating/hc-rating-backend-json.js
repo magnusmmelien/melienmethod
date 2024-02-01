@@ -247,6 +247,7 @@ function createNewMatch_backend() {
     // close window
     toggleMatchPopup();
     redraw_ml();
+    // matchtable[0].scrollIntoView..?
 }
 document.getElementById('newmatch-confirm').addEventListener("click", function() {createNewMatch_backend();});
 

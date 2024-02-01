@@ -68,14 +68,22 @@ nav li a {
     padding: 10px 15px;
     border: none; /* Remove the border for all states of the buttons */
     width: 300px;
+    max-width: 60vw;
     text-align: left;
     transition: background-color 0.3s, transform 0.2s, border-color 0.2s; /* Add border-color transition */
     margin-left: 0;
     font-size: 1.2rem;
     transform: skewX(-20deg); /* Apply skew transformation to make a parallelogram shape */
 }
+.home-content nav li {
+    position: absolute;
+}
 .home-content nav li a {
-    font-size: calc(1.4vh + 0.8vh * (1 / ((1 + ( calc(vh/vw) ))*(1 + ( calc(vh/vw) ))*(1 + ( calc(vh/vw) ))*(1 + ( calc(vh/vw) )))));
+    position: relative;
+    z-index: 1;
+    max-width: 75vw;
+    width: clamp(300px, calc(13*(0.5rem + 0.8*(0.5vw + 2vh))), 75vw);
+    font-size: calc(0.5rem + 0.8*(0.5vw + 2vh));
 }
 
 nav li a:hover {
@@ -123,7 +131,7 @@ footer::before {
 .home-content {
     padding: 20px;
     display: inline-block;
-    width: calc(35%);
+    width: clamp(100px, 20%, 300px);
     vertical-align: top;
     margin-left: 10%;
     overflow: visible;
@@ -160,8 +168,9 @@ footer::before {
     background-image: url(../images/home-background.jpg);
     /*filter: blur(8px);*/
     background-repeat: no-repeat;
-    background-position: top left;
-    background-size: var(--background-image-w) var(--background-image-h);
+    background-position: left;
+    /*background-size: var(--background-image-w) var(--background-image-h);*/
+    background-size: cover;
     position: relative;
     overflow: hidden;
     /*transition: background-size 0.5s; /* Add a transition to smooth out background-size changes */
@@ -211,32 +220,44 @@ footer::before {
 
 /*New (correct!) zoom effects*/
 .zoom-effect-0 {
-    background-size: var(--background-zoom-w) var(--background-zoom-h);
-    background-position-y: calc(0 * 15%);
+    /*background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);*/
+    background-size: cover;
+    transform: scale(1.5) translateY(calc(10% - 0*5%));
 }
 .zoom-effect-1 {
-    background-size: var(--background-zoom-w) var(--background-zoom-h);
-    background-position-y: calc(1 * 15%);
+    /*background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);*/
+    background-size: cover;
+    transform: scale(1.5) translateY(calc(10% - 1*5%));
 }
 .zoom-effect-2 {
-    background-size: var(--background-zoom-w) var(--background-zoom-h);
-    background-position-y: calc(2 * 15%);
+    /*background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);*/
+    background-size: cover;
+    transform: scale(1.5) translateY(calc(10% - 2*5%));
 }
 .zoom-effect-3 {
-    background-size: var(--background-zoom-w) var(--background-zoom-h);
-    background-position-y: calc(3 * 15%);
+    /*background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);*/
+    background-size: cover;
+    transform: scale(1.5) translateY(calc(10% - 3*5%));
 }
 .zoom-effect-4 {
-    background-size: var(--background-zoom-w) var(--background-zoom-h);
-    background-position-y: calc(4 * 15%);
+    /*background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);*/
+    background-size: cover;
+    transform: scale(1.5) translateY(calc(10% - 4*5%));
 }
 .zoom-effect-5 {
-    background-size: var(--background-zoom-w) var(--background-zoom-h);
-    background-position-y: calc(5 * 15%);
+    /*background-size: var(--background-zoom-w) var(--background-zoom-h);
+    background-position-y: calc(0 * 15%);*/
+    background-size: cover;
+    transform: scale(1.5) translateY(calc(10% - 5*5%));
 }
 .zoom-out {
-    background-size: var(--background-image-w) var(--background-image-h);
-    background-position: top left;
+    background-size: cover;
+    background-position: left;
 }
 
 
