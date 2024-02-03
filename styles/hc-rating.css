@@ -490,7 +490,7 @@ main {
     /*height: calc(2rem - 2px);*/
     background-color: #f1f1f1;}
 .popup-input.HC {
-    width: 4rem;
+    width: 4.3rem;
     position: absolute;
     transform: translate(3rem, -3rem) skewX(-20deg);
 }
@@ -511,8 +511,8 @@ main {
 
 .button-checkmark {
     cursor: pointer;
-    height: 2rem;
-    width: 2rem;
+    height: 32px;
+    width: 32px;
     font-size: 3rem;
     color: transparent;
     vertical-align: middle;
