@@ -3,6 +3,10 @@ document.getElementById("button-info").addEventListener("click", function() {
     // Navigate to the "info.html" file
     window.location.href = "././info.html#section-HC";
 });
+document.getElementById("button-archive").addEventListener("click", function() {
+    // Navigate to the "info.html" file
+    window.location.href = "././archive.html";
+});
 
 function togglePlayerPopup() {
     document.getElementById("popup-player").classList.toggle("active");

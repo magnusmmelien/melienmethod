@@ -513,6 +513,7 @@ main {
     cursor: pointer;
     height: 32px;
     width: 32px;
+    max-width: 32px;
     font-size: 3rem;
     color: transparent;
     vertical-align: middle;

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Melien Method - Archive</title>
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/tournament-style.css">
+    <link rel="stylesheet" href="styles/hc-rating.css">
+    
+</head>
+<body>
+    <header>
+        <h1>The Melien Method</h1>
+    </header>
+
+    <main>
+        <div class="main-content">
+
+            <div class="table-content">
+                                
+                <!-- Table for Match List -->
+                <div class="match-list-div">
+                    <p class="list-info">Archived Matches</p>
+                    <table class="list-table" id="list-table-archive" style="min-height: 200px;">
+                        <thead>
+                            <tr>
+                                <th>Match</th>
+                                <th></th><!--Club A-->
+                                <th style="text-align: right;">Player A</th>
+                                <th>Score</th>
+                                <th style="text-align: left;">Player B</th>
+                                <th></th><!--Club B-->
+                                <th></th>
+                                <th style="padding: 0.25rem;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+
+        <nav style="position: absolute; bottom: 60px;">
+            <ul>
+                <li><a href="index.html">Main Menu</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <footer>
+        &copy; Magnus Martinsen Melien 2023. All rights reserved.
+    </footer>
+
+    <!--Firebase: Realtime Database-->
+    <script type="module" src="scripts/hc-rating/database_init.js"></script>
+    <script type="module" src="scripts/archive.js"></script>
+
+</body>
+</html>

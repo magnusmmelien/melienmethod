@@ -26,6 +26,7 @@ var breaksList = new BreaksList(listName);
 const nullMatchesRef = ref(database, `${listName}_nullMatches`);
 const liveMatchesRef = ref(database, `${listName}_liveMatches`);
 const finishedMatchesRef = ref(database, `${listName}_finishedMatches`);
+const archiveRef = ref(database, `${listName}_archive`);
 
 if (!writeToFileCont) console.warn('Warning: writeTFileCont (write to db continuously) is off (false)!');
 
@@ -1575,9 +1576,23 @@ function redraw_ml() {
     console.log(finishedMatches.length);*/
     if (nullMatches && liveMatches && finishedMatches) {
         if (finishedMatches.length > 32) {
+            var updates = {};
             while (finishedMatches.length > 32) {
-                finishedMatches.pop();
+                //finishedMatches.pop();
+                //at the top of page: const archiveRef = ref(database, `${listName}_archive`);
+                try {
+                    //var newArchiveKey = ref(database).child(`${listName}_archive`).push().key;
+                    var newArchiveKey = push(archiveRef).key;
+                    updates[listName + '_archive/' + newArchiveKey] = finishedMatches.pop();
+                    console.log('debug: successfully archived match!');
+                }
+                catch(error) {
+                    console.error('Failed to archive match. Error: ' + error.message);
+                    if (finishedMatches.length > 32) finishedMatches.pop();
+                }
             }
+            updates[listName + '_finishedMatches'] = finishedMatches;
+            update(ref(database), updates);
         }
         const matches = nullMatches.concat(liveMatches, finishedMatches);
         //console.log('debug: redraw_ml(): matches =');
@@ -1661,3 +1676,37 @@ catch (error) {console.error(error);}
 
 
 redraw();
+
+/*//test arxiv main
+var arxivTest = [];
+
+function testFunction() {
+    var updates = {};
+    var mytest = [];
+    mytest = arxivTest.reverse();
+    updates[listName + '_archive'] = mytest;
+    console.log('extra test: ');
+    console.log(mytest);
+    //update(ref(database), updates);
+}
+
+try {
+    onValue(archiveRef, (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            //const childKey = childSnapshot.key;
+            const childData = childSnapshot.val();
+            
+            arxivTest.push(Match.fromJSON(childData, ratingList));
+        });
+
+        console.log('debug: archive test:');
+        console.log(arxivTest);
+        
+        //testFunction();
+
+        //console.log('my test 2:');
+        //console.log(arxivTest);
+    });
+}
+catch(error) {console.error('test: ' + error);}
+*/

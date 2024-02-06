@@ -28,6 +28,7 @@
                             <li><button class="button" onclick="toggleCalcPopup()">HC-calculator</button></li>
                             <li><button class="button" id="button-info">Info</button></li>
                         </div>
+                        
                     </ul>
                 </nav>
             </div>
@@ -631,7 +632,10 @@
                 
                 <!-- Table for Match List -->
                 <div class="match-list-div">
-                    <p class="list-info">Matches</p>
+                    <p class="list-info" style="display: inline-block;">Matches</p>
+                    <div style="display: inline-block; transform: translateY(-12px);">
+                        <li><button class="button" id="button-archive">Archive</button></li>
+                    </div>
                     <table class="list-table" id="list-table-match">
                         <thead>
                             <tr>
@@ -649,6 +653,7 @@
 
                         </tbody>
                     </table>
+                    
                 </div>
             </div>
             
