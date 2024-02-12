@@ -563,13 +563,19 @@ function finishMatch_backend() {
             const updates = {};
             // update name_liveMatches
             updates[listName + '_liveMatches'] = liveMatches;
+            // update name_archive
+            // archive: this match
+            var newArchiveKey = push(archiveRef).key;
+            updates[listName + '_archive/' + newArchiveKey] = match;
+            console.log('debug: successfully archived finished match!');
             // update name_finishedMatches
+            if (finishedMatches.length > 32) finishedMatches.pop();
             updates[listName + '_finishedMatches'] = finishedMatches;
             // update rating list
             updates[listName + '_RatingList'] = ratingList;
             // update breaks list
-            console.log('test: breaksList = ');
-            console.log(breaksList);
+            //console.log('test: breaksList = ');
+            //console.log(breaksList);
             updates[listName + '_BreaksList'] = breaksList;
             update(ref(database), updates);
         }
@@ -1575,25 +1581,7 @@ function redraw_ml() {
     /*console.log('debug test: finishedMatches.length =');
     console.log(finishedMatches.length);*/
     if (nullMatches && liveMatches && finishedMatches) {
-        if (finishedMatches.length > 32) {
-            var updates = {};
-            while (finishedMatches.length > 32) {
-                //finishedMatches.pop();
-                //at the top of page: const archiveRef = ref(database, `${listName}_archive`);
-                try {
-                    //var newArchiveKey = ref(database).child(`${listName}_archive`).push().key;
-                    var newArchiveKey = push(archiveRef).key;
-                    updates[listName + '_archive/' + newArchiveKey] = finishedMatches.pop();
-                    console.log('debug: successfully archived match!');
-                }
-                catch(error) {
-                    console.error('Failed to archive match. Error: ' + error.message);
-                    if (finishedMatches.length > 32) finishedMatches.pop();
-                }
-            }
-            updates[listName + '_finishedMatches'] = finishedMatches;
-            update(ref(database), updates);
-        }
+        
         const matches = nullMatches.concat(liveMatches, finishedMatches);
         //console.log('debug: redraw_ml(): matches =');
         //console.log(matches);
