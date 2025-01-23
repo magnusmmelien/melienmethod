@@ -20,13 +20,15 @@ const listName = 'Norway';
 const globalLoadSystem = LoadSystem.db;
 const writeToFileCont = true;
 const debugWrite = false;
+const year = new Date().getFullYear(); const month = new Date().getMonth();
 var ratingList = new RatingList(listName);
 var nullMatches = []; var liveMatches = []; var finishedMatches = [];
 var breaksList = new BreaksList(listName);
+const dbRef = ref(getDatabase());
 const nullMatchesRef = ref(database, `${listName}_nullMatches`);
 const liveMatchesRef = ref(database, `${listName}_liveMatches`);
 const finishedMatchesRef = ref(database, `${listName}_finishedMatches`);
-const archiveRef = ref(database, `${listName}_archive`);
+
 
 if (!writeToFileCont) console.warn('Warning: writeTFileCont (write to db continuously) is off (false)!');
 
@@ -565,8 +567,8 @@ function finishMatch_backend() {
             updates[listName + '_liveMatches'] = liveMatches;
             // update name_archive
             // archive: this match
-            var newArchiveKey = push(archiveRef).key;
-            updates[listName + '_archive/' + newArchiveKey] = match;
+            var newArchiveKey = push(ref(database, `${listName}_archive/data/${year}/${month}`)).key;
+            updates[`${listName}_archive/data/${year}/${month}/${newArchiveKey}`] = match;
             console.log('debug: successfully archived finished match!');
             // update name_finishedMatches
             if (finishedMatches.length > 32) finishedMatches.pop();
@@ -574,9 +576,9 @@ function finishMatch_backend() {
             // update rating list
             updates[listName + '_RatingList'] = ratingList;
             // update breaks list
-            //console.log('test: breaksList = ');
-            //console.log(breaksList);
-            updates[listName + '_BreaksList'] = breaksList;
+            console.log('test: breaksList = ');
+            console.log(breaksList);
+            updates[listName + '_BreaksList/data/' + year] = breaksList;
             update(ref(database), updates);
         }
     } catch(error) {
@@ -1475,11 +1477,10 @@ function loadMatchList(name, loadSystem) {
     }
 }
 function loadBreaksList(name, loadSystem) {
-    var myList = new BreaksList(name);
     if (loadSystem === LoadSystem.db) {
         console.log('Initializing breaks list from db');
         // initialize and load "onValue" from firebase
-        const highBreaksRef = ref(database, `${listName}_BreaksList`);
+        const highBreaksRef = ref(database, `${listName}_BreaksList/data/${new Date().getFullYear()}`);
         onValue(highBreaksRef, (snapshot) => {
             breaksList = BreaksList.fromJSON(snapshot.val());
             console.log('debug: updated breaksList_db: list =');
@@ -1499,12 +1500,32 @@ function loadBreaksList(name, loadSystem) {
         return null;
     } else throw new Error('Error: loadBreaksList(' + name + '); error loadSystem.');
 }
+document.getElementById("breaks-year-title").textContent = "Breaks of " + year;
 
 
 // main
 try {
     // db import matchcounter and clubs:
     var matchCounter = 0;
+
+    //update archive breakslist metadata possible year options
+    get(child(dbRef, `${listName}_BreaksList/metadata`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            var breaksYears = snapshot.val();
+            if (!breaksYears.includes(year)) {
+                breaksYears.push(year);
+                const updates = {};
+                updates[listName + '_BreaksList/metadata'] = breaksYears;
+                update(ref(database), updates);
+            }
+        }
+        else {
+            console.log('No data available at: update archive breakslist metadata');
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+
     onValue(matchCounterRef, (snapshot) => {
         matchCounter = snapshot.val();
         console.log('debug: matchCounter = ' + matchCounter);
