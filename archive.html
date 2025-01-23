@@ -22,7 +22,19 @@
                 <!-- Table for Match List -->
                 <div class="match-list-div">
                     <p class="list-info">Archived Matches</p>
-                    <table class="list-table" id="list-table-archive" style="min-height: 200px;">
+
+                    <!-- Dropdown menu -->
+                    <select class="drop-down" id="selectYear">
+                        <option value="2025">2025</option>
+                        <option value="2025">2024</option>
+                    </select>
+                    <!-- Dropdown menu -->
+                    <select class="drop-down" id="selectMonth">
+                        <option value="0">Jan</option>
+                        <option value="1">Feb</option>
+                    </select>
+
+                    <table class="list-table" id="list-table-archive" style="min-height: 200px; margin-top: 2em;">
                         <thead>
                             <tr>
                                 <th>Match</th>
@@ -32,6 +44,42 @@
                                 <th style="text-align: left;">Player B</th>
                                 <th></th><!--Club B-->
                                 <th></th>
+                                <th style="padding: 0.25rem;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table for Breaks List -->
+                <div class="rating-list-div">
+                    <p id="breaks-year-title" class="list-info" style="display: inline-block;">
+                        Breaks List
+                    </p>
+                    <div class="tooltip">
+                        i
+                        <span class="tooltiptext">
+                            All your breaks <em>above</em> half your current high break will be automatically 
+                            registered below. List sorted by number of entries.
+                        </span>
+                    </div>
+
+                    <!-- Dropdown menu -->
+                    <select class="drop-down" id="selectYearBreak" style="display: block;">
+                        <option value="2025">2025</option>
+                        <option value="2025">2024</option>
+                    </select>
+                    
+                    <table class="list-table" id="list-table-breaks" style="white-space: normal; margin-top: 2em;">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th class="rating-list-name">Name</th>
+                                <th>Club</th>
+                                <th>High Break</th>
+                                <th style="text-align: left;">Breaks (25+)</th>
                                 <th style="padding: 0.25rem;"></th>
                             </tr>
                         </thead>
@@ -57,7 +105,7 @@
 
     <!--Firebase: Realtime Database-->
     <script type="module" src="scripts/hc-rating/database_init.js"></script>
-    <script type="module" src="scripts/archive.js"></script>
+    <script type="module" src="scripts/hc-rating/archive.js"></script>
 
 </body>
 </html>
