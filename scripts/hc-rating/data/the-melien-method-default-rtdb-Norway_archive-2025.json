@@ -1,0 +1,2037 @@
+{
+    
+    "-OEdevEp4J8ogswStWGt": {
+      "HC": 55,
+      "currentRatingA": 1573.2254367603362,
+      "currentRatingB": 1181.5232559025148,
+      "deltaA": 6.0170226905429445,
+      "deltaB": -6.0170226905429445,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 665,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1579.242459450879,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1175.506233211972,
+        "robust": 0.9989104692211517
+      },
+      "scoreA": 5,
+      "scoreB": 3,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OEdil7qtsEWcN5gVS9o": {
+      "HC": 10,
+      "currentRatingA": 1034.255702597162,
+      "currentRatingB": 864.1402688736235,
+      "deltaA": -2.328692839237874,
+      "deltaB": 1.164346419618937,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 656,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Eirik Hammarstøm",
+        "rating": 1031.9270097579242,
+        "robust": 0.5598733313482342
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 865.3046152932425,
+        "robust": 1
+      },
+      "scoreA": 1,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 2
+    },
+    "-OEdv4g-xqDeWYTiVwuw": {
+      "HC": 25,
+      "currentRatingA": 1239.8182503149844,
+      "currentRatingB": 943.2644954251543,
+      "deltaA": -1.1712222517917326,
+      "deltaB": 0.5856111258958663,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 657,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1238.6470280631927,
+        "robust": 0.6682897843554689
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Geir Ellefsen",
+        "rating": 943.8501065510502,
+        "robust": 1
+      },
+      "scoreA": 1,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 2
+    },
+    "-OFDaI2A3906IW3GezLJ": {
+      "HC": 0,
+      "currentRatingA": 865.3046152932425,
+      "currentRatingB": 943.8501065510502,
+      "deltaA": 1.398583590656699,
+      "deltaB": -1.398583590656699,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 666,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 866.7031988838992,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Geir Ellefsen",
+        "rating": 942.4515229603935,
+        "robust": 1
+      },
+      "scoreA": 2,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFDaxZnmjYjgYFcxmsW": {
+      "HC": 0,
+      "currentRatingA": 866.7031988838992,
+      "currentRatingB": 890.1833560563541,
+      "deltaA": 4.760378160951632,
+      "deltaB": -4.760378160951632,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 667,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 871.4635770448508,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 885.4229778954025,
+        "robust": 1
+      },
+      "scoreA": 3,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OFDw0D-A6vSA3qaMt6-": {
+      "HC": 0,
+      "currentRatingA": 1133.932961454883,
+      "currentRatingB": 871.4635770448508,
+      "deltaA": 4.391377466569338,
+      "deltaB": -1.0978443666423345,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 668,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Simone Valente",
+        "rating": 1138.3243389214524,
+        "robust": 0.2262190625
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 870.3657326782085,
+        "robust": 1
+      },
+      "scoreA": 3,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFHjipTUS8pKsm0oZjY": {
+      "HC": 0,
+      "currentRatingA": 1031.9270097579242,
+      "currentRatingB": 870.3657326782085,
+      "deltaA": 0.6664455344991893,
+      "deltaB": -0.33322276724959465,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 670,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Eirik Hammarstøm",
+        "rating": 1032.5934552924234,
+        "robust": 0.5818796647808225
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 870.0325099109589,
+        "robust": 1
+      },
+      "scoreA": 6,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFX-NpSOs_qDY2NLs74": {
+      "HC": 0,
+      "currentRatingA": 1214.1538580609881,
+      "currentRatingB": 942.4515229603935,
+      "deltaA": -1.290726420358851,
+      "deltaB": 1.290726420358851,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 671,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Sondre Sundt",
+        "rating": 1212.8631316406293,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Geir Ellefsen",
+        "rating": 943.7422493807524,
+        "robust": 1
+      },
+      "scoreA": 3,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OFXipOCH3XQcUCyPgPd": {
+      "HC": 45,
+      "breaksA": [
+        59
+      ],
+      "currentRatingA": 1579.242459450879,
+      "currentRatingB": 1175.506233211972,
+      "deltaA": 0.34392858591786535,
+      "deltaB": -0.34392858591786535,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 672,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1579.586388036797,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1175.162304626054,
+        "robust": 0.9989649457600941
+      },
+      "scoreA": 3,
+      "scoreB": 5,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFY84y2hDqtA0hJDutl": {
+      "HC": 40,
+      "currentRatingA": 1579.586388036797,
+      "currentRatingB": 888.2778929747257,
+      "deltaA": 2.234414852730197,
+      "deltaB": -4.468829705460507,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 673,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1581.8208028895272,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Ole Anders Veseth",
+        "rating": 883.8090632692652,
+        "robust": 0.6415140775914577
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFYCKZyrNcb2SbyvmMa": {
+      "HC": 0,
+      "currentRatingA": 1212.8631316406293,
+      "currentRatingB": 943.7422493807524,
+      "deltaA": 2.9394510010713475,
+      "deltaB": -2.939451001071461,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 674,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Sondre Sundt",
+        "rating": 1215.8025826417006,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Geir Ellefsen",
+        "rating": 940.8027983796809,
+        "robust": 1
+      },
+      "scoreA": 4,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 7
+    },
+    "-OFYFw40Tf9T50QJHHKS": {
+      "HC": 45,
+      "currentRatingA": 1581.8208028895272,
+      "currentRatingB": 883.8090632692652,
+      "deltaA": -8.552342427336043,
+      "deltaB": 17.104684854672087,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 675,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1573.2684604621911,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Ole Anders Veseth",
+        "rating": 900.9137481239372,
+        "robust": 0.6594383737118849
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFYjfyUC9IJ6aKw_l-O": {
+      "HC": 40,
+      "breaksA": [
+        50
+      ],
+      "currentRatingA": 1573.2684604621911,
+      "currentRatingB": 900.9137481239372,
+      "deltaA": 2.4373020956500113,
+      "deltaB": -4.874604191300023,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 676,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1575.7057625578411,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Ole Anders Veseth",
+        "rating": 896.0391439326372,
+        "robust": 0.6764664550262907
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFYjvazQ-qfwjzSF3mu": {
+      "HC": 45,
+      "currentRatingA": 1575.7057625578411,
+      "currentRatingB": 896.0391439326372,
+      "deltaA": 3.1613389655535684,
+      "deltaB": -6.3226779311072505,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 677,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1578.8671015233947,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Ole Anders Veseth",
+        "rating": 889.71646600153,
+        "robust": 0.6926431322749761
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFYkJiNwH_LXHf7U5KT": {
+      "HC": 50,
+      "currentRatingA": 1578.8671015233947,
+      "currentRatingB": 889.71646600153,
+      "deltaA": -6.657450415964831,
+      "deltaB": 13.314900831929549,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 678,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1572.2096511074299,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Ole Anders Veseth",
+        "rating": 903.0313668334595,
+        "robust": 0.7080109756612273
+      },
+      "scoreA": 0,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 1
+    },
+    "-OFcLuQwLPx5-0SST41u": {
+      "HC": 30,
+      "currentRatingA": 1572.2096511074299,
+      "currentRatingB": 1175.162304626054,
+      "deltaA": -4.321203242803222,
+      "deltaB": 4.321203242803222,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 679,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1567.8884478646266,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1179.4835078688573,
+        "robust": 0.9990166984720894
+      },
+      "scoreA": 2,
+      "scoreB": 5,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFcX1knQjyffubzEqJ8": {
+      "HC": 0,
+      "currentRatingA": 1113.5438817460292,
+      "currentRatingB": 870.0325099109589,
+      "deltaA": -0.03178334719382292,
+      "deltaB": 0.03178334719382292,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 680,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Robin Strand",
+        "rating": 1113.5120983988354,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 870.0642932581527,
+        "robust": 1
+      },
+      "scoreA": 4,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFhRzJZTCker4KuIU6Z": {
+      "HC": 35,
+      "currentRatingA": 1567.8884478646266,
+      "currentRatingB": 1179.4835078688573,
+      "deltaA": 1.1471851227652223,
+      "deltaB": -1.1471851227652223,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 682,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1569.0356329873919,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1178.336322746092,
+        "robust": 0.9990658635484849
+      },
+      "scoreA": 3,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFm_sMivq37DZ3E73r1": {
+      "HC": 45,
+      "breaksA": [
+        53
+      ],
+      "currentRatingA": 1569.0356329873919,
+      "currentRatingB": 1178.336322746092,
+      "deltaA": 2.199632718631392,
+      "deltaB": -2.199632718631392,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 683,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1571.2352657060233,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1176.1366900274606,
+        "robust": 0.9991125703710607
+      },
+      "scoreA": 3,
+      "scoreB": 3,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OFpsQYmeBbkalHm6RZH": {
+      "HC": 0,
+      "currentRatingA": 1215.8025826417006,
+      "currentRatingB": 1238.6470280631927,
+      "deltaA": -3.4467139475705153,
+      "deltaB": 6.893427895141031,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 684,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Sondre Sundt",
+        "rating": 1212.35586869413,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1245.5404559583337,
+        "robust": 0.6848752951376955
+      },
+      "scoreA": 1,
+      "scoreB": 4,
+      "state": 2,
+      "totalDistance": 7
+    },
+    "-OFqAVLSOnQgb5dgDbD3": {
+      "HC": 95,
+      "breaksA": [
+        52
+      ],
+      "currentRatingA": 1571.2352657060233,
+      "currentRatingB": 125.99202381351807,
+      "deltaA": 7.863574525325703,
+      "deltaB": -7.863574525325731,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 685,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1579.098840231349,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 118.12844928819234,
+        "robust": 0.9949238862597163
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFqT584QxibnsfMu0nF": {
+      "HC": 100,
+      "breaksA": [
+        66
+      ],
+      "currentRatingA": 1579.098840231349,
+      "currentRatingB": 118.12844928819234,
+      "deltaA": 10.491934224803344,
+      "deltaB": -10.49193422480326,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 686,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1589.5907744561523,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 107.63651506338908,
+        "robust": 0.9951776919467304
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFqixeq1_RY0svHtMFp": {
+      "HC": 0,
+      "currentRatingA": 1245.5404559583337,
+      "currentRatingB": 1212.35586869413,
+      "deltaA": 10.987499113031163,
+      "deltaB": -5.493749556515468,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 687,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1256.5279550713649,
+        "robust": 0.7006315303808107
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Sondre Sundt",
+        "rating": 1206.8621191376146,
+        "robust": 1
+      },
+      "scoreA": 3,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OFqjm2CCn4NalIJ5vtA": {
+      "HC": 105,
+      "currentRatingA": 1589.5907744561523,
+      "currentRatingB": 107.63651506338908,
+      "deltaA": -2.6458612539149726,
+      "deltaB": 2.6458612539150437,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 688,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1586.9449132022373,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 110.28237631730413,
+        "robust": 0.9954188073493939
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFqw_eHGiKYFvmSwjad": {
+      "HC": 15,
+      "currentRatingA": 1256.5279550713649,
+      "currentRatingB": 1206.8621191376146,
+      "deltaA": -6.1735846198318995,
+      "deltaB": 3.0867923099160635,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 690,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1250.354370451533,
+        "robust": 0.7155999538617702
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Sondre Sundt",
+        "rating": 1209.9489114475307,
+        "robust": 1
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OFx22ZDxcIEF60oW9u1": {
+      "HC": 40,
+      "breaksB": [
+        39
+      ],
+      "currentRatingA": 1586.9449132022373,
+      "currentRatingB": 1176.1366900274606,
+      "deltaA": -6.90887543449935,
+      "deltaB": 6.90887543449935,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 691,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1580.036037767738,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1183.04556546196,
+        "robust": 0.9991569418525077
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFx2GlAs97HT06zXocK": {
+      "HC": 35,
+      "breaksB": [
+        30
+      ],
+      "currentRatingA": 1580.036037767738,
+      "currentRatingB": 1183.04556546196,
+      "deltaA": -3.077794707426847,
+      "deltaB": 3.077794707426847,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 692,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1576.9582430603111,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1186.1233601693868,
+        "robust": 0.9991990947598823
+      },
+      "scoreA": 1,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OFxHmdGwH6V4tksKA6s": {
+      "HC": 0,
+      "currentRatingA": 870.0642932581527,
+      "currentRatingB": 1088.098971175085,
+      "deltaA": 1.7501838048054879,
+      "deltaB": -7.000735219221951,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 693,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 871.8144770629582,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Sverre Johan Aal",
+        "rating": 1081.098235955863,
+        "robust": 0.2262190625
+      },
+      "scoreA": 2,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OG-x2dqLyVnrh6g-8jZ": {
+      "HC": 0,
+      "breaksA": [
+        30
+      ],
+      "breaksB": [
+        33,
+        44
+      ],
+      "currentRatingA": 1250.354370451533,
+      "currentRatingB": 1433.9787739068536,
+      "deltaA": -1.7983384582721555,
+      "deltaB": 0.8991692291360778,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 694,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1248.5560319932608,
+        "robust": 0.7298199561686817
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1434.8779431359897,
+        "robust": 1
+      },
+      "scoreA": 1,
+      "scoreB": 5,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OG0AbykfN97klOr94Ee": {
+      "HC": 0,
+      "breaksA": [
+        41
+      ],
+      "currentRatingA": 1434.8779431359897,
+      "currentRatingB": 1248.5560319932608,
+      "deltaA": 2.925842189891,
+      "deltaB": -5.851684379782,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 695,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1437.8037853258807,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1242.7043476134788,
+        "robust": 0.7433289583602476
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OG1B6u2SvN5CUrXjNZD": {
+      "HC": 0,
+      "currentRatingA": 1209.9489114475307,
+      "currentRatingB": 940.8027983796809,
+      "deltaA": 3.01332596734278,
+      "deltaB": -3.013325967342894,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 696,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Sondre Sundt",
+        "rating": 1212.9622374148735,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Geir Ellefsen",
+        "rating": 937.789472412338,
+        "robust": 1
+      },
+      "scoreA": 5,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OG4aQbh_niDiHuR2OgV": {
+      "HC": 50,
+      "breaksA": [
+        59
+      ],
+      "currentRatingA": 1437.8037853258807,
+      "currentRatingB": 871.8144770629582,
+      "deltaA": 0.34876671114784585,
+      "deltaB": -0.34876671114773217,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 698,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1438.1525520370285,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 871.4657103518105,
+        "robust": 1
+      },
+      "scoreA": 1,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 2
+    },
+    "-OG5FM-lYDpt15cBzgyr": {
+      "HC": 0,
+      "currentRatingA": 871.4657103518105,
+      "currentRatingB": 885.4229778954025,
+      "deltaA": 8.945818969869947,
+      "deltaB": -8.945818969869947,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 699,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 880.4115293216804,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 876.4771589255325,
+        "robust": 1
+      },
+      "scoreA": 5,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OG61fvuhP4K0OMeCuOs": {
+      "HC": 100,
+      "currentRatingA": 1576.9582430603111,
+      "currentRatingB": 110.28237631730413,
+      "deltaA": 10.382937555433955,
+      "deltaB": -10.38293755543394,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 700,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1587.341180615745,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 99.89943876187019,
+        "robust": 0.9956478669819242
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OG6TuUFeA7hsanQpcSg": {
+      "HC": 105,
+      "breaksA": [
+        51
+      ],
+      "currentRatingA": 1587.341180615745,
+      "currentRatingB": 99.89943876187019,
+      "deltaA": 2.5239282080076464,
+      "deltaB": -2.5239282080076606,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 701,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1589.8651088237527,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 97.37551055386253,
+        "robust": 0.995865473632828
+      },
+      "scoreA": 1,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGBVMLJ_Q0zWqd0w3hp": {
+      "HC": 30,
+      "currentRatingA": 1589.8651088237527,
+      "currentRatingB": 1186.1233601693868,
+      "deltaA": 0.7745950976936911,
+      "deltaB": -0.7745950976936911,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 702,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1590.6397039214464,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1185.3487650716932,
+        "robust": 0.9992391400218882
+      },
+      "scoreA": 2,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGBVVzrKJlyAQP5FfqI": {
+      "HC": 35,
+      "currentRatingA": 1590.6397039214464,
+      "currentRatingB": 1185.3487650716932,
+      "deltaA": 2.1267459949449403,
+      "deltaB": -2.1267459949449403,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 703,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1592.7664499163914,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1183.2220190767482,
+        "robust": 0.9992771830207938
+      },
+      "scoreA": 2,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGGvi-_eZXf34ebSjj7": {
+      "HC": 0,
+      "breaksA": [
+        63,
+        69
+      ],
+      "currentRatingA": 1592.7664499163914,
+      "currentRatingB": 1203,
+      "deltaA": -0.04229063542697986,
+      "deltaB": 0.08458127085395972,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 704,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1592.7241592809644,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Oslo Snooker",
+        "name": "Robin Nordbøen",
+        "rating": 1203.084581270854,
+        "robust": 0.525
+      },
+      "scoreA": 9,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OGKYC8sFL5rn1CKDVXE": {
+      "HC": 35,
+      "breaksA": [
+        33,
+        43,
+        45,
+        38
+      ],
+      "currentRatingA": 1438.1525520370285,
+      "currentRatingB": 1081.098235955863,
+      "deltaA": 2.7598665779296425,
+      "deltaB": -11.039466311718797,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 705,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1440.9124186149581,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Sverre Johan Aal",
+        "rating": 1070.0587696441441,
+        "robust": 0.26490810937500003
+      },
+      "scoreA": 7,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OGKzCOVQAdOeMDiOCk3": {
+      "HC": 0,
+      "breaksA": [
+        30
+      ],
+      "currentRatingA": 880.4115293216804,
+      "currentRatingB": 876.4771589255325,
+      "deltaA": 9.394531534395583,
+      "deltaB": -9.394531534395583,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 707,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 889.806060856076,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 867.082627391137,
+        "robust": 1
+      },
+      "scoreA": 5,
+      "scoreB": 4,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OGMVLh186i-_uz4AeY2": {
+      "HC": 0,
+      "breaksA": [
+        "30"
+      ],
+      "currentRatingA": 1113.5120983988354,
+      "currentRatingB": 1138.3243389214524,
+      "deltaA": -4.1472382246156485,
+      "deltaB": 16.58895289846214,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 708,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Robin Strand",
+        "rating": 1109.3648601742198,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Simone Valente",
+        "rating": 1154.9132918199145,
+        "robust": 0.26490810937500003
+      },
+      "scoreA": 2,
+      "scoreB": 3,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OGMpayQXQcUq50drLtw": {
+      "HC": 0,
+      "currentRatingA": 1109.3648601742198,
+      "currentRatingB": 1154.9132918199145,
+      "deltaA": 5.047716034766836,
+      "deltaB": -20.19086413906689,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 709,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Robin Strand",
+        "rating": 1114.4125762089866,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Simone Valente",
+        "rating": 1134.7224276808477,
+        "robust": 0.30166270390625005
+      },
+      "scoreA": 3,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OGTNS_5997eUde0eFZ3": {
+      "HC": 0,
+      "currentRatingA": 1592.7241592809644,
+      "currentRatingB": 1183.2220190767482,
+      "deltaA": -13.979898731363846,
+      "deltaB": 13.979898731363846,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 710,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1578.7442605496005,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1197.201917808112,
+        "robust": 0.9993133238697541
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGTODHjLMWuGi-xOJsU": {
+      "HC": 0,
+      "breaksA": [
+        56
+      ],
+      "currentRatingA": 1578.7442605496005,
+      "currentRatingB": 1058,
+      "deltaA": 0.5455579197271163,
+      "deltaB": -1.0911158394542326,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 711,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1579.2898184693277,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Oslo Snooker",
+        "name": "Mads Johansen",
+        "rating": 1056.9088841605458,
+        "robust": 0.525
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGTOZqPdor5OpKTa0Z4": {
+      "HC": 0,
+      "currentRatingA": 1579.2898184693277,
+      "currentRatingB": 1301.1368725122277,
+      "deltaA": -8.07729291393025,
+      "deltaB": 8.07729291393025,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 712,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1571.2125255553974,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Stord Snookerklubb",
+        "name": "Kåre Valde",
+        "rating": 1309.214165426158,
+        "robust": 1
+      },
+      "scoreA": 1,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGUWgdzgnCku6irxhti": {
+      "HC": 35,
+      "breaksA": [
+        43,
+        51,
+        39
+      ],
+      "currentRatingA": 1440.9124186149581,
+      "currentRatingB": 1070.0587696441441,
+      "deltaA": 3.2349347004483207,
+      "deltaB": -12.939738801793283,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 713,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1444.1473533154065,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Sverre Johan Aal",
+        "rating": 1057.1190308423509,
+        "robust": 0.30166270390625005
+      },
+      "scoreA": 4,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OGVvGNdFmKdLFfPFGLq": {
+      "HC": 40,
+      "currentRatingA": 1571.2125255553974,
+      "currentRatingB": 1197.201917808112,
+      "deltaA": -1.0750243199991019,
+      "deltaB": 1.0750243199991019,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 714,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1570.1375012353983,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1198.2769421281112,
+        "robust": 0.9993476576762664
+      },
+      "scoreA": 1,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OG_AAj_-VYA4m5Qrysh": {
+      "HC": 0,
+      "breaksA": [
+        54
+      ],
+      "breaksB": [
+        43,
+        40
+      ],
+      "currentRatingA": 1444.1473533154065,
+      "currentRatingB": 1242.7043476134788,
+      "deltaA": -10.85038461483714,
+      "deltaB": 21.700769229674506,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 715,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1433.2969687005693,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1264.4051168431533,
+        "robust": 0.7561625104422353
+      },
+      "scoreA": 3,
+      "scoreB": 5,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OG_jakAs7v-A3tjvWne": {
+      "HC": 100,
+      "currentRatingA": 1570.1375012353983,
+      "currentRatingB": 97.37551055386253,
+      "deltaA": -5.038220819415983,
+      "deltaB": 5.038220819416026,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 716,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1565.0992804159823,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 102.41373137327855,
+        "robust": 0.9960721999511866
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGa1TuLvFGz15Jj79UZ": {
+      "HC": 95,
+      "currentRatingA": 1564.1597541685423,
+      "currentRatingB": 102.41373137327855,
+      "deltaA": -7.803274101035186,
+      "deltaB": 7.803274101035171,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 722,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1556.3564800675072,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 110.21700547431372,
+        "robust": 0.9962685899536272
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGa2pkUdQO9yCut05IY": {
+      "HC": 90,
+      "currentRatingA": 1556.3564800675072,
+      "currentRatingB": 110.21700547431372,
+      "deltaA": 4.566362416682978,
+      "deltaB": -4.566362416683049,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 723,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1560.9228424841901,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 105.65064305763067,
+        "robust": 0.9964551604559458
+      },
+      "scoreA": 1,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 1
+    },
+    "-OGaEbC008tCmXk5QtJ4": {
+      "HC": 55,
+      "breaksA": [
+        64,
+        70
+      ],
+      "currentRatingA": 1519.7100805383382,
+      "currentRatingB": 889.806060856076,
+      "deltaA": 4.355682856273688,
+      "deltaB": -4.355682856273688,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 717,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Nassim Sekat",
+        "rating": 1524.0657633946118,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 885.4503779998023,
+        "robust": 1
+      },
+      "scoreA": 4,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OGeDARq-QqP2Fh1N5GO": {
+      "HC": 0,
+      "breaksA": [
+        35,
+        104
+      ],
+      "currentRatingA": 1433.2969687005693,
+      "currentRatingB": 1264.4051168431533,
+      "deltaA": 3.911622321361392,
+      "deltaB": -7.823244642723012,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 724,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1437.2085910219307,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1256.5818722004303,
+        "robust": 0.7683543849201235
+      },
+      "scoreA": 5,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OGeN2WwBQD-2HR7EveM": {
+      "HC": 0,
+      "currentRatingA": 885.4503779998023,
+      "currentRatingB": 867.082627391137,
+      "deltaA": 1.3305994911471544,
+      "deltaB": -1.3305994911471544,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 725,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 886.7809774909495,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 865.7520278999898,
+        "robust": 1
+      },
+      "scoreA": 5,
+      "scoreB": 3,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OGeNXldTBeMU9g9IjKX": {
+      "HC": 0,
+      "breaksB": [
+        30,
+        33
+      ],
+      "currentRatingA": 1437.2085910219307,
+      "currentRatingB": 1256.5818722004303,
+      "deltaA": -9.121430962576824,
+      "deltaB": 18.24286192515342,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 726,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1428.087160059354,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1274.8247341255837,
+        "robust": 0.7799366656741173
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGg16U8u1jP5UpPiXkH": {
+      "HC": 55,
+      "currentRatingA": 1560.9228424841901,
+      "currentRatingB": 914.7419191719753,
+      "deltaA": 2.1973117719796846,
+      "deltaB": -4.394623543959483,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 727,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1563.1201542561698,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Stig Andre Lykke",
+        "rating": 910.3472956280158,
+        "robust": 0.6926431322749761
+      },
+      "scoreA": 2,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGg1GDfZVB3eXcSHXYB": {
+      "HC": 60,
+      "currentRatingA": 1563.1201542561698,
+      "currentRatingB": 910.3472956280158,
+      "deltaA": -4.415817949519351,
+      "deltaB": 8.831635899038702,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 728,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1558.7043363066505,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Stig Andre Lykke",
+        "rating": 919.1789315270545,
+        "robust": 0.7080109756612273
+      },
+      "scoreA": 0,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGg2EQnlKr8IRsogeED": {
+      "HC": 55,
+      "breaksA": [
+        63
+      ],
+      "currentRatingA": 1558.7043363066505,
+      "currentRatingB": 919.1789315270545,
+      "deltaA": 6.012394452026911,
+      "deltaB": -12.024788904053707,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 729,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1564.7167307586774,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Stig Andre Lykke",
+        "rating": 907.1541426230008,
+        "robust": 0.7226104268781659
+      },
+      "scoreA": 2,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGg2VN15lyoVl13shsj": {
+      "HC": 60,
+      "currentRatingA": 1564.7167307586774,
+      "currentRatingB": 907.1541426230008,
+      "deltaA": -4.010799707297338,
+      "deltaB": 8.021599414594789,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 730,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1560.70593105138,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Stig Andre Lykke",
+        "rating": 915.1757420375956,
+        "robust": 0.7364799055342576
+      },
+      "scoreA": 0,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 1
+    },
+    "-OGl-gsIwEA4NG_E8WLa": {
+      "HC": 20,
+      "currentRatingA": 1114.4125762089866,
+      "currentRatingB": 886.7809774909495,
+      "deltaA": 1.7583658335049677,
+      "deltaB": -1.7583658335049677,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 733,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Robin Strand",
+        "rating": 1116.1709420424916,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 885.0226116574445,
+        "robust": 1
+      },
+      "scoreA": 4,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OGoY_lj0nQQRbv3KNh6": {
+      "HC": 0,
+      "breaksA": [
+        112
+      ],
+      "breaksB": [
+        33
+      ],
+      "currentRatingA": 1428.087160059354,
+      "currentRatingB": 1274.8247341255837,
+      "deltaA": 0.09333175857659626,
+      "deltaB": -0.1866635171534199,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 734,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1428.1804918179305,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1274.6380706084303,
+        "robust": 0.7909398323904114
+      },
+      "scoreA": 5,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OGocZHEmCpV6m4qyNeA": {
+      "HC": 0,
+      "currentRatingA": 1428.1804918179305,
+      "currentRatingB": 1274.6380706084303,
+      "deltaA": 2.997008464873261,
+      "deltaB": -5.994016929746522,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 735,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1431.1775002828037,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Roger Reppe",
+        "rating": 1268.6440536786838,
+        "robust": 0.8013928407708909
+      },
+      "scoreA": 1,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 1
+    },
+    "-OGphJbdGPYIata7vzR8": {
+      "HC": 35,
+      "breaksA": [
+        51
+      ],
+      "currentRatingA": 1560.70593105138,
+      "currentRatingB": 1198.2769421281112,
+      "deltaA": 3.1241657831758403,
+      "deltaB": -3.1241657831758403,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 736,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1563.830096834556,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1195.1527763449353,
+        "robust": 0.9993802747924531
+      },
+      "scoreA": 2,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGphSk83HuNlLoNH_03": {
+      "HC": 40,
+      "currentRatingA": 1563.830096834556,
+      "currentRatingB": 1195.1527763449353,
+      "deltaA": -0.9561220686580327,
+      "deltaB": 0.9561220686580327,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 737,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1562.8739747658979,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1196.1088984135934,
+        "robust": 0.9994112610528304
+      },
+      "scoreA": 1,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OGt_8aQAKCySmzUl0D8": {
+      "HC": 0,
+      "breaksA": [
+        46
+      ],
+      "breaksB": [
+        46
+      ],
+      "currentRatingA": 1524.0657633946118,
+      "currentRatingB": 1431.1775002828037,
+      "deltaA": 7.020544360037093,
+      "deltaB": -7.020544360037093,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 741,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Nassim Sekat",
+        "rating": 1531.086307754649,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1424.1569559227667,
+        "robust": 1
+      },
+      "scoreA": 5,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OGtrA0ufELAAyyCgsjw": {
+      "HC": 0,
+      "breaksA": [
+        81
+      ],
+      "currentRatingA": 1531.086307754649,
+      "currentRatingB": 1424.1569559227667,
+      "deltaA": 0.21208478919697882,
+      "deltaB": -0.21208478919697882,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 742,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Nassim Sekat",
+        "rating": 1531.298392543846,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Tore Hansen",
+        "rating": 1423.9448711335697,
+        "robust": 1
+      },
+      "scoreA": 2,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 5
+    },
+    "-OGz3rGLDIYOs9XkHEce": {
+      "HC": 0,
+      "currentRatingA": 885.0226116574445,
+      "currentRatingB": 865.7520278999898,
+      "deltaA": -1.5129332637975494,
+      "deltaB": 1.5129332637975494,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 744,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 883.5096783936469,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 867.2649611637873,
+        "robust": 1
+      },
+      "scoreA": 4,
+      "scoreB": 5,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OH2zGQKKBZQMKKEkt-y": {
+      "HC": 0,
+      "currentRatingA": 867.2649611637873,
+      "currentRatingB": 883.5096783936469,
+      "deltaA": 1.4340121145431795,
+      "deltaB": -1.4340121145431795,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 745,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 868.6989732783305,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 882.0756662791038,
+        "robust": 1
+      },
+      "scoreA": 5,
+      "scoreB": 4,
+      "state": 2,
+      "totalDistance": 9
+    },
+    "-OH3z07kwcKLiXBqzZ44": {
+      "HC": 35,
+      "breaksA": [
+        57
+      ],
+      "currentRatingA": 1562.8739747658979,
+      "currentRatingB": 1196.1088984135934,
+      "deltaA": 3.0233447831510603,
+      "deltaB": -3.0233447831510603,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 746,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1565.897319549049,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1193.0855536304423,
+        "robust": 0.9994406980001889
+      },
+      "scoreA": 2,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OH3zOEPX4FaOGK87TTm": {
+      "HC": 40,
+      "breaksA": [
+        52
+      ],
+      "breaksB": [
+        32
+      ],
+      "currentRatingA": 1565.897319549049,
+      "currentRatingB": 1193.0855536304423,
+      "deltaA": 1.1698944666918578,
+      "deltaB": -1.1698944666918578,
+      "distanceType": 1,
+      "enumHCsystem": 1,
+      "id": 747,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1567.0672140157408,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Kapp Snooker",
+        "name": "Kevin  Loughlin",
+        "rating": 1191.9156591637504,
+        "robust": 0.9994686631001795
+      },
+      "scoreA": 1,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 0
+    },
+    "-OH9ArRbHJ42PDwxpgG4": {
+      "HC": 95,
+      "currentRatingA": 1567.0672140157408,
+      "currentRatingB": 105.65064305763067,
+      "deltaA": -2.851300357077889,
+      "deltaB": 2.8513003570779603,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 748,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1564.2159136586629,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 108.50194341470863,
+        "robust": 0.9966324024331485
+      },
+      "scoreA": 1,
+      "scoreB": 2,
+      "state": 2,
+      "totalDistance": 3
+    },
+    "-OH9AygJlzK69bj-8agX": {
+      "HC": 90,
+      "currentRatingA": 1564.2159136586629,
+      "currentRatingB": 108.50194341470863,
+      "deltaA": -9.26693088896036,
+      "deltaB": 9.266930888960403,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 749,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Erik Dullerud",
+        "rating": 1554.9489827697025,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Toten Biljardklubb",
+        "name": "Thor-Arne Moe",
+        "rating": 117.76887430366904,
+        "robust": 0.9968007823114912
+      },
+      "scoreA": 0,
+      "scoreB": 1,
+      "state": 2,
+      "totalDistance": 1
+    },
+    "-OHHxh7CzSutvsXhtVFK": {
+      "HC": 0,
+      "currentRatingA": 882.0756662791038,
+      "currentRatingB": 868.6989732783305,
+      "deltaA": -8.71146115841941,
+      "deltaB": 8.71146115841941,
+      "distanceType": 0,
+      "enumHCsystem": 1,
+      "id": 752,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 873.3642051206843,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 877.4104344367499,
+        "robust": 1
+      },
+      "scoreA": 0,
+      "scoreB": 4,
+      "state": 2,
+      "totalDistance": 4
+    },
+    "-OHIGAlZkKKgDeu8kk0q": {
+      "HC": 0,
+      "currentRatingA": 877.4104344367499,
+      "currentRatingB": 873.3642051206843,
+      "deltaA": 8.545953004226817,
+      "deltaB": -8.545953004226817,
+      "distanceType": 0,
+      "enumHCsystem": 0,
+      "id": 753,
+      "playerA": {
+        "club": "Trondheim Snooker",
+        "name": "Ivar Havtor Hovden",
+        "rating": 885.9563874409768,
+        "robust": 1
+      },
+      "playerB": {
+        "club": "Trondheim Snooker",
+        "name": "Bjørnar Jacobsen",
+        "rating": 864.8182521164575,
+        "robust": 1
+      },
+      "scoreA": 4,
+      "scoreB": 0,
+      "state": 2,
+      "totalDistance": 4
+    }
+}
