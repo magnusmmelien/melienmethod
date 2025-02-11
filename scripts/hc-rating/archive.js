@@ -4,15 +4,16 @@ import { Match, MatchState, DistanceType, HCsystem } from './match.js';
 import { getDatabase, ref, onValue, child, push, update, get } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 import { database, matchCounterRef, clubsRef } from './database_init.js';
 import { BreaksList } from './breakslist.js';
+import { listName } from './variables.js';
 
 var archiveMatches = []; var archiveBreaks = [];
 var trackExpand = [];
 var possibleYear = []; var possibleMonth = []; var possibleYearBreak = [];
-var listName = 'Norway';
+//var listName = 'test';
 const date = new Date(); var year = date.getFullYear(); var month = date.getMonth(); var yearBreak = year;
 const dbRef = ref(getDatabase());
 const archiveRef = ref(database, `${listName}_archive/data`);
-var archiveOptionsRef = ref(database, `${listName}_archive/metadata`);
+var archiveOptionsMetaRef = ref(database, `${listName}_archive/metadata`);
 var archiveBreaksMetaRef = ref(database, `${listName}_BreaksList/metadata`);
 
 
@@ -169,7 +170,7 @@ function populateMatchListRow_main(match, mainRow) {
     
 
     // LIVE
-    if (match.getState() === MatchState.live) {
+    /*if (match.getState() === MatchState.live) {
         mainRow.className = "";
         mainRow.classList.add('match-live');
 
@@ -280,7 +281,7 @@ function populateMatchListRow_main(match, mainRow) {
         buttonsCell.appendChild(deleteButton);
         
         //update visuals???
-    }
+    }*/
 
     // FINISHED
     if (match.getState() === MatchState.finished) {
@@ -563,6 +564,7 @@ function populateBreaksListTable(breaksList) {
     const table = document.getElementById('list-table-breaks').getElementsByTagName('tbody')[0];
     table.innerHTML = '';
     const entries = breaksList.getEntries();
+    //console.log('test1: entries =', entries);
     for (let i = 0; i < entries.length; i++) {
         const entry = entries[i];
         //console.log('testtest: ', ratingList, 'entry name: ', entry.getName(), 'player: ', ratingList.getPlayerByName(entry.getName()));
@@ -583,15 +585,26 @@ function populateBreaksListTable(breaksList) {
         scrollCell.style = 'padding: 0.25rem';
 
         positionCell.innerHTML = `<p class="position">${i + 1}</p>`;
-        nameCell.innerHTML = entry.getName();
+        nameCell.innerHTML = player.getName();
         var clubText = 'default';
         try {clubText = player.getClub();}
         catch(error) {
             console.error('error: coudnt find player (',  entry.getName(), ') in rating list...');
         }
         clubCell.innerHTML = `<img class="club-logo" src="images/${clubText}_logo.png" title="${clubText}" onerror="this.src = 'images/default_logo.png'" alt="">`;
-        highbreakCell.innerHTML = entry.getHighbreak();
-        breaksCellP.innerHTML = entry.getBreaks().join(', ');
+        highbreakCell.innerHTML = player.getPbBreak();
+        //breaksCellP.innerHTML = entry.getBreaks().join(', ');
+        try {
+            const yearHigh = entry.getHighbreak();
+            const entryBreaks = entry.getBreaks();
+            if (entryBreaks[0] >= yearHigh) breaksCellP.innerHTML += `<span style="font-weight: bold">${entryBreaks[0]}</span>`;
+            else breaksCellP.innerHTML += entryBreaks[0];
+            for (let i = 1; i < entryBreaks.length; i++) {
+                breaksCellP.innerHTML += ', ';
+                if (entryBreaks[i] >= yearHigh) breaksCellP.innerHTML += `<span style="font-weight: bold">${entryBreaks[i]}</span>`;
+                else breaksCellP.innerHTML += entryBreaks[i];
+            }
+        } catch(error) {console.error(error)}
         breaksCell.appendChild(breaksCellP);
     }
 }
@@ -709,10 +722,10 @@ try {
         ratingList = RatingList.fromJSON(snapshot.val());
     });
 
-    onValue(archiveOptionsRef, (snapshot) => {
+    onValue(archiveOptionsMetaRef, (snapshot) => {
         possibleYear = [];
-        snapshot.forEach(archiveData => {
-            possibleYear.push(Number(archiveData.key));
+        snapshot.forEach(archiveMeta => {
+            possibleYear.push(Number(archiveMeta.key));
         });
         possibleYear.reverse();
         console.log("test: possibleYear =", possibleYear);
@@ -722,13 +735,66 @@ try {
     });
     onValue(archiveBreaksMetaRef, (snapshot) => {
         possibleYearBreak = [];
-        snapshot.forEach(archiveData => {
-            possibleYearBreak.push(archiveData.val());
+        snapshot.forEach(archiveMeta => {
+            possibleYearBreak.push(archiveMeta.val());
         });
         possibleYearBreak.reverse();
         console.log("test: possibleYearBreak =", possibleYearBreak);
         updateOptionsYearBreak();
         redraw_abl();
     });
+
+    // update db metadata for archive (possible year/month):
+    if (true) {
+        const realDate = new Date();
+        const realMonth = realDate.getMonth(); const realYear = realDate.getFullYear();
+        //update archive BREAKSlist metadata possible year options
+        get(child(dbRef, `${listName}_BreaksList/metadata`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                var breaksYears = snapshot.val();
+                if (breaksYears.at(-1) != realYear) {
+                    const updates = {};
+                    breaksYears.push(realYear);
+                    updates[listName + '_BreaksList/metadata'] = breaksYears;
+                    update(ref(database), updates);
+                }
+            }
+            else {
+                console.log('No data available at: update archive BREAKSlist metadata');
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+        //update archive MATCHlist metadata possible year options
+        get(child(dbRef, `${listName}_archive/metadata`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                const updates = {};
+                var archiveMeta = snapshot.val();
+                //console.log('test1: archiveMeta =', archiveMeta);
+                // if the key of the last element in the db for "_archive/metadata" != current year, then add current year with array of just january in
+                if (!(realYear in archiveMeta)) { 
+                    //console.log('test2');
+                    updates[`${listName}_archive/metadata/${realYear}`] = [0]; 
+                }
+                else { // else means that we are in the current year, now check if the last element in current year is current month, if not then add current month
+                    var currentYearMonthMeta = archiveMeta[realYear];
+                    //console.log('test3: realMonth = ' + realMonth + '; currentYearMonthMeta = ', currentYearMonthMeta);
+                    if (currentYearMonthMeta.at(-1) != realMonth) { 
+                        currentYearMonthMeta.push(realMonth);
+                        //console.log('test4' +'; currentYearMonthMeta = ', currentYearMonthMeta);
+                        updates[`${listName}_archive/metadata/${realYear}`] = currentYearMonthMeta; 
+                    }
+                }
+                update(ref(database), updates);
+            }
+            else {
+                console.log('No data available at: update archive MATCHlist metadata');
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+        
+    }
+    
 }
 catch(error) {console.error('test: ' + error);}

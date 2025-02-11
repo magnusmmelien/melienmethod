@@ -1,4 +1,4 @@
-import { KfactorFrameCoeff, KfactorMatchCoeff, KfactorJustFramesCoeff, ratingNormFactor, initKfactor, robustHigh, robustMedium } from './variables.js';
+import { c_URS_frame, c_URS_match, c_D_bestOf, c_D_justFrames, ratingNormFactor, K_0, robustHigh, robustMedium, K_alpha_match, K_beta_match, K_epsilon_match, K_alpha_frame, K_beta_frame, K_epsilon_frame  } from './variables.js';
 //import { hcToRating } from './player.js';
 import { Player, hcToRating } from './player.js';
 
@@ -7,7 +7,7 @@ function exScoreElo(ratingDelta) { //expected score of playerA
 	return 1 / (1 + Math.pow(10, (-ratingDelta) / ratingNormFactor));
 }
 
-function newRatingElo(rating, score, exScore, Kfactor = initKfactor) {
+function newRatingElo(rating, score, exScore, Kfactor = K_0) {
     return rating + Kfactor * (score - exScore);
 }
 
@@ -16,15 +16,30 @@ function effKfactor(playerA, playerB) { //returns the K_eff for playerA
 	const robustB = playerB.getRobust();
 
 	if (robustA >= robustHigh) {
-		if (robustB >= robustHigh) { return initKfactor; }
-		if (robustB >= robustMedium) { return 0.75 * initKfactor; }
-		return 0.5 * initKfactor;
+		if (robustB >= robustHigh) { return K_0; }
+		if (robustB >= robustMedium) { return 0.75 * K_0; }
+		return 0.5 * K_0;
 	}
 	if (robustA >= robustMedium) {
-		if (robustB >= robustMedium) { return 1.5 * initKfactor; }
-		return initKfactor;
+		if (robustB >= robustMedium) { return 1.5 * K_0; }
+		return K_0;
 	}
-	return 2 * initKfactor;
+	return 3 * K_0;
+}
+
+function calcK(d, inputHCsys) {
+    var K = 0; //this is K, but excluding c_D and c_R
+    if (inputHCsys === HCsystem.match){
+        K = c_URS_match * (1 - Math.exp(-K_alpha_match*d) + K_beta_match * d * Math.exp(-K_epsilon_match*Math.pow(d-1, 2)));
+    }
+    else if (inputHCsys === HCsystem.frame){
+        K = c_URS_frame * (1 - Math.exp(-K_alpha_frame*d) + K_beta_frame * d * Math.exp(-K_epsilon_frame*Math.pow(d-1, 2)));
+    }
+    else {
+        throw new error('Error: calculating K(d): didnt recognice inputHCsystem (match/frame):' + inputHCsys);
+    }
+    //the extra factor behind playerA_Keff is just a coeff that quickly approaches 1 (just so that longer matches count a little heavier in the ratings)
+    return K;
 }
 
 export class MatchState {
@@ -163,17 +178,17 @@ export class Match {
                 matchScoreA = 1;
                 matchScoreB = 0;
             }
-            this.playerA.setRating(newRatingElo(this.playerA.getRating(), matchScoreA, exScoreA, playerA_Keff * (1 - Math.exp( - KfactorMatchCoeff * Math.pow(this.totalDistance, 1/2))))); //the extra factor behind playerA_Keff is just a coeff that quickly approaches 1 (just so that longer matches count a little heavier in the ratings)
-            this.playerB.setRating(newRatingElo(this.playerB.getRating(), matchScoreB, exScoreB, playerB_Keff * (1 - Math.exp( - KfactorMatchCoeff * Math.pow(this.totalDistance, 1/2)))));
+            this.playerA.setRating(newRatingElo(this.playerA.getRating(), matchScoreA, exScoreA, playerA_Keff * c_D_bestOf * calcK(this.totalDistance, this.enumHCsystem))); 
+            this.playerB.setRating(newRatingElo(this.playerB.getRating(), matchScoreB, exScoreB, playerB_Keff * c_D_bestOf * calcK(this.totalDistance, this.enumHCsystem)));
         }
         else if (this.enumHCsystem == HCsystem.frame) {
             const totalFramesPlayed = this.scoreA + this.scoreB;
             if (this.distanceType === DistanceType.justFrames) {
-                playerA_Keff *= KfactorJustFramesCoeff;
-                playerB_Keff *= KfactorJustFramesCoeff;
+                this.playerA.setRating(newRatingElo(this.playerA.getRating(), 1.0 * this.scoreA / totalFramesPlayed, exScoreA, playerA_Keff * c_D_justFrames * calcK(totalFramesPlayed, this.enumHCsystem)));
+                this.playerB.setRating(newRatingElo(this.playerB.getRating(), 1.0 * this.scoreB / totalFramesPlayed, exScoreB, playerB_Keff * c_D_justFrames * calcK(totalFramesPlayed, this.enumHCsystem)));
             }
-            this.playerA.setRating(newRatingElo(this.playerA.getRating(), 1.0 * this.scoreA / totalFramesPlayed, exScoreA, playerA_Keff * (1 - Math.exp(- KfactorFrameCoeff * Math.pow(totalFramesPlayed, 1/3)))));
-            this.playerB.setRating(newRatingElo(this.playerB.getRating(), 1.0 * this.scoreB / totalFramesPlayed, exScoreB, playerB_Keff * (1 - Math.exp(- KfactorFrameCoeff * Math.pow(totalFramesPlayed, 1/3)))));
+            this.playerA.setRating(newRatingElo(this.playerA.getRating(), 1.0 * this.scoreA / totalFramesPlayed, exScoreA, playerA_Keff * c_D_bestOf * calcK(this.totalDistance, this.enumHCsystem)));
+            this.playerB.setRating(newRatingElo(this.playerB.getRating(), 1.0 * this.scoreB / totalFramesPlayed, exScoreB, playerB_Keff * c_D_bestOf * calcK(this.totalDistance, this.enumHCsystem)));
         }
         
     }

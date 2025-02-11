@@ -55,8 +55,10 @@ function robustLevel(robust) {
 
 // Define the Player class
 export class Player {
-    constructor(name, club, rating = variables.defaultRating, robust = 0) {
-        if (name.includes(';') || club.includes(';') || typeof rating != 'number' || typeof robust != 'number') {
+    constructor(name, club, rating = variables.defaultRating, robust = 0, pbBreak = 0) {
+        if (name.includes(';') || club.includes(';') || typeof rating != 'number' || typeof robust != 'number' || 
+                typeof pbBreak != 'number' || pbBreak<0 || pbBreak>155) 
+        {
             console.log(`Invalid input while constructing player ${name}, please try again.`);
             throw new Error(`Invalid input while constructing player ${name}, please try again.`);
         }
@@ -64,6 +66,11 @@ export class Player {
         this.club = club; // i think we'll keep this as a string (and not an object)...
         this.rating = rating;
         this.robust = robust;
+        if (isNaN(pbBreak)) {
+            console.warn('Creating player: ' + name + '. Personal best break is NaN. Set to 0.');
+            pbBreak = 0;
+        }
+        this.pbBreak = pbBreak;
 
         //this.updateK();
         //club.incSize();
@@ -79,10 +86,10 @@ export class Player {
     }*/
     static fromJSON(json) {
         //const parsedJSON = JSON.parse(json);
-        const { name, club, rating, robust } = json;
+        const { name, club, rating, robust, pbBreak } = json;
         //console.log('debug: Player.fromJSON():' + `name=${name}, club=${club}, rating=${rating}, robust=${robust}`);
         //console.log('robust =' + robust + ', typeof(robust) =' + typeof(robust));
-        return new Player(name, club, Number(rating), Number(robust));
+        return new Player(name, club, Number(rating), Number(robust), Number(pbBreak));
     }
 
     // Getters and setters
@@ -96,6 +103,11 @@ export class Player {
     getRobust() { return this.robust; }
     getRobustLevel() { return robustLevel(this.robust); }
     setRobust(newRobust) { this.robust = newRobust; }
+    getPbBreak() { return this.pbBreak; }
+    setPbBreak(newhb) { 
+        if (typeof newhb != 'number' || newhb < this.pbBreak || newhb > 155) {throw new Error('Tried to update pbBreak for ( ' + this.name + ' ): Invalid break.');}
+        this.pbBreak = newhb; 
+    }
 
     updateRobust() {
         if (this.robust <= 1.1 && this.robust >= 0) { // 1.1 because this code could potentially produce numbers marginally bigger than 1, but that doesn't matter
@@ -120,8 +132,8 @@ export class Player {
     }*/
 
     isEqualTo(otherPlayer) {
-        return this.name === otherPlayer.name && this.rating === otherPlayer.rating 
-        && this.club === otherPlayer.club && this.robust === otherPlayer.robust;
+        return this.name === otherPlayer.name && this.rating === otherPlayer.rating && this.club === otherPlayer.club && this.robust === otherPlayer.robust;
+        return this.name === otherPlayer.name;
     }
 
     transferClub(newClub) {

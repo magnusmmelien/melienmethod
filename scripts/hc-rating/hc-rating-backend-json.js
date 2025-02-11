@@ -4,6 +4,7 @@ import { Match, MatchState, DistanceType, HCsystem } from './match.js';
 import { BreaksList, BreaksEntry } from './breakslist.js';
 import { listToJSON_local, listFromJSON_local, matchesToJSON_local, matchesFromJSON_local } from './jsonStream.js';
 import * as variables from './variables.js';
+import { listName } from './variables.js';
 // import { toggleExpand, startMatch_frontend, finishMatch_frontend, deleteMatch_frontend, toggleDeletePopup } from './hc-rating-frontend.js';
 // Database:
 import { getDatabase, ref, onValue, child, push, update, get } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
@@ -16,7 +17,7 @@ class LoadSystem {
 }
 
 // Initialize: (import)
-const listName = 'Norway';
+//const listName = 'test'; //import from variables.js instead.
 const globalLoadSystem = LoadSystem.db;
 const writeToFileCont = true;
 const debugWrite = false;
@@ -145,10 +146,14 @@ function createNewPlayer_backend() {
     document.getElementById('error-message-newPlayer').classList.remove('show');
     var init_robust = 0;
     var init_rating = variables.defaultRating;
+    var init_highbreak = 0;
     
     if (document.getElementById('button-advanced').classList.contains('active')) { // advanced
         if (!['', ' ', '\n'].includes(document.getElementById('newplayer-rating-input').value)) {
             init_rating = Number(document.getElementById('newplayer-rating-input').value);
+        }
+        if (!['', ' ', '\n'].includes(document.getElementById('newplayer-highbreak-input').value)) {
+            init_highbreak = Number(document.getElementById('newplayer-highbreak-input').value);
         }
         
         if (document.getElementById('choose-robustness-high').classList.contains('active')) {
@@ -159,7 +164,8 @@ function createNewPlayer_backend() {
     }
     try {
         ratingList.addNewPlayer(document.getElementById('newplayer-name-input').value, 
-            document.getElementById('newplayer-club-input').value, init_rating, init_robust);
+            document.getElementById('newplayer-club-input').value, init_rating, init_robust, init_highbreak);
+        //console.log('test1: ', ratingList);
         
         // Database:
         if (writeToFileCont) {
@@ -507,12 +513,15 @@ function updateBreaksList(match) {
         if (match.getState() !== MatchState.finished) throw new Error('Tried to register breaks from un-finished match (id = ' + match.getID());
         const nameA = match.getPlayerA().getName();
         const nameB = match.getPlayerB().getName();
-        match.getBreaksA().forEach(x => {
+        /*match.getBreaksA().forEach(x => {
             breaksList.addBreak(nameA, x);
         });
         match.getBreaksB().forEach(x => {
             breaksList.addBreak(nameB, x);
-        });
+        });*/
+        //console.log('test: match.getBreaksA() =', match.getBreaksA());
+        breaksList.addBreaks(nameA, match.getBreaksA());
+        breaksList.addBreaks(nameB, match.getBreaksB());
     }
     catch(error) {console.error(error);}    
 }
@@ -556,6 +565,8 @@ function finishMatch_backend() {
     catch(error) {
         console.error('Error: unable to finish match (backend):\n' + error.message);
         alert('Error: unable to finish match (backend):\n' + error.message);
+        redraw();
+        return;
     }
 
     try {
@@ -576,9 +587,10 @@ function finishMatch_backend() {
             // update rating list
             updates[listName + '_RatingList'] = ratingList;
             // update breaks list
-            console.log('test: breaksList = ');
-            console.log(breaksList);
+            //console.log('test: breaksList = ');
+            //console.log(breaksList);
             updates[listName + '_BreaksList/data/' + year] = breaksList;
+
             update(ref(database), updates);
         }
     } catch(error) {
@@ -1279,10 +1291,12 @@ function populateBreaksListTable(breaksList) {
     const table = document.getElementById('list-table-breaks').getElementsByTagName('tbody')[0];
     table.innerHTML = '';
     const entries = breaksList.getEntries();
+    //console.log('test1: ', entries);
     for (let i = 0; i < entries.length; i++) {
         const entry = entries[i];
+        //console.log('test2: ', entry.getPlayer());
         const player = ratingList.getPlayerByName(entry.getName());
-        //console.log('populateBreaksListTable: player[' + i + '] = ' + player);
+        //console.log('populateBreaksListTable: player[' + i + '] = ', player);
         const row = table.insertRow(-1);
 
         const positionCell = row.insertCell(0);
@@ -1298,10 +1312,22 @@ function populateBreaksListTable(breaksList) {
         scrollCell.style = 'padding: 0.25rem';
 
         positionCell.innerHTML = `<p class="position">${i + 1}</p>`;
-        nameCell.innerHTML = entry.getName();
+        nameCell.innerHTML = player.getName();
         clubCell.innerHTML = `<img class="club-logo" src="images/${player.getClub()}_logo.png" title="${player.getClub()}" onerror="this.src = 'images/default_logo.png'" alt="">`;
-        highbreakCell.innerHTML = entry.getHighbreak();
-        breaksCellP.innerHTML = entry.getBreaks().join(', ');
+        highbreakCell.innerHTML = player.getPbBreak();
+        try {
+            const yearHigh = entry.getHighbreak();
+            const entryBreaks = entry.getBreaks();
+            if (entryBreaks[0] >= yearHigh) breaksCellP.innerHTML += `<span style="font-weight: bold">${entryBreaks[0]}</span>`;
+            else breaksCellP.innerHTML += entryBreaks[0];
+            for (let i = 1; i < entryBreaks.length; i++) {
+                breaksCellP.innerHTML += ', ';
+                if (entryBreaks[i] >= yearHigh) breaksCellP.innerHTML += `<span style="font-weight: bold">${entryBreaks[i]}</span>`;
+                else breaksCellP.innerHTML += entryBreaks[i];
+            }
+        } catch(error) {console.error(error)}
+        
+        //breaksCellP.innerHTML = entry.getBreaks().join(', ');
         breaksCell.appendChild(breaksCellP);
     }
 }
@@ -1508,7 +1534,8 @@ try {
     // db import matchcounter and clubs:
     var matchCounter = 0;
 
-    //update archive breakslist metadata possible year options
+    /*//NOTE: i've moved this function INSIDE finishMatch_backend() now.
+    //update archive BREAKSlist metadata possible year options
     get(child(dbRef, `${listName}_BreaksList/metadata`)).then((snapshot) => {
         if (snapshot.exists()) {
             var breaksYears = snapshot.val();
@@ -1524,7 +1551,7 @@ try {
         }
     }).catch((error) => {
         console.error(error);
-    });
+    });*/
 
     onValue(matchCounterRef, (snapshot) => {
         matchCounter = snapshot.val();

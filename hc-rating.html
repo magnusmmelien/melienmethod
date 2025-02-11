@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/tournament-style.css">
     <link rel="stylesheet" href="styles/hc-rating.css">
-    
+    <link rel="icon" href="images/favicon.ico"/>
 </head>
 <body>
     <header>
@@ -74,6 +74,12 @@
                                     <div class="popup-button-container" style="display: inline-block;">
                                         <button id="new-player-estimate-rating" class="button estimate" onclick="toggleEstimatePopup()">Estimate</button>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr class="hidden-row" id="popup-player-highbreak-row">
+                                <td><p>High Break:</p></td>
+                                <td>
+                                    <input class="popup-input rating" type="number" id="newplayer-highbreak-input" placeholder="0 default...">
                                 </td>
                             </tr>
                             <tr class="hidden-row" id="popup-player-robustness-row">

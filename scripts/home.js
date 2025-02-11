@@ -1,3 +1,7 @@
+import { getDatabase, ref, onValue, child, push, update, get } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+import { database, matchCounterRef, clubsRef } from './hc-rating/database_init.js';
+
+const dbRef = ref(getDatabase());
 
 document.addEventListener("DOMContentLoaded", function() {
     const homeBackground = document.querySelector(".home-background");
@@ -90,4 +94,16 @@ document.addEventListener("DOMContentLoaded", function() {
       homeBackground.classList.add("zoom-out-5");
     });
     */
+    
+    var messageOfTheDay = 'No message available.';
+    get(child(dbRef, 'motd')).then((snapshot) => {
+		if (snapshot.exists()) {
+			messageOfTheDay = snapshot.val();
+			document.getElementById("bannerMessage").textContent = 'Message of the Day: ' + messageOfTheDay;
+		}
+		else console.log('No data available for message of the day');
+	}).catch((error) => {
+		console.error(error);
+	});
+    document.getElementById("bannerMessage").textContent = 'Message of the Day: ' + messageOfTheDay;
 });

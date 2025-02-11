@@ -88,14 +88,14 @@ class RatingList {
         this.players.push(player);
         this.players.sort(this.comparePlayersByRating); // Sort players when adding
     }    
-    addNewPlayer(fullName, club, estimatedRating = defaultRating, initRobust = 0) {
+    addNewPlayer(fullName, club, estimatedRating = defaultRating, initRobust = 0, initHighbreak = 0) {
         if (fullName === '') {
             throw new Error(`Error: please fill in all the required information.`);
         }
         if (this.getPlayerByName(fullName) !== null) {
             throw new Error(`Error: player ${fullName} already in list. Please try another name`);
         }
-        this.players.push(new Player(fullName, club, estimatedRating, initRobust));
+        this.players.push(new Player(fullName, club, estimatedRating, initRobust, initHighbreak));
         this.players.sort(this.comparePlayersByRating); // Sort players when adding
     }
     sort() {

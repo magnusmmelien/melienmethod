@@ -779,6 +779,7 @@ td.text-output .box .title p span {
     text-align: left;
     word-wrap: break-word;         /* All browsers since IE 5.5+ */
     overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+    min-width: 160px;
 }
 
 /* Tooltip container */

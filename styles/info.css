@@ -99,7 +99,7 @@
     justify-content: center;
     align-items: center;
     font-size: 0.9rem;
-    margin: 2rem 1rem;
+    margin: 0.5rem 1rem;
 
     border-collapse: collapse;
     box-shadow: 0 5px 10px #55555580;
@@ -150,4 +150,15 @@
     background-color: rgba(255,255,255,.1);
     background-size: cover;
     clip-path: polygon(0% 100%, 0% 0%, 100% 100%);
+}
+.list-table td.param{background-color: #666;}
+.list-table td p{
+    margin: 0;
+}
+.info-hc-table{
+    display: inline-block;
+    vertical-align: top;
+}
+.table-h{
+    margin: 0.5rem 1rem;
 }

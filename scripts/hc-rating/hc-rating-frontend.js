@@ -13,6 +13,7 @@ function togglePlayerPopup() {
     document.getElementById("newplayer-name-input").value = "";
     document.getElementById("newplayer-rating-input").value = "";
     document.getElementById("newplayer-club-input").value = "";
+    document.getElementById("newplayer-highbreak-input").value = "";
     document.getElementById("error-message-newPlayer").classList.remove('show');
     
     toggleRobustness('low');
@@ -93,6 +94,7 @@ function toggleCheckmark(idString) {
 }
 function toggleAdvanced() {
     document.getElementById("popup-player-rating-row").classList.toggle("active");
+    document.getElementById("popup-player-highbreak-row").classList.toggle("active");
     document.getElementById("popup-player-robustness-row").classList.toggle("active");
     toggleCheckmark("button-advanced");
 }
