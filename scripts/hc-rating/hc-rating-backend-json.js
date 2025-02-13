@@ -8,7 +8,7 @@ import { listName } from './variables.js';
 // import { toggleExpand, startMatch_frontend, finishMatch_frontend, deleteMatch_frontend, toggleDeletePopup } from './hc-rating-frontend.js';
 // Database:
 import { getDatabase, ref, onValue, child, push, update, get } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-import { database, matchCounterRef, clubsRef } from './database_init.js';
+import { database, matchCounterRef, clubsRef } from './database_init.js'; 
 
 class LoadSystem {
     static db = 'Firebase_database';
@@ -17,7 +17,6 @@ class LoadSystem {
 }
 
 // Initialize: (import)
-//const listName = 'test'; //import from variables.js instead.
 const globalLoadSystem = LoadSystem.db;
 const writeToFileCont = true;
 const debugWrite = false;
@@ -257,9 +256,6 @@ function createNewMatch_backend() {
     toggleMatchPopup();
     redraw_ml();
     // matchtable[0].scrollIntoView..?
-
-    //WARNING: WILL RESET ALL PB BREAKS IF UNCOMMENTED! 
-    //resetPbBreaks(ratingList);
 }
 document.getElementById('newmatch-confirm').addEventListener("click", function() {createNewMatch_backend();});
 
@@ -1533,7 +1529,16 @@ document.getElementById("breaks-year-title").textContent = "Breaks of " + year;
 
 // main
 try {
-    //location.reload();
+    setTimeout(function(){
+        console.log('Refreshed (hopefully also cache)');
+        
+        //WARNING: WILL RESET ALL PB BREAKS IF UNCOMMENTED! 
+        //resetPbBreaks(ratingList);
+
+        location.reload(true); // true --> bypass cache
+    }, 1000*60*60*1); // 1000*60*60*1 milliseconds = 1 hour
+    
+
     // db import matchcounter and clubs:
     var matchCounter = 0;
 
@@ -1617,7 +1622,8 @@ try {
     breaksList = loadBreaksList(listName, globalLoadSystem);
 
     console.log('Initialization successful!')
-} catch(error) {
+}
+catch(error) {
     console.error('An error initializing data occured: '+ error.message);
 }
 
