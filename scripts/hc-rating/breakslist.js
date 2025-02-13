@@ -2,8 +2,7 @@ import Player from './player.js';
 import RatingList from './rating-list.js';
 import { listName } from './variables.js';
 import { getDatabase, ref, onValue, child, push, update, get } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-import { database, matchCounterRef, clubsRef } from './database_init.js';
-
+import { database, matchCounterRef, clubsRef } from './database_init.js'; 
 
 var ratingList = new RatingList(listName);
 const ratingListRef = ref(database, `${listName}_RatingList`);
@@ -18,6 +17,32 @@ function removeSmallest(numbers) {
     let smallestValue = numbers.indexOf(Math.min(...numbers));
     copy.splice(smallestValue, 1);
     return copy;
+}
+
+export function resetPbBreaks(ratingList) {
+    const updates = {};
+    fetch('scripts/hc-rating/data/highbreakList2024.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();  
+        })
+        .then(data => {
+            console.log(data);
+            for (const key in data) {
+                //console.log('test: key =', key);
+                try {
+                    console.log(`test: oldHighbreaks[${key}] = ${data[key]}.`);
+                    ratingList.getPlayerByName(key).forcePbBreak(data[key]);
+                }
+                catch(error) {console.warn('Force reset pb break: ', error);}
+            }
+            console.log('debug: resetPbBreak: ratingList post =', ratingList);
+            updates[listName + '_RatingList'] = ratingList;
+            console.log('supertest');
+            update(ref(database), updates);
+        }).catch(error => console.error('Force reset pb breaks: Failed to fetch data:', error)); 
 }
 
 export class BreaksEntry {
@@ -132,6 +157,7 @@ export class BreaksList {
         catch(error) {console.error(error);}
     }
     addBreaks(playerName, inputList) {
+        if ((inputList === undefined || inputList.length == 0)) {return;} // if there are no breaks to add
         try {
             var foundEntry = this.entries.find(entry => entry.getName() === playerName);
             if (!foundEntry) {

@@ -1,7 +1,7 @@
 import { Player, hcToRating, ratingToHC } from './player.js';
 import RatingList from './rating-list.js';
 import { Match, MatchState, DistanceType, HCsystem } from './match.js';
-import { BreaksList, BreaksEntry } from './breakslist.js';
+import { BreaksList, BreaksEntry, resetPbBreaks } from './breakslist.js';
 import { listToJSON_local, listFromJSON_local, matchesToJSON_local, matchesFromJSON_local } from './jsonStream.js';
 import * as variables from './variables.js';
 import { listName } from './variables.js';
@@ -257,6 +257,9 @@ function createNewMatch_backend() {
     toggleMatchPopup();
     redraw_ml();
     // matchtable[0].scrollIntoView..?
+
+    //WARNING: WILL RESET ALL PB BREAKS IF UNCOMMENTED! 
+    //resetPbBreaks(ratingList);
 }
 document.getElementById('newmatch-confirm').addEventListener("click", function() {createNewMatch_backend();});
 
@@ -1332,7 +1335,6 @@ function populateBreaksListTable(breaksList) {
     }
 }
 
-
 // Database loading
 function loadRatingList(name, loadSystem) {
     var myList = new RatingList(name);
@@ -1531,6 +1533,7 @@ document.getElementById("breaks-year-title").textContent = "Breaks of " + year;
 
 // main
 try {
+    //location.reload();
     // db import matchcounter and clubs:
     var matchCounter = 0;
 
@@ -1746,3 +1749,10 @@ try {
 }
 catch(error) {console.error('test: ' + error);}
 */
+
+/*// Refresh the page after a delay of 3 seconds
+setTimeout(function(){
+    location.reload(true); // true --> bypass cache
+}, 3000); // 3000 milliseconds = 3 seconds
+*/
+//location.reload(true);

@@ -108,6 +108,10 @@ export class Player {
         if (typeof newhb != 'number' || newhb < this.pbBreak || newhb > 155) {throw new Error('Tried to update pbBreak for ( ' + this.name + ' ): Invalid break.');}
         this.pbBreak = newhb; 
     }
+    forcePbBreak(newhb) { 
+        if (typeof newhb != 'number' || newhb < 0 || newhb > 155) {throw new Error('Tried to update pbBreak for ( ' + this.name + ' ): Invalid break.');}
+        this.pbBreak = newhb; 
+    }
 
     updateRobust() {
         if (this.robust <= 1.1 && this.robust >= 0) { // 1.1 because this code could potentially produce numbers marginally bigger than 1, but that doesn't matter
