@@ -409,7 +409,7 @@ footer::before {
     overflow: hidden;
     background-color: #33333300;
     border: none;
-    padding: 2rem;
+    padding: 2rem 0;
     box-sizing: border-box;
     position: absolute;
     bottom: calc(22px + 16 / 22*(0.5rem + 0.8*(5vh)));
@@ -418,7 +418,7 @@ footer::before {
 .banner {
     display: inline-block;
     white-space: nowrap;
-    animation: scroll 15s linear infinite;
+    animation: scroll 25s linear infinite;
     font-size: calc(0.75*(0.5rem + 0.8*(0.5vw + 2vh)));
 }
 @keyframes scroll {
@@ -426,6 +426,7 @@ footer::before {
         transform: translateX(105vw);
     }
     100% {
-        transform: translateX(-105%);
+        /*transform: translateX(width of self"); see '/home.js'*/
+        transform: translateX(0);
     }
 }

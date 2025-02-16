@@ -130,16 +130,26 @@
                 <em>expected</em> score and \(K\) is a variable "\(K\)-factor". The expected score is calculated, as a function 
                 of the difference in rating (\(\Delta r\)), by:
             </p>
-            <p>
+            <p id="long-eq-x">
                 $${\bar{x}_{A}(\Delta r) = \frac{1}{10^{-  \Delta r \, / \, 400}}; \;\; \bar{x}_{B} = 1 -\bar{x}_{A}}$$
+            </p>
+            <p id="short-eq-x" style="display: none;">
+                $${\bar{x}_{A}(\Delta r) = \frac{1}{10^{-  \Delta r \, / \, 400}}; \\ \;\; \bar{x}_{B} = 1 -\bar{x}_{A}}$$
             </p>
             <p>
                 And \(K\) is decided by a number of factors: namely the robustness of <em>both</em> participating players, 
                 the distance of the match, the distance <em>type</em> and the selected "Update-Rating-System" 
                 (URS, see <a href="#section-HC-how" class="hyperlink">below</a>): 
             </p>
-            <p>
-                $${K(d) = c_{D} \, c_{R} \, c_{URS} \, K_0 \Big[ 1 - e^{- \alpha d} + \beta \, d \, e^{- \epsilon (d-1)^2} \Big] ,}$$
+            <p id="long-eq-K">
+                $${K(d) = c_{\scriptsize D} \, c_{\scriptsize R} \, c_{\scriptsize{URS}} \, K_0 
+                \Big[ 1 - e^{- \alpha d} 
+                 + \beta \, d \, e^{- \epsilon (d-1)^2} \Big] ,}$$
+            </p>
+            <p id="short-eq-K" style="display: none;">
+                $${K(d) = c_{\scriptsize D} \, c_{\scriptsize R} \, c_{\scriptsize{URS}} \, K_0 
+                \Big[ 1 - e^{- \alpha d} \\ \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+                 + \beta \, d \, e^{- \epsilon (d-1)^2} \Big] ,}$$
             </p>
             <p>where the variables and parameters are defined as follows:</p>
             <ul class="eq-list">
@@ -147,10 +157,11 @@
                     for the "Best-of" option and equal to total frames <em>played</em> for "Free-frames".
                 </li>
                 <li>\( K_0 = 20 \) as defined above.</li>
-                <li>\( c_D : \) coefficient dependent upon "distance type"; \( c_D= 0.8 \) for "Free-frames" 
-                    and \( c_D = 1 \) for "Best-of".
+                <li>\( c_{\scriptsize D} : \) coefficient dependent upon "distance type"; 
+                    \( c_{\scriptsize D}= 0.8 \) for "Free-frames" 
+                    and \( c_{\scriptsize D} = 1 \) for "Best-of".
                 </li>
-                <li>\(c_{R}\) is a coefficient of \(K\) arising from potential differences in robustness whose possible 
+                <li>\(c_{\scriptsize R}\) is a coefficient of \(K\) arising from potential differences in robustness whose possible 
                 values are specified in table 1.
                 </li>
                 <li>\( \gamma \equiv 32/20 \) is a helpful constant we have introduced for notation.</li>
@@ -199,7 +210,7 @@
                             <td><p>"By-frame"</p></td>
                         </tr>
                         <tr>
-                            <td><p>\( c_{URS} \)</p></td>
+                            <td><p>\( c_{\scriptsize{URS}} \)</p></td>
                             <td class="param"><p>\( 1 \)</p></td>
                             <td class="param"><p>\( \gamma \)</p></td>
                         </tr>

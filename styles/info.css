@@ -108,7 +108,7 @@
     overflow: auto;
 
     width: fit-content;
-    max-width: 75vw;
+    max-width: calc(100vw - 20px - 10vw - 7vw - 2rem );
     white-space: nowrap;
 }
 .list-table td.diag {background-color: #666;}
@@ -161,4 +161,8 @@
 }
 .table-h{
     margin: 0.5rem 1rem;
+}
+
+.math-subscript{
+    font-size: x-small;
 }

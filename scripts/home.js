@@ -3,10 +3,22 @@ import { database, matchCounterRef, clubsRef } from './hc-rating/database_init.j
 
 const dbRef = ref(getDatabase());
 
+// Function to get the computed width of an element by ID
+function getComputedWidth(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        const computedStyle = window.getComputedStyle(element);
+        return computedStyle.width;
+    } else {
+        return null;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const homeBackground = document.querySelector(".home-background");
     const buttons = document.getElementsByClassName('button');
     const li_list = document.querySelectorAll('#home-menu li');
+    const motdBox = document.getElementById("bannerMessage");
     
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener("mouseenter", () => {
@@ -95,15 +107,35 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     */
     
+    // message of the day
     var messageOfTheDay = 'No message available.';
     get(child(dbRef, 'motd')).then((snapshot) => {
-		if (snapshot.exists()) {
-			messageOfTheDay = snapshot.val();
-			document.getElementById("bannerMessage").textContent = 'Message of the Day: ' + messageOfTheDay;
-		}
-		else console.log('No data available for message of the day');
-	}).catch((error) => {
-		console.error(error);
-	});
+        if (snapshot.exists()) {
+            messageOfTheDay = snapshot.val();
+            motdBox.textContent = 'Message of the Day: ' + messageOfTheDay;
+            const motdWidth = getComputedWidth('bannerMessage');
+            console.log('Width 2:', motdWidth);
+            motdBox.animate([
+                    // key frames
+                    { transform: 'translateX(105vw)' },
+                    { transform: `translateX(-${motdWidth})` }
+                ]
+                , {
+                    // sync options
+                    duration: 25000,
+                    iterations: Infinity
+                }
+            );
+        }
+        else console.log('No data available for message of the day');
+    }).catch((error) => {
+       console.error(error);
+    });
     document.getElementById("bannerMessage").textContent = 'Message of the Day: ' + messageOfTheDay;
+
+    // test
+    var element = document.getElementById('bannerMessage');
+    var width = getComputedWidth('bannerMessage');
+    console.log('Width:', width);
+
 });
