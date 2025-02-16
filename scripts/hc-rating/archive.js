@@ -402,7 +402,7 @@ function populateMatchListRow_break(match, breakRow) {
     // not visable until live
 
     // LIVE
-    if (match.getState() === MatchState.live) {
+    /*if (match.getState() === MatchState.live) {
         breakRow.classList.add('match-live');
         
         const cell1 = document.createElement('td');
@@ -461,7 +461,7 @@ function populateMatchListRow_break(match, breakRow) {
         const scrollCell = document.createElement('td');
         scrollCell.style = 'padding: 0.25rem';
         breakRow.appendChild(scrollCell);
-    }
+    }*/
     
     // FINISHED
     if (match.getState() === MatchState.finished) {
@@ -502,6 +502,9 @@ function populateMatchListRow_break(match, breakRow) {
         const scrollCell = document.createElement('td');
         scrollCell.style = 'padding: 0.25rem';
         breakRow.appendChild(scrollCell);
+    } else {
+        alert('Error: failed to display match ' + match.getID());
+        console.error('Error: failed to display match ' + match.getID());
     }
 }
 

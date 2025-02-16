@@ -1037,7 +1037,21 @@ function populateMatchListRow_break(match, breakRow) {
         const breakAcell = document.createElement('td');
         breakAcell.style = "text-align: right;";
         breakAcell.innerHTML = `<div id="match-${myID}-breaksA" style="display: inline-block;">${match.getBreaksA().join(', ')}</div>`;
-        breakAcell.innerHTML += `&emsp;<input id="match-${myID}-breakAinput" type="number" placeholder="25+" class="input-break" min="25" max="155">`;
+        breakAcell.innerHTML += '&emsp;';
+        //breakAcell.innerHTML += `<input id="match-${myID}-breakAinput" type="number" placeholder="25+" class="input-break" min="25" max="155">`;
+        const breakAinput = document.createElement('input');
+        breakAinput.id = `match-${myID}-breakAinput`;
+        breakAinput.type = 'number';
+        breakAinput.placeholder = '25+';
+        breakAinput.classList.add('input-break');
+        breakAinput.min = '25';
+        breakAinput.max = '155';
+        breakAinput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                addBreak_backend(myID, 'A');
+            }
+        });
+        breakAcell.appendChild(breakAinput);
         //breakAcell.innerHTML += `<button id="match-${match.getID()}-breakAbutton" onclick="addBreak_backend(${match.getID()}, 'A')" class="score-button addBreak">&plus;</button>`;
         const breakAbutton = document.createElement('button');
         breakAbutton.id = `match-${myID}-breakAbutton`;
@@ -1057,7 +1071,20 @@ function populateMatchListRow_break(match, breakRow) {
         
         const breakBcell = document.createElement('td');
         breakBcell.style = "text-align: left;";
-        breakBcell.innerHTML = `<input id="match-${myID}-breakBinput" type="number" placeholder="25+" class="input-break" min="25" max="155">`;
+        //breakBcell.innerHTML = `<input id="match-${myID}-breakBinput" type="number" placeholder="25+" class="input-break" min="25" max="155">`;
+        const breakBinput = document.createElement('input');
+        breakBinput.id = `match-${myID}-breakBinput`;
+        breakBinput.type = 'number';
+        breakBinput.placeholder = '25+';
+        breakBinput.classList.add('input-break');
+        breakBinput.min = '25';
+        breakBinput.max = '155';
+        breakBinput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                addBreak_backend(myID, 'B');
+            }
+        });
+        breakBcell.appendChild(breakBinput);
         //breakBcell.innerHTML += `<button id="match-${match.getID()}-breakBbutton" onclick="addBreak_backend(${match.getID()}, 'B')" class="score-button addBreak">&plus;</button>`;
         const breakBbutton = document.createElement('button');
         breakBbutton.id = `match-${myID}-breakBbutton`;
