@@ -8,7 +8,10 @@
     padding: 0;
     margin: 0;
     margin-bottom: 0;
-    width: 300px;
+    margin-top: calc(40px + 0.83rem + 2*0.5rem);
+    margin-right: clamp(20px, 10%, 120px);
+    width: 280px;
+    max-width: 70vw;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     display: inline-block;
@@ -39,22 +42,25 @@
 }
 
 .image-container {
-    margin-left: 10%; /* Adjust as needed */
+    /*margin-left: 10%;*/ /* Adjust as needed */
     padding: 0;
     padding-top: 40px;
     display: inline-block;
-    width: calc(80% - 300px);
-    min-width: 275px;
+    width: fit-content;
+    min-width: 300px;
+    max-width: 90%;
+    /*width: clamp(300px, 50vw, 1000px);*/
     position: relative;
-    vertical-align: bottom;
+    vertical-align: top;
     overflow: hidden;
-    max-height: 370px;
+    /*max-height: 370px;*/
 }
 
 #image-display {
     max-width: 100%;
     height: auto;
     display: none;
+    max-height: 420px;
     /*transform: translateY(0); /* Vertically align the image at 50% of its height */
 }
 
@@ -161,8 +167,16 @@
 }
 .table-h{
     margin: 0.5rem 1rem;
+    max-width: fit-content;
 }
 
 .math-subscript{
     font-size: x-small;
+}
+
+.graph-blue{
+    color: #4cc5d7;
+}
+.graph-orange{
+    color: rgb(255, 163, 44);
 }

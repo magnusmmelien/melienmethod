@@ -10,7 +10,7 @@
     
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 </head>
-<body>
+<body id="info-body">
     <header>
         <h1>The Melien Method</h1>
     </header>
@@ -37,21 +37,24 @@
                 use the default (automatic) draw provided by <em>cuescore.com</em>. 
             </p>
             
-            <ul class="info-menu">
-                <li class="menu-item" data-option="3-8"  > 3 Groups /  8 Qualifiers</li>
-                <li class="menu-item" data-option="4-8"  > 4 Groups /  8 Qualifiers</li>
-                <li class="menu-item" data-option="4-16" > 4 Groups / 16 Qualifiers</li>
-                <li class="menu-item" data-option="5-8"  > 5 Groups /  8 Qualifiers</li>
-                <li class="menu-item" data-option="5-16" > 5 Groups / 16 Qualifiers</li>
-                <li class="menu-item" data-option="6-8"  > 6 Groups /  8 Qualifiers</li>
-                <li class="menu-item" data-option="6-16" > 6 Groups / 16 Qualifiers</li>
-                <li class="menu-item" data-option="7-16" > 7 Groups / 16 Qualifiers</li>
-                <li class="menu-item" data-option="8-16" > 8 Groups / 16 Qualifiers</li>
-                <li class="menu-item" data-option="16-32">16 Groups / 32 Qualifiers</li>
-            </ul>
-            
-            <div class="image-container">
-                <img class="draw-image" id="image-display" src="" alt="Displayed Image">
+            <div>
+                <ul class="info-menu">
+                    <li class="menu-item" data-option="3-8"  > 3 Groups /  8 Qualifiers</li>
+                    <li class="menu-item" data-option="4-8"  > 4 Groups /  8 Qualifiers</li>
+                    <li class="menu-item" data-option="4-16" > 4 Groups / 16 Qualifiers</li>
+                    <li class="menu-item" data-option="5-8"  > 5 Groups /  8 Qualifiers</li>
+                    <li class="menu-item" data-option="5-16" > 5 Groups / 16 Qualifiers</li>
+                    <li class="menu-item" data-option="6-8"  > 6 Groups /  8 Qualifiers</li>
+                    <li class="menu-item" data-option="6-16" > 6 Groups / 16 Qualifiers</li>
+                    <li class="menu-item" data-option="7-16" > 7 Groups / 16 Qualifiers</li>
+                    <li class="menu-item" data-option="8-16" > 8 Groups / 16 Qualifiers</li>
+                    <li class="menu-item" data-option="16-32">16 Groups / 32 Qualifiers</li>
+                </ul>
+                
+                <div class="image-container" id="image-container-div" style="display: none;">
+                    <h5 class="table-h">Figure 1: Schematic of draw</h5>
+                    <img class="draw-image" id="image-display" src="" alt="Displayed Image">
+                </div>
             </div>
             
             <h4 style="margin-top: 40px;">For the fellow nerds</h4>
@@ -71,7 +74,7 @@
                 We would of course like to chose an appropriate algorithm for the draw - and the main criteria should hence 
                 be the principle of "highest seed meets lowest seed" (see above), which obviously doesn't work because 
                 they (e.g. seed 1 and seed 16) will have played in the same group. 
-                This leaves, in general, a total of (<em># of Qualifiers / 4</em>)! possible draws to choose from. 
+                This leaves, in general, a total of \( \big[ (\# \; of \; Qualifiers \, / \, 4)! \big] \) possible draws to choose from. 
                 The obvious next step is to place 
                 all the 2nd-place finishers by "mirroring" the draw of the 1st-place finishers (e.g. for 8 groups and 16 
                 qualifiers: A1(1)-H2(15), B1(8)-G2(9), ... , H1(2)-A2(16)) ensuring that players from the same group end up 
@@ -134,7 +137,7 @@
                 $${\bar{x}_{A}(\Delta r) = \frac{1}{10^{-  \Delta r \, / \, 400}}; \;\; \bar{x}_{B} = 1 -\bar{x}_{A}}$$
             </p>
             <p id="short-eq-x" style="display: none;">
-                $${\bar{x}_{A}(\Delta r) = \frac{1}{10^{-  \Delta r \, / \, 400}}; \\ \;\; \bar{x}_{B} = 1 -\bar{x}_{A}}$$
+                $${\bar{x}_{A}(\Delta r) = \frac{1}{10^{-  \Delta r \, / \, 400}}; \\ \;\;\;\;\;\;\; \bar{x}_{B} = 1 -\bar{x}_{A}}$$
             </p>
             <p>
                 And \(K\) is decided by a number of factors: namely the robustness of <em>both</em> participating players, 
@@ -169,7 +172,16 @@
                     and are defined in table 2.
                 </li>             
             </ul>
-            <div>
+            <p>
+                Below you'll find a graph providing a visual representation of the difference in \( K(d) \) arising from which "URS"-option you choose 
+                (<span class="graph-blue">"by-frame" in blue</span> and <span class="graph-orange">"by-match" in orange</span>) and two tables defining 
+                parameters as stated above.
+            </p>
+            <div><div class="info-hc-table">
+                <h5 class="table-h">Figure 2: Graph of difference between URS</h5>
+                <img class="draw-image" src="images/k-graph.png" alt="Displayed Image" style="max-width: 70vw;">
+                <img class="draw-image" src="images/k-legend.png" alt="Displayed Image" style="display: block;">
+            </div>
                 <div class="info-hc-table">
                     <h5 class="table-h">Table 1: Robustness coefficient</h5>
                     <table class="list-table">

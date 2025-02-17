@@ -525,7 +525,7 @@ main {
     font-weight: 900;}
 .button-checkmark:hover {
     box-shadow: 0 5px 10px #00000040;
-    color: #ffc875;}
+    color: #b98f524a;}
 .checkmark {
     position: absolute;
     transform: translate(-50%, calc(-50% - 0.3rem));}
