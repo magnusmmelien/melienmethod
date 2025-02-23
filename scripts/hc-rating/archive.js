@@ -623,7 +623,7 @@ function redraw_al() {
                 
                 archiveMatches.push(Match.fromJSON(childData, ratingList));
             });
-            //console.log('redraw_al: archiveMatches =', archiveMatches);
+            console.log(`info: archiveMatches[${year}][${months[month]}], size =`, archiveMatches.length);
             if (archiveMatches) {
                 // make functionality in future such that only 10 matches displayed, and create table footer to flip through pages
                 //console.log("test: matches to print =", archiveMatches);
