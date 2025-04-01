@@ -412,13 +412,14 @@ footer::before {
     padding: 2rem 0;
     box-sizing: border-box;
     position: absolute;
-    bottom: calc(22px + 16 / 22*(0.5rem + 0.8*(5vh)));
+    bottom: calc(22px + 16 / 22*(0.5rem + 10vh - 3vw));
     z-index: 1;
 }
 .banner {
     display: inline-block;
+    position: relative;
     white-space: nowrap;
-    animation: scroll 25s linear infinite;
+    /*animation: scroll 25s linear infinite;*/
     font-size: calc(0.75*(0.5rem + 0.8*(0.5vw + 2vh)));
 }
 @keyframes scroll {

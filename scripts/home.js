@@ -2,6 +2,7 @@ import { getDatabase, ref, onValue, child, push, update, get } from "https://www
 import { database, matchCounterRef, clubsRef } from './hc-rating/database_init.js';
 
 const dbRef = ref(getDatabase());
+const day = new Date().getDate();
 
 // Function to get the computed width of an element by ID
 function getComputedWidth(elementId) {
@@ -13,12 +14,50 @@ function getComputedWidth(elementId) {
         return null;
     }
 }
+function motd_animate() {
+  const motdBox = document.getElementById("bannerMessage");
+  const motdWidth = getComputedWidth('bannerMessage');
+  //console.log('Width 2:', motdWidth);
+  motdBox.animate([
+        // key frames
+        { transform: 'translateX(105vw)' },
+        { transform: `translateX(-${motdWidth})` }
+    ]
+    , {
+        // sync options
+        duration: 25000,
+        iterations: Infinity
+    }
+  );
+}
+function motd_func() {
+    const motdBox = document.getElementById("bannerMessage");
+    var messageOfTheDay = 'No message available.';
+    get(child(dbRef, 'motd')).then((snapshot) => {
+        if (snapshot.exists()) {
+            messageOfTheDay = snapshot.val();
+            //motdBox.textContent = 'Message of the Day: ' + (messageOfTheDay || messageOfTheDay[0]);
+            motdBox.textContent = 'Message of the Day: ';
+            try {
+              motdBox.textContent += messageOfTheDay[day % messageOfTheDay.length];
+              //console.log('test motd: ', day, '; ', day % messageOfTheDay.length);
+            } catch(error) {
+              console.error(error);
+              motdBox.textContent += (messageOfTheDay || "Error: couldn't find message of the day");
+            }
+            motd_animate();
+        }
+        else console.log('No data available for message of the day');
+    }).catch((error) => {
+    console.error(error);
+    });
+    document.getElementById("bannerMessage").textContent = 'Message of the Day: ' + messageOfTheDay;
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     const homeBackground = document.querySelector(".home-background");
     const buttons = document.getElementsByClassName('button');
     const li_list = document.querySelectorAll('#home-menu li');
-    const motdBox = document.getElementById("bannerMessage");
     
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener("mouseenter", () => {
@@ -108,34 +147,15 @@ document.addEventListener("DOMContentLoaded", function() {
     */
     
     // message of the day
-    var messageOfTheDay = 'No message available.';
-    get(child(dbRef, 'motd')).then((snapshot) => {
-        if (snapshot.exists()) {
-            messageOfTheDay = snapshot.val();
-            motdBox.textContent = 'Message of the Day: ' + messageOfTheDay;
-            const motdWidth = getComputedWidth('bannerMessage');
-            console.log('Width 2:', motdWidth);
-            motdBox.animate([
-                    // key frames
-                    { transform: 'translateX(105vw)' },
-                    { transform: `translateX(-${motdWidth})` }
-                ]
-                , {
-                    // sync options
-                    duration: 25000,
-                    iterations: Infinity
-                }
-            );
-        }
-        else console.log('No data available for message of the day');
-    }).catch((error) => {
-       console.error(error);
-    });
-    document.getElementById("bannerMessage").textContent = 'Message of the Day: ' + messageOfTheDay;
+    motd_func()
 
-    // test
+    /*// test
     var element = document.getElementById('bannerMessage');
     var width = getComputedWidth('bannerMessage');
-    console.log('Width:', width);
+    console.log('Width:', width);*/
 
 });
+
+window.onresize = function(){
+    motd_animate();
+}
