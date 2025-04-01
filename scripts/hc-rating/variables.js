@@ -1,4 +1,4 @@
-export const listName = 'Norway';
+export const listName = 'test';
 
 export const defaultRating = 1150;
 export const hcMax = 147;
