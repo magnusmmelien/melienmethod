@@ -286,11 +286,11 @@ function generateDrawMethod_5_16(qualMatrix) {
     // A1 vs. LL
     drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLoser][3]]);
 
-    // D2 vs. E3
-    drawMatrix.push([qualMatrix[3][1], qualMatrix[4][2]]);
+    // D2 vs. E2
+    drawMatrix.push([qualMatrix[3][1], qualMatrix[4][1]]);
 
-    // B1 vs. E2
-    drawMatrix.push([qualMatrix[1][0], qualMatrix[4][1]]);
+    // B1 vs. E3
+    drawMatrix.push([qualMatrix[1][0], qualMatrix[4][2]]);
 
     // C1 vs. D3
     drawMatrix.push([qualMatrix[2][0], qualMatrix[3][2]]);
