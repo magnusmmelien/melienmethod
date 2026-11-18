@@ -1500,10 +1500,10 @@ try {
     });
 
     ratingList = loadRatingList(listName, globalLoadSystem);
-    /*//console.log('Test: ratingList_db =');
-    //console.log(ratingList);
-    //[nullMatches, liveMatches, finishedMatches] = loadMatchList(listName, globalLoadSystem);
-    //loadMatchList(listName, globalLoadSystem);*/
+    console.log('Test: ratingList_db =');
+    console.log(ratingList);
+    /*[nullMatches, liveMatches, finishedMatches] = loadMatchList(listName, globalLoadSystem);
+    loadMatchList(listName, globalLoadSystem);*/
 
     onValue(nullMatchesRef, (snapshot) => {
         nullMatches = [];
@@ -1548,7 +1548,7 @@ try {
 
     breaksList = loadBreaksList(listName, globalLoadSystem);
 
-    console.log('Initialization successful!')
+    console.log('Initialization successful!');
 }
 catch(error) {
     console.error('An error initializing data occured: '+ error.message);
@@ -1578,7 +1578,7 @@ function redraw_bl() {
     breaksList.sort();
     populateBreaksListTable(breaksList);
 }
-function redraw() {redraw_rl(); redraw_ml(); redraw_bl();}
+function redraw() {redraw_rl(); redraw_ml(); redraw_bl();console.log(ratingList);}
 function getMatch(id, states='all') {
     if (states === 'live') {
         for (const match of liveMatches) {
