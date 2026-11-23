@@ -236,7 +236,7 @@ h4 {
 /* Style for the player input fields */
 .player-input {
     display: inline-block;
-    width: 60%;
+    width: 55%;
     padding: 0;
     border: none;
     border-radius: 0;
@@ -248,4 +248,129 @@ h4 {
 .player-input:focus {
     border-color: #333; /* Change border color when focused */
     outline: none; /* Remove default focus outline */
+}
+
+.url-input {
+    display: inline-block;
+    width: 40%;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    margin-left: 1rem;
+    font-family: "Exo";
+    font-size: 16px;
+    fill-opacity: 100%;
+}
+
+.tournament-input {
+    width: 80%;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #f5f5f5;
+
+    background: linear-gradient(
+        180deg,
+        #777777,
+        #555555
+    );
+
+    border: 2px solid #999999;
+    border-radius: 12px;
+
+    outline: none;
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.15s ease;
+}
+
+.tournament-input::placeholder {
+    color: #aaaaaa;
+}
+
+.tournament-input:hover {
+    border-color: #666;
+}
+
+.tournament-input:focus {
+    border-color: #888;
+    background: linear-gradient(
+        180deg,
+        #3e3e3e,
+        #2f2f2f
+    );
+
+    box-shadow:
+        0 0 0 4px rgba(200, 200, 200, 0.08),
+        0 8px 20px rgba(0, 0, 0, 0.25);
+
+    transform: translateY(-1px);
+}
+
+.tournament-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.setup-toggle {
+    position: relative;
+    display: flex;
+
+    width: 70%;
+    max-width: 500px;
+
+    padding: 4px;
+
+    background: rgba(255,255,255,.05);
+    border: 1px solid #33333366;
+    border-radius: 999px;
+
+    backdrop-filter: blur(12px);
+}
+
+.toggle-option {
+    flex: 1;
+    z-index: 2;
+
+
+    border: none;
+    background: transparent;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: color .2s ease;
+}
+
+.toggle-option.active {
+    color: white;
+}
+
+.toggle-slider {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+
+    border-radius: 999px;
+
+    background: linear-gradient(
+        135deg,
+        #4f9cf9,
+        #65b5ff
+    );
+
+    box-shadow:
+        0 5px 20px rgba(79,156,249,.35);
+
+    transition: transform .25s ease;
+}
+
+.setup-toggle.manual .toggle-slider {
+    transform: translateX(100%);
 }

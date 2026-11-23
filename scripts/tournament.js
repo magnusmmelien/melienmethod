@@ -13,6 +13,7 @@ const playersSelect = document.getElementById('playersSelect');
 const formatErrorMessage = document.getElementById('formatErrorMessage');
 const groupsPage2 = document.getElementById('group-container');
 const formatErrorMessagePage2 = document.getElementById('formatErrorMessagePage2');
+const urlErrorMessage = document.getElementById("urlErrorMessage");
 
 
 // Create an empty matrix with a specified number of rows and columns
@@ -138,9 +139,9 @@ function generateGroupFields(numberOfGroups, numberOfQualifiers) {
                 input.value = qualifiersMatrix[i][j];
             }
             if ((j+1-1) * numberOfGroups < numberOfQualifiers) {
-                input.placeholder = 'Enter name... (required)';
+                input.placeholder = 'Name... (required)';
             } else {
-                input.placeholder = 'Enter name...';
+                input.placeholder = 'Name...';
             }
 
             inputDiv.appendChild(numberSpan);
@@ -173,7 +174,7 @@ function saveQualifiers() {
     /*console.log('Save quals test: qualifiersMatrix[0][0] = ' + qualifiersMatrix[0][0]);*/
 }
 
-function generateDrawMethod_3_8(qualMatrix) {
+function generateDrawMethod_3_8(qualMatrix, manualRandom) {
     const drawMatrix = [];
     const numRows = qualMatrix.length;
     const numCols = qualMatrix[0].length;
@@ -185,7 +186,7 @@ function generateDrawMethod_3_8(qualMatrix) {
     }
 
     //A1 vs. ll(not A3)
-    drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLosers[0]][2]]);
+    drawMatrix.push([qualMatrix[0][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[0]][2]]);
 
     //B2 vs. C2
     drawMatrix.push([qualMatrix[1][1], qualMatrix[2][1]]);
@@ -194,7 +195,7 @@ function generateDrawMethod_3_8(qualMatrix) {
     drawMatrix.push([qualMatrix[1][0], qualMatrix[0][1]]);
 
     //C1 vs. ll(not C3)
-    drawMatrix.push([qualMatrix[2][0], qualMatrix[luckyLosers[1]][2]]);
+    drawMatrix.push([qualMatrix[2][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[1]][2]]);
 
     // Return the generated draw matrix
     return drawMatrix;
@@ -247,7 +248,7 @@ function generateDrawMethod_4_16(qualMatrix) {
     // Return the generated draw matrix
     return drawMatrix;
 }
-function generateDrawMethod_5_8(qualMatrix) {
+function generateDrawMethod_5_8(qualMatrix, manualRandom) {
     const drawMatrix = [];
     const numRows = qualMatrix.length;
     let luckyLosers = getRandomShuffledIndices(numRows, 3); // We need 3 lucky losers
@@ -263,28 +264,28 @@ function generateDrawMethod_5_8(qualMatrix) {
     }
 
     // A1 vs. LL(not A2)
-    drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLosers[0]][1]]);
+    drawMatrix.push([qualMatrix[0][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[0]][1]]);
 
     // C1 vs. B1
     drawMatrix.push([qualMatrix[2][0], qualMatrix[1][0]]);
 
     // D1 vs. LL(not D2)
-    drawMatrix.push([qualMatrix[3][0], qualMatrix[luckyLosers[1]][1]]);
+    drawMatrix.push([qualMatrix[3][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[1]][1]]);
 
     // E1 vs. LL(not E2)
-    drawMatrix.push([qualMatrix[4][0], qualMatrix[luckyLosers[2]][1]]);
+    drawMatrix.push([qualMatrix[4][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[2]][1]]);
 
     // Return the generated draw matrix
     return drawMatrix;
 }
-function generateDrawMethod_5_16(qualMatrix) {
+function generateDrawMethod_5_16(qualMatrix, manualRandom) {
     const drawMatrix = [];
     const numRows = qualMatrix.length;
     const numCols = qualMatrix[0].length;
     const luckyLoser = getRandomInt(numRows); // We need 1 lucky losers
 
     // A1 vs. LL
-    drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLoser][3]]);
+    drawMatrix.push([qualMatrix[0][0], manualRandom ? "Random Player" : qualMatrix[luckyLoser][3]]);
 
     // D2 vs. E2
     drawMatrix.push([qualMatrix[3][1], qualMatrix[4][1]]);
@@ -310,7 +311,7 @@ function generateDrawMethod_5_16(qualMatrix) {
     // Return the generated draw matrix
     return drawMatrix;
 }
-function generateDrawMethod_6_8(qualMatrix) {
+function generateDrawMethod_6_8(qualMatrix, manualRandom) {
     const drawMatrix = [];
     const numRows = qualMatrix.length;
     let luckyLosers = getRandomShuffledIndices(numRows, 2); // We need 2 lucky losers
@@ -323,7 +324,7 @@ function generateDrawMethod_6_8(qualMatrix) {
     }
 
     // A1 vs. LL(not A2)
-    drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLosers[0]][1]]);
+    drawMatrix.push([qualMatrix[0][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[0]][1]]);
 
     // C1 vs. B1
     drawMatrix.push([qualMatrix[2][0], qualMatrix[1][0]]);
@@ -332,12 +333,12 @@ function generateDrawMethod_6_8(qualMatrix) {
     drawMatrix.push([qualMatrix[3][0], qualMatrix[4][0]]);
 
     // F1 vs. LL(not F2)
-    drawMatrix.push([qualMatrix[5][0], qualMatrix[luckyLosers[1]][1]]);
+    drawMatrix.push([qualMatrix[5][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[1]][1]]);
 
     // Return the generated draw matrix
     return drawMatrix;
 }
-function generateDrawMethod_6_16(qualMatrix) {
+function generateDrawMethod_6_16(qualMatrix, manualRandom) {
     const drawMatrix = [];
     const numRows = qualMatrix.length;
     let luckyLoserIndices = getRandomShuffledIndices(numRows, 4); // We need 4 lucky losers
@@ -356,7 +357,7 @@ function generateDrawMethod_6_16(qualMatrix) {
     }
 
     // A1 vs. LL(not A3)
-    drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLoserIndices[0]][2]]);
+    drawMatrix.push([qualMatrix[0][0], manualRandom ? "Random Player" : qualMatrix[luckyLoserIndices[0]][2]]);
 
     // B2 vs. D2
     drawMatrix.push([qualMatrix[1][1], qualMatrix[3][1]]);
@@ -365,10 +366,10 @@ function generateDrawMethod_6_16(qualMatrix) {
     drawMatrix.push([qualMatrix[4][0], qualMatrix[5][1]]);
 
     // C1 vs. LL(not C3)
-    drawMatrix.push([qualMatrix[2][0], qualMatrix[luckyLoserIndices[1]][2]]);
+    drawMatrix.push([qualMatrix[2][0], manualRandom ? "Random Player" : qualMatrix[luckyLoserIndices[1]][2]]);
 
     // D1 vs. LL(not D3)
-    drawMatrix.push([qualMatrix[3][0], qualMatrix[luckyLoserIndices[2]][2]]);
+    drawMatrix.push([qualMatrix[3][0], manualRandom ? "Random Player" : qualMatrix[luckyLoserIndices[2]][2]]);
 
     // B1 vs. A2
     drawMatrix.push([qualMatrix[1][0], qualMatrix[0][1]]);
@@ -377,12 +378,12 @@ function generateDrawMethod_6_16(qualMatrix) {
     drawMatrix.push([qualMatrix[4][1], qualMatrix[2][1]]);
 
     // F1 vs. LL(not F3)
-    drawMatrix.push([qualMatrix[5][0], qualMatrix[luckyLoserIndices[3]][2]]);
+    drawMatrix.push([qualMatrix[5][0], manualRandom ? "Random Player" : qualMatrix[luckyLoserIndices[3]][2]]);
 
     // Return the generated draw matrix
     return drawMatrix;
 }
-function generateDrawMethod_7_16(qualMatrix) {
+function generateDrawMethod_7_16(qualMatrix, manualRandom) {
     const drawMatrix = [];
     const numRows = qualMatrix.length;
     let luckyLosers = getRandomShuffledIndices(numRows, 2); // We need 2 lucky losers
@@ -395,7 +396,7 @@ function generateDrawMethod_7_16(qualMatrix) {
     }
 
     // A1 vs. LL(not A3)
-    drawMatrix.push([qualMatrix[0][0], qualMatrix[luckyLosers[0]][1]]);
+    drawMatrix.push([qualMatrix[0][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[0]][1]]);
 
     // F2 vs. E2
     drawMatrix.push([qualMatrix[5][1], qualMatrix[4][1]]);
@@ -416,7 +417,7 @@ function generateDrawMethod_7_16(qualMatrix) {
     drawMatrix.push([qualMatrix[5][0], qualMatrix[1][1]]);
 
     // G1 vs. LL(not G3)
-    drawMatrix.push([qualMatrix[6][0], qualMatrix[luckyLosers[1]][1]]);
+    drawMatrix.push([qualMatrix[6][0], manualRandom ? "Random Player" : qualMatrix[luckyLosers[1]][1]]);
 
     // Return the generated draw matrix
     return drawMatrix;
@@ -506,24 +507,221 @@ function generateDrawMethod_16_32(qualMatrix) {
     return drawMatrix;
 }
 
+// autofill form from url
 
-function generateDraw(qualMatrix, numGroups, numQuals) {
+// get tournament id from url
+function getTournamentId() {
+    try {
+        const url = document.getElementById("tournament-url").value.trim();
+        const tournamentId = url.split("/").pop();
+        console.log("URL tournament ID: ", tournamentId);
+        return tournamentId;
+    } catch {
+        console.log("Couldn't find input URL.");
+    }
+    return null;
+}
+
+async function getTournamentData(tournamentId) {
+    const url = `https://api.cuescore.com/tournament/?id=${tournamentId}`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+    }
+
+    return await response.json();
+}
+
+function getPlayerMatrix(standings) {
+
+    const matrix = [];
+
+    for (const groupId in standings) {
+
+        matrix.push([]);
+
+        for (const entry of standings[groupId]) {
+            matrix[matrix.length - 1].push(entry.player.name);
+        }
+    }
+
+    return matrix;
+}
+
+// extract info from tournament json
+function extractTournamentInfo(data) {
+    // Single elimination matches
+    let singleEliminationMatches = 0;
+
+    for (let i = data.matches.length - 1; i >= 0; i--) {
+        const roundCode = data.matches[i].roundCode;
+
+        if (roundCode === "roundX") {
+            break;
+        } else {
+            singleEliminationMatches++;
+        }
+    }
+
+    // Players advancing
+    // For a standard knockout bracket:
+    // 1 match = 2 players in bracket
+    const playersAdvancing = singleEliminationMatches + 1;
+
+    // Matrix of player names
+    const playerMatrix = getPlayerMatrix(data.standings);
+    
+    // Number of groups
+    const numberOfGroups = playerMatrix.length;
+
+    /*console.log("test", numberOfGroups,
+        playersAdvancing,
+        playerMatrix);
+    */
+    
+    return {
+        numberOfGroups,
+        playersAdvancing,
+        playerMatrix
+    };
+}
+
+async function loadTournament(tournamentId) {
+    try {
+        const data = await getTournamentData(tournamentId);
+
+        console.log("URL tournament name:", data.name);
+        //console.log(data);
+        const {
+            numberOfGroups: numberOfGroupsUrl,
+            playersAdvancing: numberOfQualifiersUrl,
+            playerMatrix: qualifiersMatrixUrl
+        } = extractTournamentInfo(data);
+
+        console.log("numberOfGroupsUrl", numberOfGroupsUrl);
+        console.log("numberOfQualifiersUrl", numberOfQualifiersUrl);
+        console.log("qualifiersMatrixUrl", qualifiersMatrixUrl);
+
+        return { numberOfGroupsUrl, numberOfQualifiersUrl, qualifiersMatrixUrl }
+
+    } catch (error) {
+        console.error("Failed to load tournament:", error);
+    }
+}
+
+// autofill v manual selector
+const urlDiv = document.getElementById("url-div");
+const formatDiv = document.getElementById("format-div");
+const setupToggle = document.getElementById("setup-toggle-id");
+const drawToggle = document.getElementById("LL-draw-toggle");
+
+const urlInput = document.getElementById('tournament-url');
+
+const urlModeBtn = document.getElementById("urlMode");
+const manualModeBtn = document.getElementById("manualMode");
+const autoLLBtn = document.getElementById("autoLLMode");
+const manualLLBtn = document.getElementById("manualLLMode");
+
+let setupMode = "url"; // default
+let luckyLoserMode = "auto"; //default
+
+function setSetupMode(mode) {
+    setupMode = mode;
+
+    if (mode === "url") {
+        formatDiv.style.display = "none";
+        urlDiv.style.display = "block";
+        setupToggle.classList.remove("manual");
+
+        urlModeBtn.classList.add("active");
+        manualModeBtn.classList.remove("active");
+
+        // =====================================
+        // URL MODE FUNCTIONALITY GOES HERE
+        // =====================================
+        console.log("URL mode selected");
+
+    } else if (mode === "manual") {
+        urlDiv.style.display = "none";
+        formatDiv.style.display = "block";
+        setupToggle.classList.add("manual");
+
+        manualModeBtn.classList.add("active");
+        urlModeBtn.classList.remove("active");
+
+        // =====================================
+        // MANUAL MODE FUNCTIONALITY GOES HERE
+        // =====================================
+        console.log("Manual mode selected");
+    }
+}
+
+function setDrawMode(mode) {
+    luckyLoserMode = mode;
+
+    if (mode === "auto") {
+        drawToggle.classList.remove("manual");
+
+        autoLLBtn.classList.add("active");
+        manualLLBtn.classList.remove("active");
+
+        // =====================================
+        // AUTO LL DRAW MODE FUNCTIONALITY GOES HERE
+        // =====================================
+        console.log("Auto LL draw mode selected");
+
+    } else if (mode === "manual") {
+        drawToggle.classList.add("manual");
+
+        manualLLBtn.classList.add("active");
+        autoLLBtn.classList.remove("active");
+
+        // =====================================
+        // MANUAL LL DRAW MODE FUNCTIONALITY GOES HERE
+        // =====================================
+        console.log("Manual LL draw mode selected");
+    }
+}
+
+// Event listeners
+urlModeBtn.addEventListener("click", () => {
+    setSetupMode("url");
+});
+manualModeBtn.addEventListener("click", () => {
+    setSetupMode("manual");
+});
+
+autoLLBtn.addEventListener("click", () => {
+    setDrawMode("auto");
+});
+manualLLBtn.addEventListener("click", () => {
+    setDrawMode("manual");
+});
+
+// Initialize
+setSetupMode("url");
+setDrawMode("auto");
+
+
+function generateDraw(qualMatrix, numGroups, numQuals, manualRandom=false) {
     if (numGroups === 3 && numQuals === 8) {
-        return generateDrawMethod_3_8(qualMatrix);
+        return generateDrawMethod_3_8(qualMatrix, manualRandom);
     } else if (numGroups === 4 && numQuals === 8) {
         return generateDrawMethod_4_8(qualMatrix);
     } else if (numGroups === 4 && numQuals === 16) {
         return generateDrawMethod_4_16(qualMatrix);
     } else if (numGroups === 5 && numQuals === 8) {
-        return generateDrawMethod_5_8(qualMatrix);
+        return generateDrawMethod_5_8(qualMatrix, manualRandom);
     } else if (numGroups === 5 && numQuals === 16) {
-        return generateDrawMethod_5_16(qualMatrix);
+        return generateDrawMethod_5_16(qualMatrix, manualRandom);
     } else if (numGroups === 6 && numQuals === 8) {
-        return generateDrawMethod_6_8(qualMatrix);
+        return generateDrawMethod_6_8(qualMatrix, manualRandom);
     } else if (numGroups === 6 && numQuals === 16) {
-        return generateDrawMethod_6_16(qualMatrix);
+        return generateDrawMethod_6_16(qualMatrix, manualRandom);
     } else if (numGroups === 7 && numQuals === 16) {
-        return generateDrawMethod_7_16(qualMatrix);
+        return generateDrawMethod_7_16(qualMatrix, manualRandom);
     } else if (numGroups === 8 && numQuals === 16) {
         return generateDrawMethod_8_16(qualMatrix);
     } else if (numGroups === 16 && numQuals === 32) {
@@ -536,7 +734,7 @@ function generateDraw(qualMatrix, numGroups, numQuals) {
 }
 
 function showDraw(qualMatrix, numGroups, numQuals) {
-    const matchMatrix = generateDraw(qualMatrix, numGroups, numQuals);
+    const matchMatrix = generateDraw(qualMatrix, numGroups, numQuals, luckyLoserMode === "manual");
 
     const drawContainer = document.getElementById('draw-container');
     drawContainer.innerHTML = ''; // Clear any previous content
@@ -696,19 +894,28 @@ function showPage(pageToShow) {
         prevButton.style.display = 'none';
         nextButton.style.display = 'inline-block';
         flag1.classList.add('active');
-    } else {
-        numGroups = parseInt(groupsCounter.textContent);
-        numQs = parseInt(playersSelect.value);
-        
+    } else {        
         if (pageToShow === page2) {
+            if (setupMode === 'manual') {
+                numGroups = parseInt(groupsCounter.textContent);
+                numQs = parseInt(playersSelect.value);
+            }
             prevButton.style.display = 'inline-block';
             nextButton.style.display = 'inline-block';
             flag2.classList.add('active');
             console.log('numGroups = ' + numGroups + ' ; numQs = ' + numQs);
+            
             if (!isMatrixComplete(qualifiersMatrix, numGroups, numQs)) {
                 qualifiersMatrix = createEmptyMatrix(numGroups, numQs);
             }
+            
             generateGroupFields(numGroups, numQs); // Generate the input fields for page 2
+            
+            // Warn before leaving
+            window.addEventListener("beforeunload", (event) => {
+                event.preventDefault();
+                //event.returnValue = ""; // Required for most browsers
+            });
         } else if (pageToShow === page3) {
             prevButton.style.display = 'inline-block';
             nextButton.style.display = 'none';
@@ -750,22 +957,46 @@ const correctCombinations = [
 // Add event listeners to buttons
 prevButton.addEventListener('click', handleButtonClick);
 
-nextButton.addEventListener('click', function () {
+nextButton.addEventListener('click', async function () {
+    // if we are at PAGE 1
     if (page1.style.display === 'block') {
-        const selectedGroups = parseInt(groupsCounter.textContent);
-        const selectedPlayers = parseInt(playersSelect.value);
+        //let selectedGroups = 0, selectedPlayers = 0;
+        if (setupMode === 'url') {
+            const inputID = getTournamentId();
+            
+            const {
+                numberOfGroupsUrl: outputGroups,
+                numberOfQualifiersUrl: outputPlayers,
+                qualifiersMatrixUrl: outputPlayerMatrix
+            } = await loadTournament(inputID);
+            //const result = await loadTournament(inputID);
+            //console.log('test1: ', result);
 
+            console.log('test: ', outputGroups, outputPlayers, outputPlayerMatrix);
+            numGroups = outputGroups;
+            numQs = outputPlayers;
+            qualifiersMatrix = outputPlayerMatrix;
+        }
+        else if (setupMode === 'manual') {
+            numGroups = parseInt(groupsCounter.textContent);
+            numQs = parseInt(playersSelect.value);
+            qualifiersMatrix = createEmptyMatrix(numGroups, numQs);
+        }
+        else { throw new Error('Error: incorrect setup mode (url/manual).'); }
+
+        // check if combination of number of groups and number of qualifiers is supported
         const isValidCombination = correctCombinations.some(combination => {
-            return combination.groups === selectedGroups && combination.players === selectedPlayers;
+            return combination.groups === numGroups && combination.players === numQs;
         });
-
         if (!isValidCombination) {
+            console.error('Error: not valid tournament format: groups = ' + numGroups + ', qualifiers = ' + numQs);
             formatErrorMessage.style.display = 'block';
             return;
         } else {
             formatErrorMessage.style.display = 'none';
         }
     
+    // if we are at PAGE 2
     } else if (page2.style.display === 'block') {
         saveQualifiers();
         if (!isMatrixComplete(qualifiersMatrix, parseInt(groupsCounter.textContent), parseInt(playersSelect.value))) {
@@ -775,11 +1006,12 @@ nextButton.addEventListener('click', function () {
             return;
         }
         formatErrorMessagePage2.style.display = 'none';
-
-    
-    } else if (page3.style.display === 'block') {
-        /* something */
     }
+
+    /* // if we are at page 3 the next button should not be visible, anyways we do nothing
+    } else if (page3.style.display === 'block') {
+        
+    }*/
 
     if (currentPage < pages.length - 1) {
         currentPage++;
@@ -803,7 +1035,7 @@ function updateCounterValue() {
     groupsCounter.textContent = counterValue;
 }
 
-// Event listener for the minus button
+// Event listener for the plus/minus buttons
 minusButton.addEventListener('click', function () {
     if (counterValue > 1) {
         counterValue--;
@@ -811,8 +1043,6 @@ minusButton.addEventListener('click', function () {
     }
     playersSelect.value = 'invalid'; // Reset dropdown to default
 });
-
-// Event listener for the plus button
 plusButton.addEventListener('click', function () {
     if (counterValue < 16) {
         counterValue++;
@@ -826,10 +1056,13 @@ plusButton.addEventListener('click', hideErrorMessage);
 minusButton.addEventListener('click', hideErrorMessage);
 playersSelect.addEventListener('change', hideErrorMessage);
 groupsPage2.addEventListener('click', hideErrorMessagePage2);
+urlInput.addEventListener('click', hideErrorMessage);
+setupToggle.addEventListener('click', hideErrorMessage);
 
 // Function to hide the error message
 function hideErrorMessage() {
     formatErrorMessage.style.display = 'none';
+    urlErrorMessage.style.display = 'none';
 }
 function hideErrorMessagePage2() {
     formatErrorMessagePage2.style.display = 'none';

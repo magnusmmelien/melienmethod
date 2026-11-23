@@ -39,32 +39,67 @@
             <!-- Content for Page 1 (default display: block) -->
             <div id="page1" class="page" style="display: block;">
                 <h3>Step 1: Choose tournament format</h3>
-                <p>Please choose number of groups:</p>
 
-                <div class="counter">
-                    <button id="minusButton">-</button>
-                    <span id="groupsCounter">1</span>
-                    <button id="plusButton">+</button>
+                <div class="setup-toggle" id="setup-toggle-id">
+                    <button class="toggle-option active" id="urlMode">
+                        <p>🔗 Auto Fill</p>
+                    </button>
+
+                    <button class="toggle-option" id="manualMode">
+                        <p>⚙️ Manual Setup</p>
+                    </button>
+
+                    <div class="toggle-slider"></div>
                 </div>
 
-                <p>Please choose the number of players to move through to the next round:</p>
+                <div id="url-div">
+                    <p>Please enter the tournament URL: </p>
+                    <input id="tournament-url" placeholder="Enter URL..." class="tournament-input">
+                    
+                </div>
 
-                <!-- Dropdown menu -->
-                <select class="drop-down" id="playersSelect">
-                    <option value="invalid">Please choose a valid option</option>
-                    <option value="8">8 players</option>
-                    <option value="16">16 players</option>
-                    <option value="32">32 players</option>
-                </select>
+                <div id="format-div">
+                    <p>Please choose number of groups:</p>
 
-                <p id="formatErrorMessage" class="error-message">Error: tournament format not supported</p>
+                    <div class="counter">
+                        <button id="minusButton">-</button>
+                        <span id="groupsCounter">1</span>
+                        <button id="plusButton">+</button>
+                    </div>
 
+                    <p>Please choose the number of players to move through to the next round:</p>
+
+                    <!-- Dropdown menu -->
+                    <select class="drop-down" id="playersSelect">
+                        <option value="invalid">Please choose a valid option</option>
+                        <option value="8">8 players</option>
+                        <option value="16">16 players</option>
+                        <option value="32">32 players</option>
+                    </select>
+
+                </div>
+                
+                <p id="urlErrorMessage" class="error-message">Error: couldn't find tournament</p>
+                <p id="formatErrorMessage" class="error-message">Error: tournament format not supported. Use automatic draw in cuescore.com</p>
             </div>
 
 
             <!-- Content for Page 2 (default display: none) -->
             <div id="page2" class="page" style="display: none;">
                 <h3>Step 2: Fill in information</h3>
+
+                <div class="setup-toggle" id="LL-draw-toggle">
+                    <button class="toggle-option active" id="autoLLMode">
+                        <p>🔗 Auto LL-draw</p>
+                    </button>
+
+                    <button class="toggle-option" id="manualLLMode">
+                        <p>⚙️ Manual LL-draw</p>
+                    </button>
+
+                    <div class="toggle-slider"></div>
+                </div>
+
                 <p>Please fill in positions after the group stages below (required fields are marked).</p>
 
                 <!-- Group Position Section -->
